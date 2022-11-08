@@ -106,7 +106,11 @@ app.post('/api/login', [
     return res.json({ ok: true, user: {
       token: token,
       name: user.name,
-      mail: user.email
+      mail: user.email,
+      subjects: user.subjects,
+      studied: user.studied,
+      taught: user.taught,
+      profileImage: user.profileImage
     } })
   } else {
     return res.json({ ok: false, user: false, error: 'Mail lub hasło się nie zgadzają'})

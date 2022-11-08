@@ -18,7 +18,19 @@ let userSchema = new mongoose_1.default.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    profileImage: {
+        type: String,
+    },
+    subjects: {
+        type: [],
+    },
+    studied: {
+        type: Number,
+    },
+    taught: {
+        type: Number
+    },
 }, { collection: 'users' });
 const User = mongoose_1.default.model('User', userSchema, 'user');
 exports.default = User;

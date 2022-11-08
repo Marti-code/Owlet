@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route path='/sign-up' element={<Register isLoggedIn={loggedIn}/>} />
         <Route path='/sign-in' element={<Login isLoggedIn={loggedIn} setLoggedIn={setLoggedIn} setUserData={setUserData}/>} />
-        <Route path='/dashboard' element={<Profile />}/>
+        <Route path='/dashboard' element={<Profile isLoggedIn={loggedIn} userData={userData} />}/>
         <Route path='/' element={<Main />} />
       </Routes>
       <GlobalStyle />

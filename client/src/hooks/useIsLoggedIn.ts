@@ -8,19 +8,19 @@ export const useIsLoggedIn = () => {
   const [userData, setUserData] = useState<UserInfoType>();
 
   useEffect(() => {
-    const rawStoredData = localStorage.getItem('user'); 
+    const rawStoredData = localStorage.getItem('user');
     const userStoredData = rawStoredData ? JSON.parse(rawStoredData) : null;
 
 		if (userStoredData && userStoredData.token) {
 			const user = jwt(userStoredData.token)
 
 			if (!user) {
-				localStorage.removeItem('user')
+				localStorage.removeItem('user');
         setLoggedIn(false);
 			} else {
         setLoggedIn(true);
         setUserData(userStoredData);
-        console.log(userStoredData)
+        console.log(userStoredData);
       }
 
 		} else {

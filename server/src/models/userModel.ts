@@ -15,7 +15,19 @@ let userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-    }
+    },
+    profileImage: {
+      type: String,
+    },
+    subjects: {
+      type: [],
+    },
+    studied: {
+      type: Number,
+    },
+    taught: {
+      type: Number
+    },
   },
   { collection: 'users' }
 )

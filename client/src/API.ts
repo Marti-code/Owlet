@@ -2,7 +2,10 @@ export type UserInfoType = {
   name: string;
   mail: string;
   token: string;
-  isAdmin: boolean;
+  profileImage: string;
+  subjects: string[];
+  studied: number;
+  taught: number;
 };
 
 export default {

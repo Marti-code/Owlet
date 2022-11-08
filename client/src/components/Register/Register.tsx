@@ -17,11 +17,6 @@ type Props = {
   isLoggedIn: boolean;
 };
 
-type DataRes = {
-  ok: boolean;
-  errors: [];
-}
-
 const Register: React.FC<Props> = ({ isLoggedIn }) => {
   const [password, setPassword] = useState("");
   const [mail, setMail] = useState("");

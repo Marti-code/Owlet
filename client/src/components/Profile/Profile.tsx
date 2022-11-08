@@ -1,7 +1,25 @@
 import "./Profile.css";
-import React from "react";
+import React, { useEffect } from "react";
+import { UserInfoType } from "../../API";
+import { useNavigate } from "react-router-dom";
 
-function Profile(props: any) {
+type Props = {
+  isLoggedIn: boolean;
+  userData: UserInfoType | undefined;
+};
+
+
+const Profile: React.FC<Props> = ({isLoggedIn, userData}) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/sign-in');
+    }
+
+    console.log(userData);
+  }, [])
+
   return (
     <div className="Profile">
       <header>
@@ -37,26 +55,32 @@ function Profile(props: any) {
                   <p>ID: 12345</p>
                 </div>
                 <div className="user-info-pic">
-                  <div className="u-pic"></div>
+                  <div className="u-pic">
+                    {userData && userData.profileImage ? <img src={userData.profileImage} /> : null}
+                  </div>
                 </div>
               </div>
 
               <div className="user-info-main">
                 <div className="user-info-name">
-                  <p>Peter Parker</p>
+                  <p>{userData && userData.name}</p>
                 </div>
 
                 <div className="user-info-subjects">
                   <p>Przedmioty:</p>
-                  <p>Matematyka, Fizyka</p>
+                  <p>
+                    {
+                      userData && userData.subjects ? userData.subjects.map(el => el + " ") : "Brak podanych przedmiotów"
+                    }
+                  </p>
                 </div>
 
                 <div className="user-info-teach">
-                  <p>Nauczał: 15h</p>
+                  <p>Nauczał: {userData && userData.taught ? userData.taught + " h" : "0h"}</p>
                 </div>
 
                 <div className="user-info-learn">
-                  <p>Uczył się: 10h</p>
+                  <p>Uczył się: {userData && userData.studied ? userData.studied + " h" : "0h"}</p>
                 </div>
               </div>
 
