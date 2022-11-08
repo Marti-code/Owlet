@@ -33,10 +33,6 @@ header a {
   align-items: center;
 }
 
-.header-logo {
-  margin-right: auto;
-}
-
 .logo {
   background-color: var(--gray);
   border-radius: 1rem;
@@ -53,10 +49,31 @@ header a {
   width: 50px;
 }
 
+.header-menu {
+  width: 50px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header-menu span {
+  width: 50px;
+  height: 3px;
+  background-color: var(--gray);
+  border-radius: 1px;
+}
+
 .header-links {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: space-around;
   gap: 1.5rem;
+  width: 100%;
+}
+
+.header-link {
+  display: none;
 }
 
 /* 
@@ -159,6 +176,7 @@ main {
   background-color: var(--cyan);
   display: flex;
   align-items: center;
+  justify-content: center;
   color: var(--light-bg);
 }
 
@@ -223,28 +241,80 @@ body {
 */
 .main-content {
   display: grid;
-  grid-template-columns: repeat(14, 1fr);
-  grid-template-rows: repeat(9, 1fr);
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(5, auto);
   grid-column-gap: 10px;
   grid-row-gap: 10px;
 }
 
 .user-info-container {
-  grid-area: 1 / 1 / 6 / 6;
+  grid-area: 1 / 1 / 2 / 2;
 }
 
 .hours-left-container {
-  grid-area: 6 / 1 / 8 / 6;
+  grid-area: 2 / 1 / 3 / 2;
 }
 
 .deal-container {
-  grid-area: 8 / 1 / 10 / 6;
+  grid-area: 3 / 1 / 4 / 2;
 }
 
 .teachers-container {
-  grid-area: 1 / 6 / 7 / 15;
+  grid-area: 4 / 1 / 5 / 2;
 }
 
 .friends-container {
-  grid-area: 7 / 6 / 10 / 15;
+  grid-area: 5 / 1 / 6 / 2;
+}
+
+/* 
+  RWD 
+*/
+@media (min-width: 640px) {
+  .header-logo {
+    margin-right: auto;
+  }
+
+  .header-menu {
+    display: none;
+  }
+
+  .header-links {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .header-link {
+    display: flex;
+  }
+}
+
+@media (min-width: 920px) {
+  .main-content {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+  }
+
+  .user-info-container {
+    grid-area: 1 / 1 / 6 / 6;
+  }
+
+  .hours-left-container {
+    grid-area: 6 / 1 / 8 / 6;
+  }
+
+  .deal-container {
+    grid-area: 8 / 1 / 10 / 6;
+  }
+
+  .teachers-container {
+    grid-area: 1 / 6 / 7 / 15;
+  }
+
+  .friends-container {
+    grid-area: 7 / 6 / 10 / 15;
+  }
 }

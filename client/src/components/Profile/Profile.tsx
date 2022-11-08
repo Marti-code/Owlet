@@ -28,6 +28,11 @@ const Profile: React.FC<Props> = ({isLoggedIn, userData}) => {
             <div className="logo"></div>
           </div>
           <div className="header-links">
+            <div className="header-menu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
             <div className="header-link">
               <a href="#">Pomóż</a>
             </div>
