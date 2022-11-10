@@ -98,16 +98,16 @@ app.post("/api/register", [
     }
 }));
 // Handle login
-app.post("/api/login", [
-    (0, express_validator_1.check)("password").trim().escape(),
-    (0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail(),
+app.post('/api/login', [
+    (0, express_validator_1.check)('password').trim().escape(),
+    (0, express_validator_1.check)('mail').isEmail().trim().escape().normalizeEmail(),
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     const user = yield userModel_1.default.findOne({
         email: req.body.mail,
     });
     if (!user) {
-        return res.json({ ok: false, error: "Taki użytkownik nie istnieje" });
+        return res.json({ ok: false, error: 'Taki użytkownik nie istnieje' });
     }
     const isPasswordValid = yield bcrypt_1.default.compare(req.body.password, user.password);
     if (isPasswordValid && process.env.JWT_SECRET) {
@@ -115,9 +115,7 @@ app.post("/api/login", [
             name: user.name,
             email: user.email,
         }, process.env.JWT_SECRET);
-        return res.json({
-            ok: true,
-            user: {
+        return res.json({ ok: true, user: {
                 token: token,
                 name: user.name,
                 mail: user.email,
@@ -128,11 +126,7 @@ app.post("/api/login", [
             } });
     }
     else {
-        return res.json({
-            ok: false,
-            user: false,
-            error: "Mail lub hasło się nie zgadzają",
-        });
+        return res.json({ ok: false, user: false, error: 'Mail lub hasło się nie zgadzają' });
     }
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
