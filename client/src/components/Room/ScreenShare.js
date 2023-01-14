@@ -35,12 +35,37 @@ export default function ScreenShare(props) {
     client.unpublish([videoTrack[1]]);
     client.publish(screenTrack);
 
+    console.log(
+      `%c${screenTrack}`,
+      "color: red; font-weight: bold; font-size:40px"
+    );
+
+    console.log(
+      `%c${[videoTrack[1]]}`,
+      "color: red; font-weight: bold; font-size:40px"
+    );
+
     //1-video, 0-audio
-    videoTrack[1] = screenTrack; //now we can see our screen as well
+    //videoTrack[1] = screenTrack; //now we can see our screen as well
   }
 
   if (ifScreenShared) {
     if (!isScreenSharing) {
+      console.log(
+        `%c${screenTrack}`,
+        "color: blue; font-weight: bold; font-size:40px"
+      );
+
+      console.log(
+        `%c${[videoTrack[1]]}`,
+        "color: blue; font-weight: bold; font-size:40px"
+      );
+
+      //screen sharing partially works
+      //you can start and stop it multiple times
+      //it just ask you once which screen you want to use
+      //also we can't see the screen we're sharing
+
       client.unpublish(screenTrack);
       client.publish([videoTrack[1]]);
     }
