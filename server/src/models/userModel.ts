@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 // import bcrypt from 'bcrypt';
 
 let userSchema = new mongoose.Schema(
@@ -15,11 +15,11 @@ let userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-    }
+    },
   },
-  { collection: 'users' }
-)
+  { collection: "users" }
+);
 
-const User = mongoose.model('User', userSchema, 'user')
+const User = mongoose.model("User", userSchema, "user");
 
-export default User
+export default User;

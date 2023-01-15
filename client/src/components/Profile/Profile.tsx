@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import VideoCall from "../Room/VideoCall";
 import { useIsInRoom } from "../../hooks/useIsInRoom";
 
+import logo from "../Room/logo1.png";
+
 import { Link, useNavigate } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
@@ -33,7 +35,7 @@ function Profile(props: any) {
     //the uuid is not updating at all
     setRoomId(inviteCode);
 
-    console.log(`%c ${inviteCode} `, "background: #222; color: #bada55");
+    // console.log(`%c ${inviteCode} `, "background: #222; color: #bada55");
     navigate(`/room/${inviteCode}`);
 
     // window.open(`?room=${inviteCode}`, "_blank")?.focus();
@@ -45,13 +47,25 @@ function Profile(props: any) {
     // setRoomId(roomIdtemp);
   }
 
+  const [theme, setTheme] = useState("light");
+
+  function toggleTheme() {
+    if (theme == "light") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  }
+
   return (
-    <div className="Profile">
+    <div className={`Profile ${theme}`}>
       <div className="Dashboard">
         <header>
           <div className="header-content">
             <div className="header-logo">
-              <div className="logo"></div>
+              <div className="logo">
+                <img src={logo} alt="Site Logo" />
+              </div>
             </div>
             <div className="header-links">
               <div className="header-menu">
@@ -110,6 +124,9 @@ function Profile(props: any) {
                 </div>
 
                 <div className="user-info-edit">
+                  <button id="theme-edit-btn" onClick={toggleTheme}>
+                    Motyw
+                  </button>
                   <button id="user-info-edit-btn">Edytuj</button>
                 </div>
               </div>

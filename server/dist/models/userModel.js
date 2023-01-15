@@ -18,8 +18,11 @@ let userSchema = new mongoose_1.default.Schema({
     password: {
         type: String,
         required: true,
-    }
-}, { collection: 'users' });
-const User = mongoose_1.default.model('User', userSchema, 'user');
+    },
+    friends: {
+        type: String,
+    },
+}, { collection: "users" });
+const User = mongoose_1.default.model("User", userSchema, "user");
 exports.default = User;
 //# sourceMappingURL=userModel.js.map
