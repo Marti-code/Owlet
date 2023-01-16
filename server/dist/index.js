@@ -129,5 +129,29 @@ app.post('/api/login', [
         return res.json({ ok: false, user: false, error: 'Mail lub hasło się nie zgadzają' });
     }
 }));
+app.post('/api/getData', [
+    (0, express_validator_1.check)('mail').isEmail().trim().escape().normalizeEmail(),
+], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
+    const user = yield userModel_1.default.findOne({
+        email: req.body.mail,
+    });
+    if (!user) {
+        return res.json({ ok: false, error: 'Taki użytkownik nie istnieje' });
+    }
+    const token = jsonwebtoken_1.default.sign({
+        name: user.name,
+        email: user.email,
+    }, process.env.JWT_SECRET);
+    return res.json({ ok: true, user: {
+            token: token,
+            name: user.name,
+            mail: user.email,
+            subjects: user.subjects,
+            studied: user.studied,
+            taught: user.taught,
+            profileImage: user.profileImage
+        } });
+}));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
 //# sourceMappingURL=index.js.map

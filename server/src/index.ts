@@ -117,4 +117,37 @@ app.post('/api/login', [
   }
 });
 
+app.post('/api/getData', [
+  check('mail').isEmail().trim().escape().normalizeEmail(),
+], async (req: express.Request, res: express.Response) => {
+  console.log(req.body);
+
+  const user = await User.findOne({
+    email: req.body.mail,
+  })
+  
+  if (!user) {
+    return res.json({ ok: false, error: 'Taki użytkownik nie istnieje' });
+  }
+    
+
+  const token = jwt.sign(
+    {
+      name: user.name,
+      email: user.email,
+    },
+    process.env.JWT_SECRET
+  )
+
+    return res.json({ ok: true, user: {
+      token: token,
+      name: user.name,
+      mail: user.email,
+      subjects: user.subjects,
+      studied: user.studied,
+      taught: user.taught,
+      profileImage: user.profileImage
+    } })
+});
+
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));

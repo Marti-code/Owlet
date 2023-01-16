@@ -42,4 +42,19 @@ export default {
 
     return await res.json();
   },
+  getUserDataFetch: async(mail: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/getData`
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        mail: mail,
+      }),
+    });
+
+    return await res.json();
+  }
 };

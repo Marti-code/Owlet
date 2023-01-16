@@ -107,7 +107,7 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
             />
           </p>
           <p>
-            Masz już konto?&nbsp;<b><Link to="/sign-in">Zaloguj się!</Link></b>
+            Masz już konto?&nbsp;<Link to="/sign-in"><b>Zaloguj się!</b></Link>
           </p>
           <p>
             <Submit type="submit">Zarejestruj się</Submit>

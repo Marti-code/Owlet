@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import jwt from 'jwt-decode';
-import { UserInfoType } from "../API";
+import API, { UserInfoType } from "../API";
 
 export const useIsLoggedIn = () => {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserInfoType>();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const rawStoredData = localStorage.getItem('user');
     const userStoredData = rawStoredData ? JSON.parse(rawStoredData) : null;
 
@@ -26,7 +28,39 @@ export const useIsLoggedIn = () => {
 		} else {
       setLoggedIn(false);
     }
+
+    setLoading(false);
   }, [])
 
-  return {loggedIn, setLoggedIn, userData, setUserData};
+  useEffect(() => {
+
+  }, [])
+
+  const getData = async() => {
+    if (!userData || !userData.token) {
+      setLoggedIn(false);
+      return;
+		
+		} 
+
+    const user = jwt(userData.token)
+
+    if (!user) {
+      localStorage.removeItem('user');
+      setLoggedIn(false);
+      return;
+    }
+
+    const data = await API.getUserDataFetch(userData.mail);
+    if (!data.ok){
+      setLoggedIn(false);
+      return;
+    }
+
+    console.log(data.user);
+
+    setUserData(data.user);
+  }
+
+  return {loggedIn, setLoggedIn, userData, setUserData, loading, getData};
 }

@@ -1,12 +1,27 @@
 import "./Profile.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import VideoCall from "../Room/VideoCall";
 
 import { v4 as uuidv4 } from "uuid";
+import { UserInfoType } from "../../API";
+import { Link, useNavigate } from "react-router-dom";
 
-function Profile(props: any) {
+type Profile = {
+  isLoggedIn: boolean;
+  userData: UserInfoType | undefined;
+}
+
+const Profile: React.FC<Profile> = ({isLoggedIn, userData}) => {
   const [inCall, setInCall] = useState(false);
   const [roomId, setRoomId] = useState("");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn)  
+      navigate('/sign-in')
+  }, [])
+
 
   function handleCreateRoom(e: any) {
     e.preventDefault();
@@ -24,6 +39,10 @@ function Profile(props: any) {
     // setRoomId(roomIdtemp);
 
     setRoomId(inviteCode);
+  }
+
+  if (!isLoggedIn) {
+    return <div>Musisz najpierw się zalogować!</div>
   }
 
   return (
@@ -76,25 +95,25 @@ function Profile(props: any) {
 
                   <div className="user-info-main">
                     <div className="user-info-name">
-                      <p>Peter Parker</p>
+                      <p>{userData && userData.name}</p>
                     </div>
 
                     <div className="user-info-subjects">
                       <p>Przedmioty:</p>
-                      <p>Matematyka, Fizyka</p>
+                      <p>{userData && userData.subjects}</p>
                     </div>
 
                     <div className="user-info-teach">
-                      <p>Nauczał: 15h</p>
+                      <p>{userData && userData.taught}</p>
                     </div>
 
                     <div className="user-info-learn">
-                      <p>Uczył się: 10h</p>
+                      <p>{userData && userData.studied}</p>
                     </div>
                   </div>
 
                   <div className="user-info-edit">
-                    <button id="user-info-edit-btn">Edytuj</button>
+                    <button id="user-info-edit-btn"><Link to="/dashboard/edit">Edytuj</Link></button>
                   </div>
                 </div>
               </section>
