@@ -1,26 +1,70 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import EditProfile from './components/EditProfile/EditProfile';
-import Login from './components/Login/Login';
-import Profile from './components/Profile/Profile';
-import Register from './components/Register/Register';
-import Main from './components/Room/Main';
+import { Route, Routes } from "react-router-dom";
+import EditProfile from "./components/EditProfile/EditProfile";
+import React, { useEffect, useState } from "react";
+import Login from "./components/Login/Login";
+import Profile from "./components/Profile/Profile";
+import Register from "./components/Register/Register";
+import Main from "./components/Room/Main";
 import { GlobalStyle } from "./GlobalStyles";
 import { useIsLoggedIn } from "./hooks/useIsLoggedIn";
-
+import VideoCall from "./components/Room/VideoCall";
+import PostOffer from "./components/PostOffer/PostOffer";
 
 function App() {
-
-  const { loggedIn, setLoggedIn, userData, setUserData, loading, getData} = useIsLoggedIn();
+  const { loggedIn, setLoggedIn, userData, setUserData, loading, getData } =
+    useIsLoggedIn();
+  const [inCall, setInCall] = useState(true);
+  const [roomId, setRoomId] = useState("1");
 
   return (
     <div className="App">
       <Routes>
-        <Route path='/sign-up' element={<Register isLoggedIn={loggedIn}/>} />
-        <Route path='/sign-in' element={<Login isLoggedIn={loggedIn} setLoggedIn={setLoggedIn} setUserData={setUserData}/>} />
-        <Route path='/dashboard' element={<Profile isLoggedIn={loggedIn} userData={userData} />}/>
-        <Route path='/dashboard/edit' element={<EditProfile isLoggedIn={loggedIn} userData={userData} loading={loading} getData={getData}/>}/>
-        <Route path='/' element={<Main />} />
+        <Route path="/sign-up" element={<Register isLoggedIn={loggedIn} />} />
+        <Route
+          path="/sign-in"
+          element={
+            <Login
+              isLoggedIn={loggedIn}
+              setLoggedIn={setLoggedIn}
+              setUserData={setUserData}
+            />
+          }
+        />
+        <Route
+          path="/room/:roomId"
+          element={
+            <VideoCall
+              setInCall={setInCall}
+              userName={"John"}
+              roomId={roomId}
+              setRoomId={setRoomId}
+            />
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <Profile
+              setRoomId={setRoomId}
+              roomId={roomId}
+              userData={userData}
+              isLoggedIn={loggedIn}
+            />
+          }
+        />
+        <Route
+          path="/dashboard/edit"
+          element={
+            <EditProfile
+              isLoggedIn={loggedIn}
+              userData={userData}
+              loading={loading}
+              getData={getData}
+            />
+          }
+        />
+        <Route path="/" element={<Main />} />
+        <Route path="/post-offer" element={<PostOffer />} />
       </Routes>
       <GlobalStyle />
     </div>

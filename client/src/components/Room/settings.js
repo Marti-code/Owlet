@@ -4,8 +4,6 @@ import {
   createScreenVideoTrack,
 } from "agora-rtc-react";
 
-import AgoraRTM from "agora-rtm-react";
-
 const appId = "a3c62a430c5841dea1060444ce7eaf9c";
 
 export const config = { mode: "rtc", codec: "vp8", appId: appId, token: null };
@@ -21,10 +19,7 @@ export const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks(
   }
 );
 
-//share screen
-export const useScreenVideoTrack = createScreenVideoTrack();
-
-// rtm
-export const useRtmClient = AgoraRTM.createInstance(
-  "a3c62a430c5841dea1060444ce7eaf9c"
-);
+export const getScreenVideoTrack = createScreenVideoTrack({
+  encoderConfig: "1080p_1",
+  optimizationMode: "detail",
+});

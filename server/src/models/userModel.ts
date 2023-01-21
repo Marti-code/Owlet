@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 // import bcrypt from 'bcrypt';
 
 let userSchema = new mongoose.Schema(
@@ -16,6 +16,7 @@ let userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+<<<<<<< HEAD
     profileImage: {
       type: String,
     },
@@ -28,10 +29,12 @@ let userSchema = new mongoose.Schema(
     taught: {
       type: Number
     },
+=======
+>>>>>>> 9ef0c7e2e09c58121fce851b29912515599d1dcd
   },
-  { collection: 'users' }
-)
+  { collection: "users" }
+);
 
-const User = mongoose.model('User', userSchema, 'user')
+const User = mongoose.model("User", userSchema, "user");
 
-export default User
+export default User;

@@ -1,12 +1,7 @@
 import { useState } from "react";
 import VideoCall from "./VideoCall";
-// import Lobby from "./Lobby";
 import logo from "./logo.png";
 import "./Lobby.css";
-
-//creating room uuid
-// import { v4 as uuidv4 } from "uuid";
-// uuidv4();
 
 function Main() {
   const [inCall, setInCall] = useState(false);
@@ -35,7 +30,7 @@ function Main() {
               <a href="lobby.html">
                 <h3 id="logo">
                   <img src={logo} alt="logo" />
-                  <span>Mumble</span>
+                  <span>TutorMe</span>
                 </h3>
               </a>
             </div>

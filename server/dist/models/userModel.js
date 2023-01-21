@@ -19,6 +19,7 @@ let userSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+<<<<<<< HEAD
     profileImage: {
         type: String,
     },
@@ -33,5 +34,12 @@ let userSchema = new mongoose_1.default.Schema({
     },
 }, { collection: 'users' });
 const User = mongoose_1.default.model('User', userSchema, 'user');
+=======
+    friends: {
+        type: String,
+    },
+}, { collection: "users" });
+const User = mongoose_1.default.model("User", userSchema, "user");
+>>>>>>> 9ef0c7e2e09c58121fce851b29912515599d1dcd
 exports.default = User;
 //# sourceMappingURL=userModel.js.map

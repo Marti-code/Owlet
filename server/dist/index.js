@@ -45,6 +45,7 @@ const userModel_1 = __importDefault(require("./models/userModel"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const offerModel_1 = __importDefault(require("./models/offerModel"));
 console.log("test!");
 const app = (0, express_1.default)();
 const port = 5000;
