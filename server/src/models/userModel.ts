@@ -16,21 +16,22 @@ let userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-<<<<<<< HEAD
     profileImage: {
       type: String,
     },
     subjects: {
       type: [],
     },
+    //instead of studied and taught give achievements
     studied: {
       type: Number,
     },
     taught: {
-      type: Number
+      type: Number,
     },
-=======
->>>>>>> 9ef0c7e2e09c58121fce851b29912515599d1dcd
+    theme: {
+      type: String,
+    },
   },
   { collection: "users" }
 );

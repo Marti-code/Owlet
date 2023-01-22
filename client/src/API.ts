@@ -6,6 +6,7 @@ export type UserInfoType = {
   subjects: string[];
   studied: number;
   taught: number;
+  theme: string;
 };
 
 export default {
@@ -21,6 +22,7 @@ export default {
         name: name,
         mail: mail,
         password: password,
+        theme: "light",
       }),
     });
 
@@ -43,8 +45,9 @@ export default {
 
     return await res.json();
   },
-  getUserDataFetch: async(mail: string) => {
-    const endpoint = `${process.env.REACT_APP_API_URL}/api/getData`
+
+  getUserDataFetch: async (mail: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/getData`;
 
     const res = await fetch(endpoint, {
       method: "POST",
@@ -58,6 +61,7 @@ export default {
 
     return await res.json();
   },
+
   postOfferFetch: async (
     title: string,
     subject: string,
@@ -78,6 +82,22 @@ export default {
         info: info || "none",
         price: price,
         duration: duration,
+      }),
+    });
+
+    return await res.json();
+  },
+
+  putTheme: async (theme: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/updatetheme`;
+
+    const res = await fetch(endpoint, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        theme: theme,
       }),
     });
 
