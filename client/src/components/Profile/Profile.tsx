@@ -17,11 +17,13 @@ type Profile = {
 
 const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState(userData?.theme || "light");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log(userData);
+    getCurrentTheme();
     if (!isLoggedIn) navigate("/sign-in");
   }, []);
 
@@ -34,28 +36,32 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
     navigate(`/room/${inviteCode}`);
   }
 
-  const handleTheme = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const data = await API.putTheme("dark");
-
-    if (data.ok) {
-      console.log("zmiana");
-      toggleTheme();
-    } else {
-      console.log("coś nie tak");
-    }
-  };
-
-  const [theme, setTheme] = useState(userData?.theme);
+  async function getCurrentTheme() {
+    const d = await API.getUserThemeFetch(userData?.mail || "");
+    setTheme(d.theme);
+  }
 
   function toggleTheme() {
+    console.log(userData?.theme);
     if (theme == "light") {
       setTheme("dark");
     } else {
       setTheme("light");
     }
   }
+
+  const handleTheme = async (e: React.FormEvent) => {
+    e.preventDefault();
+    toggleTheme();
+
+    const data = await API.putTheme(theme == "light" ? "dark" : "light");
+
+    if (data.ok) {
+      console.log("zmiana");
+    } else {
+      console.log("coś nie tak");
+    }
+  };
 
   if (!isLoggedIn) {
     return <div>Musisz najpierw się zalogować!</div>;

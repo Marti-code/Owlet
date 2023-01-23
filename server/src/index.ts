@@ -206,9 +206,29 @@ app.post(
   }
 );
 
+app.post(
+  "/api/getTheme",
+  [check("mail").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+    const user = await User.findOne({
+      email: "eva789$@gmail.com",
+      // email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Błąd pobierania motywu" });
+    }
+
+    return res.json({
+      ok: true,
+      theme: user.theme,
+    });
+  }
+);
+
 app.put(
   "/api/updatetheme",
-  [check("theme").trim().escape()],
+  [check("theme")],
   async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req);
 
@@ -217,12 +237,19 @@ app.put(
     }
 
     try {
-      const filter = { name: "Eva789$@gmail.com" };
-      const update = { theme: "dark" };
+      // const filter = { email: req.body.mail };
+      const filter = { email: "eva789$@gmail.com" };
+      const update = { theme: req.body.theme };
 
-      let doc = await User.findOneAndUpdate(filter, update, {
-        new: true,
-      });
+      await User.findOneAndUpdate(filter, update);
+
+      // User.find({ email: "eva789$@gmail.com" })
+      //   .then((data) => {
+      //     console.log(data[0].theme);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
 
       res.json({ ok: true });
     } catch (err) {
