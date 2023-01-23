@@ -206,13 +206,13 @@ app.post(
   }
 );
 
+// Handle get theme from database
 app.post(
   "/api/getTheme",
   [check("mail").isEmail().trim().escape().normalizeEmail()],
   async (req: express.Request, res: express.Response) => {
     const user = await User.findOne({
-      email: "eva789$@gmail.com",
-      // email: req.body.mail,
+      email: req.body.mail,
     });
 
     if (!user) {
@@ -226,6 +226,7 @@ app.post(
   }
 );
 
+// Handle updating theme in the database
 app.put(
   "/api/updatetheme",
   [check("theme")],
@@ -237,19 +238,10 @@ app.put(
     }
 
     try {
-      // const filter = { email: req.body.mail };
-      const filter = { email: "eva789$@gmail.com" };
+      const filter = { email: req.body.email };
       const update = { theme: req.body.theme };
 
       await User.findOneAndUpdate(filter, update);
-
-      // User.find({ email: "eva789$@gmail.com" })
-      //   .then((data) => {
-      //     console.log(data[0].theme);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
 
       res.json({ ok: true });
     } catch (err) {

@@ -104,7 +104,7 @@ export default {
     return await res.json();
   },
 
-  putTheme: async (theme: string) => {
+  putTheme: async (theme: string, email: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/updatetheme`;
 
     const res = await fetch(endpoint, {
@@ -113,6 +113,7 @@ export default {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
+        email: email,
         theme: theme,
       }),
     });

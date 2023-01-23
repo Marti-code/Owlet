@@ -42,7 +42,6 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
   }
 
   function toggleTheme() {
-    console.log(userData?.theme);
     if (theme == "light") {
       setTheme("dark");
     } else {
@@ -54,7 +53,10 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
     e.preventDefault();
     toggleTheme();
 
-    const data = await API.putTheme(theme == "light" ? "dark" : "light");
+    const data = await API.putTheme(
+      theme == "light" ? "dark" : "light",
+      userData?.mail || ""
+    );
 
     if (data.ok) {
       console.log("zmiana");

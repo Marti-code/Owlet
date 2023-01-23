@@ -90,6 +90,7 @@ app.post("/api/register", [
             name: req.body.name,
             email: req.body.mail,
             password: newPassword,
+            theme: "light",
         });
         res.json({ ok: true });
     }
@@ -99,16 +100,16 @@ app.post("/api/register", [
     }
 }));
 // Handle login
-app.post('/api/login', [
-    (0, express_validator_1.check)('password').trim().escape(),
-    (0, express_validator_1.check)('mail').isEmail().trim().escape().normalizeEmail(),
+app.post("/api/login", [
+    (0, express_validator_1.check)("password").trim().escape(),
+    (0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail(),
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     const user = yield userModel_1.default.findOne({
         email: req.body.mail,
     });
     if (!user) {
-        return res.json({ ok: false, error: 'Taki użytkownik nie istnieje' });
+        return res.json({ ok: false, error: "Taki użytkownik nie istnieje" });
     }
     const isPasswordValid = yield bcrypt_1.default.compare(req.body.password, user.password);
     if (isPasswordValid && process.env.JWT_SECRET) {
@@ -116,43 +117,118 @@ app.post('/api/login', [
             name: user.name,
             email: user.email,
         }, process.env.JWT_SECRET);
-        return res.json({ ok: true, user: {
+        return res.json({
+            ok: true,
+            user: {
                 token: token,
                 name: user.name,
                 mail: user.email,
                 subjects: user.subjects,
                 studied: user.studied,
                 taught: user.taught,
-                profileImage: user.profileImage
-            } });
+                profileImage: user.profileImage,
+                theme: user.theme,
+            },
+        });
     }
     else {
-        return res.json({ ok: false, user: false, error: 'Mail lub hasło się nie zgadzają' });
+        return res.json({
+            ok: false,
+            user: false,
+            error: "Mail lub hasło się nie zgadzają",
+        });
     }
 }));
-app.post('/api/getData', [
-    (0, express_validator_1.check)('mail').isEmail().trim().escape().normalizeEmail(),
-], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/getData", [(0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     const user = yield userModel_1.default.findOne({
         email: req.body.mail,
     });
     if (!user) {
-        return res.json({ ok: false, error: 'Taki użytkownik nie istnieje' });
+        return res.json({ ok: false, error: "Taki użytkownik nie istnieje" });
     }
     const token = jsonwebtoken_1.default.sign({
         name: user.name,
         email: user.email,
     }, process.env.JWT_SECRET);
-    return res.json({ ok: true, user: {
+    return res.json({
+        ok: true,
+        user: {
             token: token,
             name: user.name,
             mail: user.email,
             subjects: user.subjects,
             studied: user.studied,
             taught: user.taught,
-            profileImage: user.profileImage
-        } });
+            profileImage: user.profileImage,
+            theme: user.theme,
+        },
+    });
+}));
+// Handle post offer
+app.post("/api/postoffer", [
+    (0, express_validator_1.check)("title").trim().escape(),
+    (0, express_validator_1.check)("subject").trim().escape(),
+    (0, express_validator_1.check)("info").trim().escape(),
+    (0, express_validator_1.check)("price").trim().escape(),
+    (0, express_validator_1.check)("duration").trim().escape(),
+], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const errors = (0, express_validator_1.validationResult)(req);
+    if (!errors.isEmpty()) {
+        return res.json({ ok: false, errors: errors.array() });
+    }
+    try {
+        yield offerModel_1.default.create({
+            title: req.body.title,
+            subject: req.body.subject,
+            info: req.body.info,
+            price: req.body.price,
+            duration: req.body.duration,
+        });
+        res.json({ ok: true });
+    }
+    catch (err) {
+        console.log(err);
+        res.json({
+            ok: false,
+            errors: [{ msg: "Utworzenie oferty się nie udało!" }],
+        });
+    }
+}));
+// Handle get theme from database
+app.post("/api/getTheme", [(0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield userModel_1.default.findOne({
+        // email: "eva789$@gmail.com",
+        email: req.body.mail,
+    });
+    if (!user) {
+        return res.json({ ok: false, error: "Błąd pobierania motywu" });
+    }
+    return res.json({
+        ok: true,
+        theme: user.theme,
+    });
+}));
+// Handle updating theme in the database
+app.put("/api/updatetheme", [(0, express_validator_1.check)("theme")], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const errors = (0, express_validator_1.validationResult)(req);
+    if (!errors.isEmpty()) {
+        return res.json({ ok: false, errors: errors.array() });
+    }
+    try {
+        const filter = { email: req.body.email };
+        //const filter = { email: "eva789$@gmail.com" };
+        const update = { theme: req.body.theme };
+        yield userModel_1.default.findOneAndUpdate(filter, update);
+        res.json({ ok: true });
+    }
+    catch (err) {
+        console.log(err);
+        res.json({
+            ok: false,
+            errors: [{ msg: "Zmiana motywu się nie powiodła!" }],
+        });
+    }
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
 //# sourceMappingURL=index.js.map
