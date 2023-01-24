@@ -22,11 +22,15 @@ let userSchema = new mongoose.Schema(
     subjects: {
       type: [],
     },
+    //instead of studied and taught give achievements
     studied: {
       type: Number,
     },
     taught: {
-      type: Number
+      type: Number,
+    },
+    theme: {
+      type: String,
     },
   },
   { collection: "users" }

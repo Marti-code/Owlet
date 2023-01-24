@@ -1,63 +1,45 @@
 import "./Profile.css";
 import React, { useState, useEffect } from "react";
-import VideoCall from "../Room/VideoCall";
-import { useIsInRoom } from "../../hooks/useIsInRoom";
 
 import logo from "../Room/logo1.png";
+import API from "../../API";
 
 import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type Profile = {
   isLoggedIn: boolean;
   userData: UserInfoType | undefined;
   setRoomId: any;
   roomId: string;
-}
+};
 
-const Profile: React.FC<Profile> = ({isLoggedIn, userData, setRoomId}) => {
-  const [inCall, setInCall] = useState(false);
+const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState(userData?.theme || "light");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log(userData);
-
-    if (!isLoggedIn)  
-      navigate('/sign-in')
-  }, [])
-
+    getCurrentTheme();
+    if (!isLoggedIn) navigate("/sign-in");
+  }, []);
 
   function handleCreateRoom(e: any) {
     e.preventDefault();
-    // setInCall(true);
-
-    // //creating room uuid
-    // const inviteCode = uuidv4();
-    // setRoomId(inviteCode);
 
     const inviteCode = uuidv4();
 
-    //window.history.replaceState({}, "", `?room=${inviteCode}`);
-
-    //the uuid is not updating at all
     setRoomId(inviteCode);
-
-    // console.log(`%c ${inviteCode} `, "background: #222; color: #bada55");
     navigate(`/room/${inviteCode}`);
-
-    // window.open(`?room=${inviteCode}`, "_blank")?.focus();
-
-    //get the uuid from url
-    // const queryString = window.location.search;
-    // const urlParams = new URLSearchParams(queryString);
-    // let roomIdtemp = urlParams.get("room") || "default";
-    // setRoomId(roomIdtemp);
   }
 
-  const [theme, setTheme] = useState("light");
+  async function getCurrentTheme() {
+    const d = await API.getUserThemeFetch(userData?.mail || "");
+    setTheme(d.theme);
+  }
 
   function toggleTheme() {
     if (theme == "light") {
@@ -67,12 +49,25 @@ const Profile: React.FC<Profile> = ({isLoggedIn, userData, setRoomId}) => {
     }
   }
 
+  const handleTheme = async (e: React.FormEvent) => {
+    e.preventDefault();
+    toggleTheme();
+
+    const data = await API.putTheme(
+      theme == "light" ? "dark" : "light",
+      userData?.mail || ""
+    );
+
+    if (data.ok) {
+      console.log("zmiana");
+    } else {
+      console.log("coś nie tak");
+    }
+  };
+
   if (!isLoggedIn) {
-    return <div>Musisz najpierw się zalogować!</div>
+    return <div>Musisz najpierw się zalogować!</div>;
   }
-
-
-
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -146,7 +141,7 @@ const Profile: React.FC<Profile> = ({isLoggedIn, userData, setRoomId}) => {
                 </div>
 
                 <div className="user-info-edit">
-                  <button id="theme-edit-btn" onClick={toggleTheme}>
+                  <button id="theme-edit-btn" onClick={handleTheme}>
                     Motyw
                   </button>
                   <button id="user-info-edit-btn">Edytuj</button>
@@ -269,6 +264,6 @@ const Profile: React.FC<Profile> = ({isLoggedIn, userData, setRoomId}) => {
       )} */}
     </div>
   );
-}
+};
 
 export default Profile;

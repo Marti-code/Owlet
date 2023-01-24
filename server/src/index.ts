@@ -65,6 +65,7 @@ app.post(
         name: req.body.name,
         email: req.body.mail,
         password: newPassword,
+        theme: "light",
       });
 
       res.json({ ok: true });
@@ -76,80 +77,97 @@ app.post(
 );
 
 // Handle login
-app.post('/api/login', [
-  check('password').trim().escape(),
-  check('mail').isEmail().trim().escape().normalizeEmail(),
-], async (req: express.Request, res: express.Response) => {
-  console.log(req.body);
+app.post(
+  "/api/login",
+  [
+    check("password").trim().escape(),
+    check("mail").isEmail().trim().escape().normalizeEmail(),
+  ],
+  async (req: express.Request, res: express.Response) => {
+    console.log(req.body);
 
-  const user = await User.findOne({
-    email: req.body.mail,
-  })
-  
-  if (!user) {
-    return res.json({ ok: false, error: 'Taki użytkownik nie istnieje' });
+    const user = await User.findOne({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Taki użytkownik nie istnieje" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+
+    if (isPasswordValid && process.env.JWT_SECRET) {
+      const token = jwt.sign(
+        {
+          name: user.name,
+          email: user.email,
+        },
+        process.env.JWT_SECRET
+      );
+
+      return res.json({
+        ok: true,
+        user: {
+          token: token,
+          name: user.name,
+          mail: user.email,
+          subjects: user.subjects,
+          studied: user.studied,
+          taught: user.taught,
+          profileImage: user.profileImage,
+          theme: user.theme,
+        },
+      });
+    } else {
+      return res.json({
+        ok: false,
+        user: false,
+        error: "Mail lub hasło się nie zgadzają",
+      });
+    }
   }
-    
-  const isPasswordValid = await bcrypt.compare(
-    req.body.password,
-    user.password
-  )
+);
 
-  if (isPasswordValid && process.env.JWT_SECRET) {
+app.post(
+  "/api/getData",
+  [check("mail").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+    console.log(req.body);
+
+    const user = await User.findOne({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Taki użytkownik nie istnieje" });
+    }
+
     const token = jwt.sign(
       {
         name: user.name,
         email: user.email,
       },
       process.env.JWT_SECRET
-    )
+    );
 
-    return res.json({ ok: true, user: {
-      token: token,
-      name: user.name,
-      mail: user.email,
-      subjects: user.subjects,
-      studied: user.studied,
-      taught: user.taught,
-      profileImage: user.profileImage
-    } })
-  } else {
-    return res.json({ ok: false, user: false, error: 'Mail lub hasło się nie zgadzają'})
+    return res.json({
+      ok: true,
+      user: {
+        token: token,
+        name: user.name,
+        mail: user.email,
+        subjects: user.subjects,
+        studied: user.studied,
+        taught: user.taught,
+        profileImage: user.profileImage,
+        theme: user.theme,
+      },
+    });
   }
-});
-
-app.post('/api/getData', [
-  check('mail').isEmail().trim().escape().normalizeEmail(),
-], async (req: express.Request, res: express.Response) => {
-  console.log(req.body);
-
-  const user = await User.findOne({
-    email: req.body.mail,
-  })
-  
-  if (!user) {
-    return res.json({ ok: false, error: 'Taki użytkownik nie istnieje' });
-  }
-    
-
-  const token = jwt.sign(
-    {
-      name: user.name,
-      email: user.email,
-    },
-    process.env.JWT_SECRET
-  )
-
-    return res.json({ ok: true, user: {
-      token: token,
-      name: user.name,
-      mail: user.email,
-      subjects: user.subjects,
-      studied: user.studied,
-      taught: user.taught,
-      profileImage: user.profileImage
-    } })
-});
+);
 
 // Handle post offer
 app.post(
@@ -183,6 +201,54 @@ app.post(
       res.json({
         ok: false,
         errors: [{ msg: "Utworzenie oferty się nie udało!" }],
+      });
+    }
+  }
+);
+
+// Handle get theme from database
+app.post(
+  "/api/getTheme",
+  [check("mail").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+    const user = await User.findOne({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Błąd pobierania motywu" });
+    }
+
+    return res.json({
+      ok: true,
+      theme: user.theme,
+    });
+  }
+);
+
+// Handle updating theme in the database
+app.put(
+  "/api/updatetheme",
+  [check("theme")],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.json({ ok: false, errors: errors.array() });
+    }
+
+    try {
+      const filter = { email: req.body.email };
+      const update = { theme: req.body.theme };
+
+      await User.findOneAndUpdate(filter, update);
+
+      res.json({ ok: true });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        ok: false,
+        errors: [{ msg: "Zmiana motywu się nie powiodła!" }],
       });
     }
   }

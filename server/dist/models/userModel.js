@@ -25,11 +25,15 @@ let userSchema = new mongoose_1.default.Schema({
     subjects: {
         type: [],
     },
+    //instead of studied and taught give achievements
     studied: {
         type: Number,
     },
     taught: {
-        type: Number
+        type: Number,
+    },
+    theme: {
+        type: String,
     },
 }, { collection: "users" });
 const User = mongoose_1.default.model("User", userSchema, "user");

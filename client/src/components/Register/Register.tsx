@@ -49,12 +49,12 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
     } else {
       console.log(data.errors);
       if (data.errors.length) {
-        console.log('test');
+        console.log("test");
         let messages: JSX.Element[] = [];
         data.errors.forEach((el: any) => {
           messages.push(el.msg);
         });
-        
+
         console.log(messages);
         setInfo(messages);
       }
@@ -107,7 +107,10 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
             />
           </p>
           <p>
-            Masz już konto?&nbsp;<Link to="/sign-in"><b>Zaloguj się!</b></Link>
+            Masz już konto?&nbsp;
+            <Link to="/sign-in">
+              <b>Zaloguj się!</b>
+            </Link>
           </p>
           <p>
             <Submit type="submit">Zarejestruj się</Submit>
@@ -129,4 +132,3 @@ export default Register;
 function signUpFetch(name: string, mail: string, password: string) {
   throw new Error("Function not implemented.");
 }
-
