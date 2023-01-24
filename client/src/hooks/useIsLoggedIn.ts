@@ -8,6 +8,7 @@ export const useIsLoggedIn = () => {
   const [userData, setUserData] = useState<UserInfoType>();
   const [loading, setLoading] = useState(false);
 
+  console.log('etst');
   useEffect(() => {
     setLoading(true);
     const rawStoredData = localStorage.getItem('user');
@@ -36,6 +37,8 @@ export const useIsLoggedIn = () => {
 
   }, [])
 
+
+
   const getData = async() => {
     if (!userData || !userData.token) {
       setLoggedIn(false);
@@ -58,8 +61,10 @@ export const useIsLoggedIn = () => {
     }
 
     console.log(data.user);
-
+    localStorage.setItem('user', JSON.stringify(data.user));
     setUserData(data.user);
+
+    console.log(userData);
   }
 
   return {loggedIn, setLoggedIn, userData, setUserData, loading, getData};

@@ -220,6 +220,10 @@
   padding: 5px 20px;
 }
 
+#user-info-edit-btn a {
+  color: var(--secondary-font);
+}
+
 /* 
   hours
  */

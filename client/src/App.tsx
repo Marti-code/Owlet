@@ -16,6 +16,10 @@ function App() {
   const [inCall, setInCall] = useState(true);
   const [roomId, setRoomId] = useState("1");
 
+  useEffect(() => {
+    console.log(loggedIn);
+  }, [loggedIn])
+
   return (
     <div className="App">
       <Routes>
@@ -49,6 +53,7 @@ function App() {
               roomId={roomId}
               userData={userData}
               isLoggedIn={loggedIn}
+              setLoggedIn={setLoggedIn}
             />
           }
         />

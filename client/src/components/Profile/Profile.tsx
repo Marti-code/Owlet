@@ -6,16 +6,17 @@ import API from "../../API";
 
 import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type Profile = {
   isLoggedIn: boolean;
+  setLoggedIn: any;
   userData: UserInfoType | undefined;
   setRoomId: any;
   roomId: string;
 };
 
-const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
+const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId, setLoggedIn }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(userData?.theme || "light");
 
@@ -26,6 +27,10 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
     getCurrentTheme();
     if (!isLoggedIn) navigate("/sign-in");
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) navigate("/sign-in");
+  }, [isLoggedIn]);
 
   function handleCreateRoom(e: any) {
     e.preventDefault();
@@ -65,9 +70,7 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
     }
   };
 
-  if (!isLoggedIn) {
-    return <div>Musisz najpierw się zalogować!</div>;
-  }
+
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -144,7 +147,11 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
                   <button id="theme-edit-btn" onClick={handleTheme}>
                     Motyw
                   </button>
-                  <button id="user-info-edit-btn">Edytuj</button>
+                  <button id="user-info-edit-btn"><Link to="edit">Edytuj</Link></button>
+                  <button id="user-info-edit-btn" onClick={() => {
+                    localStorage.removeItem('user');
+                    setLoggedIn(false);
+                  }}>Wyloguj</button>
                 </div>
               </div>
             </section>

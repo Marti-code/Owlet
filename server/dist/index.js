@@ -198,7 +198,6 @@ app.post("/api/postoffer", [
 // Handle get theme from database
 app.post("/api/getTheme", [(0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield userModel_1.default.findOne({
-        // email: "eva789$@gmail.com",
         email: req.body.mail,
     });
     if (!user) {
@@ -217,7 +216,6 @@ app.put("/api/updatetheme", [(0, express_validator_1.check)("theme")], (req, res
     }
     try {
         const filter = { email: req.body.email };
-        //const filter = { email: "eva789$@gmail.com" };
         const update = { theme: req.body.theme };
         yield userModel_1.default.findOneAndUpdate(filter, update);
         res.json({ ok: true });
@@ -230,35 +228,28 @@ app.put("/api/updatetheme", [(0, express_validator_1.check)("theme")], (req, res
         });
     }
 }));
-// Handle post offer
-app.post("/api/postoffer", [
-    (0, express_validator_1.check)("title").trim().escape(),
-    (0, express_validator_1.check)("subject").trim().escape(),
-    (0, express_validator_1.check)("info").trim().escape(),
-    (0, express_validator_1.check)("price").trim().escape(),
-    (0, express_validator_1.check)("duration").trim().escape(),
+app.post("/api/editProfile", [
+    (0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail(),
+    (0, express_validator_1.check)("username").trim().escape(),
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const errors = (0, express_validator_1.validationResult)(req);
-    if (!errors.isEmpty()) {
-        return res.json({ ok: false, errors: errors.array() });
+    console.log(req.body.mail);
+    const user = yield userModel_1.default.findOne({
+        email: req.body.mail,
+    });
+    if (!user) {
+        return res.json({ ok: false, error: "Nie znaleziono." });
     }
     try {
-        yield offerModel_1.default.create({
-            title: req.body.title,
-            subject: req.body.subject,
-            info: req.body.info,
-            price: req.body.price,
-            duration: req.body.duration,
+        yield userModel_1.default.updateOne({ email: user.email }, {
+            name: req.body.username
         });
-        res.json({ ok: true });
     }
     catch (err) {
-        console.log(err);
-        res.json({
-            ok: false,
-            errors: [{ msg: "Utworzenie oferty się nie udało!" }],
-        });
+        return res.json({ ok: false, error: "Wystąpił błąd" });
     }
+    return res.json({
+        ok: true,
+    });
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
 //# sourceMappingURL=index.js.map

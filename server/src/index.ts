@@ -254,4 +254,36 @@ app.put(
   }
 );
 
+app.post(
+  "/api/editProfile",
+  [
+    check("mail").isEmail().trim().escape().normalizeEmail(),
+    check("username").trim().escape(),
+  ],
+  async (req: express.Request, res: express.Response) => {
+    console.log(req.body.mail);
+
+    const user = await User.findOne({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Nie znaleziono." });
+    }
+
+    try {
+      await User.updateOne({email: user.email}, {
+        name: req.body.username
+      })
+
+    } catch(err) {
+      return res.json({ok: false, error: "Wystąpił błąd"});
+    }
+
+    return res.json({
+      ok: true,
+    });
+  }
+);
+
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
