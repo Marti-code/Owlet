@@ -7,7 +7,6 @@ import API from "../../API";
 import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
 import { useNavigate } from "react-router-dom";
-import { isArray } from "util";
 
 type Profile = {
   isLoggedIn: boolean;
