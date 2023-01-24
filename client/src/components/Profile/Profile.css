@@ -32,13 +32,13 @@
 /* 
   header
  */
-header {
+.profile-header {
   background-color: var(--light-bg);
   height: 10vh;
   padding: 0 4vw;
 }
 
-header a {
+.profile-header a {
   color: var(--secondary-font);
   width: 100%;
   display: flex;

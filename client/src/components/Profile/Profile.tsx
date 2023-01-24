@@ -18,11 +18,13 @@ type Profile = {
 
 const Profile: React.FC<Profile> = ({isLoggedIn, userData, setRoomId}) => {
   const [inCall, setInCall] = useState(false);
-  
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(userData);
+
     if (!isLoggedIn)  
       navigate('/sign-in')
   }, [])
@@ -70,7 +72,7 @@ const Profile: React.FC<Profile> = ({isLoggedIn, userData, setRoomId}) => {
   }
 
 
-  const [menuOpen, setMenuOpen] = useState(false);
+
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -79,7 +81,7 @@ const Profile: React.FC<Profile> = ({isLoggedIn, userData, setRoomId}) => {
   return (
     <div className={`Profile ${theme}`}>
       <div className="Dashboard">
-        <header>
+        <header className="profile-header">
           <div className="header-content">
             <div className="header-logo">
               <div className="logo">
@@ -126,7 +128,7 @@ const Profile: React.FC<Profile> = ({isLoggedIn, userData, setRoomId}) => {
 
                 <div className="user-info-main">
                   <div className="user-info-name">
-                    <p>Peter Parker</p>
+                    <p>{userData && userData.name}</p>
                   </div>
 
                   <div className="user-info-subjects">
