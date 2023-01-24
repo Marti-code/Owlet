@@ -171,7 +171,7 @@ app.post("/api/postoffer", [
     (0, express_validator_1.check)("subject").trim().escape(),
     (0, express_validator_1.check)("info").trim().escape(),
     (0, express_validator_1.check)("price").trim().escape(),
-    (0, express_validator_1.check)("duration").trim().escape(),
+    (0, express_validator_1.check)("mail").trim().escape(),
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
@@ -183,7 +183,7 @@ app.post("/api/postoffer", [
             subject: req.body.subject,
             info: req.body.info,
             price: req.body.price,
-            duration: req.body.duration,
+            email: req.body.email,
         });
         res.json({ ok: true });
     }
@@ -198,7 +198,6 @@ app.post("/api/postoffer", [
 // Handle get theme from database
 app.post("/api/getTheme", [(0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield userModel_1.default.findOne({
-        // email: "eva789$@gmail.com",
         email: req.body.mail,
     });
     if (!user) {
@@ -217,7 +216,6 @@ app.put("/api/updatetheme", [(0, express_validator_1.check)("theme")], (req, res
     }
     try {
         const filter = { email: req.body.email };
-        //const filter = { email: "eva789$@gmail.com" };
         const update = { theme: req.body.theme };
         yield userModel_1.default.findOneAndUpdate(filter, update);
         res.json({ ok: true });
@@ -229,6 +227,35 @@ app.put("/api/updatetheme", [(0, express_validator_1.check)("theme")], (req, res
             errors: [{ msg: "Zmiana motywu się nie powiodła!" }],
         });
     }
+}));
+// Handle get subjects from database
+app.post("/api/getSubjects", [(0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield userModel_1.default.findOne({
+        email: req.body.mail,
+    });
+    if (!user) {
+        return res.json({ ok: false, error: "Błąd pobierania przedmiotów" });
+    }
+    return res.json({
+        ok: true,
+        subjects: user.subjects,
+    });
+}));
+// Handle get offers from database
+app.post("/api/getOffers", [(0, express_validator_1.check)("subject")], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const offers = yield offerModel_1.default.find({
+        subject: req.body.subject,
+    });
+    if (!offers) {
+        return res.json({ ok: false, error: "Błąd pobierania ofert" });
+    }
+    return res.json({
+        ok: true,
+        offers: offers,
+        // subject: offers[0].subject,
+        // title: offers[0].title,
+        // name: offers.name,
+    });
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
 //# sourceMappingURL=index.js.map
