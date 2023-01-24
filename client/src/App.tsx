@@ -64,7 +64,7 @@ function App() {
           }
         />
         <Route path="/" element={<Main />} />
-        <Route path="/post-offer" element={<PostOffer />} />
+        <Route path="/post-offer" element={<PostOffer userData={userData} />} />
       </Routes>
       <GlobalStyle />
     </div>

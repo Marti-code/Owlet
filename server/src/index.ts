@@ -177,7 +177,7 @@ app.post(
     check("subject").trim().escape(),
     check("info").trim().escape(),
     check("price").trim().escape(),
-    check("duration").trim().escape(),
+    check("mail").trim().escape(),
   ],
   async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req);
@@ -192,7 +192,7 @@ app.post(
         subject: req.body.subject,
         info: req.body.info,
         price: req.body.price,
-        duration: req.body.duration,
+        email: req.body.email,
       });
 
       res.json({ ok: true });
@@ -251,6 +251,49 @@ app.put(
         errors: [{ msg: "Zmiana motywu się nie powiodła!" }],
       });
     }
+  }
+);
+
+// Handle get subjects from database
+app.post(
+  "/api/getSubjects",
+  [check("mail").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+    const user = await User.findOne({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Błąd pobierania przedmiotów" });
+    }
+
+    return res.json({
+      ok: true,
+      subjects: user.subjects,
+    });
+  }
+);
+
+// Handle get offers from database
+app.post(
+  "/api/getOffers",
+  [check("subject")],
+  async (req: express.Request, res: express.Response) => {
+    const offers = await Offer.find({
+      subject: req.body.subject,
+    });
+
+    if (!offers) {
+      return res.json({ ok: false, error: "Błąd pobierania ofert" });
+    }
+
+    return res.json({
+      ok: true,
+      offers: offers,
+      // subject: offers[0].subject,
+      // title: offers[0].title,
+      // name: offers.name,
+    });
   }
 );
 

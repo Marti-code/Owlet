@@ -4,14 +4,18 @@ import { Form, Input, FormWrapper, Heading } from "../Login/Login.styles";
 import "./PostOffer.css";
 
 import API from "../../API";
+import { UserInfoType } from "../../API";
 import { useNavigate } from "react-router-dom";
 
-function PostOffer(props: any) {
+type Profile = {
+  userData: UserInfoType | undefined;
+};
+
+const PostOffer: React.FC<Profile> = ({ userData }) => {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [info, setInfo] = useState("");
   const [price, setPrice] = useState("");
-  const [duration, setDuration] = useState("");
 
   const [btnState, setBtnState] = useState("");
 
@@ -20,7 +24,7 @@ function PostOffer(props: any) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title || !subject || !price || !duration) {
+    if (!title || !subject || !price) {
       console.log("Uzupełnij dane");
       return;
     }
@@ -30,7 +34,7 @@ function PostOffer(props: any) {
       subject,
       info,
       price,
-      duration
+      userData?.mail || ""
     );
 
     if (data.ok) {
@@ -59,7 +63,6 @@ function PostOffer(props: any) {
               autoComplete="off"
             />
           </p>
-
           <p>
             <Input
               onChange={(e) => setSubject(e.target.value)}
@@ -70,7 +73,6 @@ function PostOffer(props: any) {
               autoComplete="off"
             />
           </p>
-
           <p>
             <Input
               onChange={(e) => setInfo(e.target.value)}
@@ -80,7 +82,6 @@ function PostOffer(props: any) {
               autoComplete="off"
             />
           </p>
-
           <p>
             <Input
               onChange={(e) => setPrice(e.target.value)}
@@ -88,17 +89,6 @@ function PostOffer(props: any) {
               min="0"
               name="price"
               placeholder="Cena"
-              required
-              autoComplete="off"
-            />
-          </p>
-
-          <p>
-            <Input
-              onChange={(e) => setDuration(e.target.value)}
-              type="text"
-              name="duration"
-              placeholder="Czas"
               required
               autoComplete="off"
             />
@@ -127,6 +117,6 @@ function PostOffer(props: any) {
       </div>
     </div>
   );
-}
+};
 
 export default PostOffer;

@@ -7,6 +7,7 @@ import API from "../../API";
 import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
 import { useNavigate } from "react-router-dom";
+import { isArray } from "util";
 
 type Profile = {
   isLoggedIn: boolean;
@@ -19,11 +20,20 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(userData?.theme || "light");
 
+  const [userOffersArr, setUserOffersArr] = useState([""]);
+
+  let userSubjects: string[] = [];
+  let userOffers: any[] = [];
+
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log(userData);
     getCurrentTheme();
+    handleGetSubjects().then(() => {
+      handleGetOffers();
+    });
+
     if (!isLoggedIn) navigate("/sign-in");
   }, []);
 
@@ -63,6 +73,26 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
     } else {
       console.log("coś nie tak");
     }
+  };
+
+  const handleGetSubjects = async () => {
+    const data = await API.getSubjects(userData?.mail || "");
+    userSubjects = data.subjects;
+  };
+
+  const handleGetOffers = async () => {
+    handleGetSubjects();
+    userSubjects.forEach(async (subject: any) => {
+      const data = await API.getOffers(subject);
+
+      data.offers.forEach((el: any) => {
+        userOffers.push(el);
+      });
+
+      setUserOffersArr([...userOffers]);
+    });
+
+    console.log("refreshed");
   };
 
   if (!isLoggedIn) {
@@ -174,21 +204,31 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
               <div className="teachers-content">
                 <div className="teachers-header">
                   <p>Wybrane dla ciebie</p>
+                  <button onClick={handleGetOffers}>refresh</button>
                 </div>
                 <div className="teachers-list">
-                  <div className="teacher-el">
-                    <div className="teacher-pic">
-                      <div className="t-pic"></div>
-                    </div>
-                    <div className="teacher-info">
-                      <div className="teacher-name">Aga</div>
-                      <div className="teacher-subject">
-                        Matematyka - funkcje
-                      </div>
-                    </div>
-                  </div>
+                  {/* insert offers here */}
+                  {userOffersArr.length > 0 &&
+                    userOffersArr.map((el: any, key: any) => {
+                      if (el != "") {
+                        console.log(el);
+                        return (
+                          <div className="teacher-el" key={key}>
+                            <div className="teacher-pic">
+                              <div className="t-pic"></div>
+                            </div>
+                            <div className="teacher-info">
+                              <div className="teacher-name">{el.email}</div>
+                              <div className="teacher-subject">
+                                {el.subject} - {el.title}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
 
-                  <div className="teacher-el">
+                  {/* <div className="teacher-el">
                     <div className="teacher-pic">
                       <div className="t-pic"></div>
                     </div>
@@ -220,7 +260,7 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
                         Matematyka - stereometria
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </section>

@@ -83,7 +83,7 @@ export default {
     subject: string,
     info: string,
     price: string,
-    duration: string
+    email: string
   ) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/postoffer`;
 
@@ -97,7 +97,7 @@ export default {
         subject: subject,
         info: info || "none",
         price: price,
-        duration: duration,
+        email: email,
       }),
     });
 
@@ -115,6 +115,38 @@ export default {
       body: JSON.stringify({
         email: email,
         theme: theme,
+      }),
+    });
+
+    return await res.json();
+  },
+
+  getSubjects: async (mail: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/getSubjects`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        mail: mail,
+      }),
+    });
+
+    return await res.json();
+  },
+
+  getOffers: async (subject: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/getOffers`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        subject: subject,
       }),
     });
 

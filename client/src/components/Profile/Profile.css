@@ -71,6 +71,9 @@ header a {
 
 .user-pic {
   background-color: var(--secondary-font);
+  background-image: url("./yato.png");
+  background-position: center;
+  background-size: cover;
   border-radius: 50%;
   margin: 10px;
   height: 50px;
@@ -183,6 +186,9 @@ header a {
 
 .u-pic {
   background-color: var(--secondary-font);
+  background-image: url("./yato.png");
+  background-position: center;
+  background-size: cover;
   border-radius: 50%;
   height: 100px;
   width: 100px;
@@ -253,6 +259,20 @@ header a {
 /* 
   teachers, friends
  */
+
+.teachers-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.teachers-header button {
+  background-color: var(--bg);
+  color: var(--secondary-font);
+  padding: 5px 20px;
+  margin: 0;
+}
+
 .teachers-header p,
 .friends-header p {
   font-size: 20px;

@@ -18,7 +18,7 @@ let offerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    duration: {
+    email: {
       type: String,
       required: true,
     },
