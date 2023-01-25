@@ -6,16 +6,22 @@ import API from "../../API";
 
 import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type Profile = {
   isLoggedIn: boolean;
+  setLoggedIn: any;
   userData: UserInfoType | undefined;
   setRoomId: any;
   roomId: string;
 };
 
-const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
+const Profile: React.FC<Profile> = ({
+  isLoggedIn,
+  userData,
+  setRoomId,
+  setLoggedIn,
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(userData?.theme || "light");
 
@@ -35,6 +41,10 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
 
     if (!isLoggedIn) navigate("/sign-in");
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) navigate("/sign-in");
+  }, [isLoggedIn]);
 
   function handleCreateRoom(e: any) {
     e.preventDefault();
@@ -81,10 +91,11 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
 
   const handleGetOffers = async () => {
     handleGetSubjects();
-    userSubjects.forEach(async (subject: any) => {
-      const data = await API.getOffers(subject);
 
-      data.offers.forEach((el: any) => {
+    userSubjects.forEach(async (subject: any) => {
+      const data = await API.getChosenOffers(subject);
+
+      data.offers.forEach((el: any, id: any) => {
         userOffers.push(el);
       });
 
@@ -105,7 +116,7 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
   return (
     <div className={`Profile ${theme}`}>
       <div className="Dashboard">
-        <header>
+        <header className="profile-header">
           <div className="header-content">
             <div className="header-logo">
               <div className="logo">
@@ -173,7 +184,18 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
                   <button id="theme-edit-btn" onClick={handleTheme}>
                     Motyw
                   </button>
-                  <button id="user-info-edit-btn">Edytuj</button>
+                  <button id="user-info-edit-btn">
+                    <Link to="edit">Edytuj</Link>
+                  </button>
+                  <button
+                    id="user-info-edit-btn"
+                    onClick={() => {
+                      localStorage.removeItem("user");
+                      setLoggedIn(false);
+                    }}
+                  >
+                    Wyloguj
+                  </button>
                 </div>
               </div>
             </section>
@@ -210,14 +232,15 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
                   {userOffersArr.length > 0 &&
                     userOffersArr.map((el: any, key: any) => {
                       if (el != "") {
-                        console.log(el);
                         return (
                           <div className="teacher-el" key={key}>
                             <div className="teacher-pic">
                               <div className="t-pic"></div>
                             </div>
                             <div className="teacher-info">
-                              <div className="teacher-name">{el.email}</div>
+                              <div className="teacher-name">
+                                {el.authorName[0].name}
+                              </div>
                               <div className="teacher-subject">
                                 {el.subject} - {el.title}
                               </div>
@@ -226,40 +249,6 @@ const Profile: React.FC<Profile> = ({ isLoggedIn, userData, setRoomId }) => {
                         );
                       }
                     })}
-
-                  {/* <div className="teacher-el">
-                    <div className="teacher-pic">
-                      <div className="t-pic"></div>
-                    </div>
-                    <div className="teacher-info">
-                      <div className="teacher-name">Maciej</div>
-                      <div className="teacher-subject">Fizyka - matura</div>
-                    </div>
-                  </div>
-
-                  <div className="teacher-el">
-                    <div className="teacher-pic">
-                      <div className="t-pic"></div>
-                    </div>
-                    <div className="teacher-info">
-                      <div className="teacher-name">Adam</div>
-                      <div className="teacher-subject">
-                        Matematyka - trójkąty
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="teacher-el">
-                    <div className="teacher-pic">
-                      <div className="t-pic"></div>
-                    </div>
-                    <div className="teacher-info">
-                      <div className="teacher-name">Patrycja</div>
-                      <div className="teacher-subject">
-                        Matematyka - stereometria
-                      </div>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             </section>

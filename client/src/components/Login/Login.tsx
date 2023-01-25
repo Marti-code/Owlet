@@ -57,6 +57,7 @@ const Login: React.FC<Props> = ({ isLoggedIn, setLoggedIn, setUserData }) => {
 
   useEffect(() => {
     if (isLoggedIn) navigate("/dashboard");
+    // console.log("isloggedin login page: " + isLoggedIn)
   }, []);
 
   return (
@@ -81,7 +82,7 @@ const Login: React.FC<Props> = ({ isLoggedIn, setLoggedIn, setUserData }) => {
             <Input
               onChange={(e) => setPassword(e.target.value)}
               type="password"
-              name="subject"
+              name="password"
               placeholder="Hasło"
               required
               autoComplete="new-password"

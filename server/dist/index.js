@@ -91,6 +91,7 @@ app.post("/api/register", [
             email: req.body.mail,
             password: newPassword,
             theme: "light",
+            offersPosted: [],
         });
         res.json({ ok: true });
     }
@@ -128,6 +129,7 @@ app.post("/api/login", [
                 taught: user.taught,
                 profileImage: user.profileImage,
                 theme: user.theme,
+                offersPosted: user.offersPosted,
             },
         });
     }
@@ -162,6 +164,7 @@ app.post("/api/getData", [(0, express_validator_1.check)("mail").isEmail().trim(
             taught: user.taught,
             profileImage: user.profileImage,
             theme: user.theme,
+            offersPosted: user.offersPosted,
         },
     });
 }));
@@ -228,6 +231,29 @@ app.put("/api/updatetheme", [(0, express_validator_1.check)("theme")], (req, res
         });
     }
 }));
+app.post("/api/editProfile", [
+    (0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail(),
+    (0, express_validator_1.check)("username").trim().escape(),
+], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body.mail);
+    const user = yield userModel_1.default.findOne({
+        email: req.body.mail,
+    });
+    if (!user) {
+        return res.json({ ok: false, error: "Nie znaleziono." });
+    }
+    try {
+        yield userModel_1.default.updateOne({ email: user.email }, {
+            name: req.body.username,
+        });
+    }
+    catch (err) {
+        return res.json({ ok: false, error: "Wystąpił błąd" });
+    }
+    return res.json({
+        ok: true,
+    });
+}));
 // Handle get subjects from database
 app.post("/api/getSubjects", [(0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield userModel_1.default.findOne({
@@ -242,19 +268,56 @@ app.post("/api/getSubjects", [(0, express_validator_1.check)("mail").isEmail().t
     });
 }));
 // Handle get offers from database
-app.post("/api/getOffers", [(0, express_validator_1.check)("subject")], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const offers = yield offerModel_1.default.find({
-        subject: req.body.subject,
-    });
-    if (!offers) {
-        return res.json({ ok: false, error: "Błąd pobierania ofert" });
-    }
-    return res.json({
-        ok: true,
-        offers: offers,
-        // subject: offers[0].subject,
-        // title: offers[0].title,
-        // name: offers.name,
+// app.post(
+//   "/api/getOffers",
+//   [check("subject")],
+//   async (req: express.Request, res: express.Response) => {
+//     const offers = await Offer.find({
+//       subject: req.body.subject,
+//     });
+//     const user = await User.findOne({
+//       email: "eva789$@gmail.com",
+//     });
+//     offers.forEach((offer) => {
+//       if (offer.email == user.email) {
+//         console.log(user.name);
+//         // offer.userName = user.name;
+//       }
+//     });
+//     if (!offers) {
+//       return res.json({ ok: false, error: "Błąd pobierania ofert" });
+//     }
+//     return res.json({
+//       ok: true,
+//       offers: offers,
+//     });
+//   }
+// );
+app.post("/api/getChosenOffers", [(0, express_validator_1.check)("subject")], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    offerModel_1.default.aggregate([
+        {
+            $lookup: {
+                from: "user",
+                localField: "email",
+                foreignField: "email",
+                as: "authorName",
+            },
+        },
+    ])
+        .then((data) => __awaiter(void 0, void 0, void 0, function* () {
+        let offers = [];
+        data.forEach((el) => {
+            if (el.subject == req.body.subject) {
+                offers.push(el);
+            }
+        });
+        return res.json({
+            ok: true,
+            offers: offers,
+        });
+    }))
+        .catch((error) => {
+        console.log(error);
     });
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));

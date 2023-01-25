@@ -91,3 +91,38 @@ export const FormWrapper = styled.div`
 export const Heading = styled.h1`
   text-align: center;
 `
+
+export const Select = styled.input`
+  width: 100%;
+  font-family: Lexend;
+  border: none;
+  font-size: 14px;
+  line-height: 16px;
+  color: #999;
+  font-weight: 500;
+  padding: 13px 20px;
+  border-radius: 60px;
+  background: var(--blue);
+  outline: none;
+
+  ::placeholder {
+    color: #999
+  }
+`
+
+type Button = {
+  show: boolean;
+}
+
+export const LanguagesWrapper = styled.div<Button>`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transform: ${e => e.show ? `scale(1)` : `scale(0)`};
+  height: ${e => e.show ? `100%` : `0`};
+
+  label {
+    display: flex;
+    gap: 10px;
+  }
+`

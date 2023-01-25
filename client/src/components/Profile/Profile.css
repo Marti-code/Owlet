@@ -32,13 +32,13 @@
 /* 
   header
  */
-header {
+.profile-header {
   background-color: var(--light-bg);
   height: 10vh;
   padding: 0 4vw;
 }
 
-header a {
+.profile-header a {
   color: var(--secondary-font);
   width: 100%;
   display: flex;
@@ -224,6 +224,10 @@ header a {
   background-color: var(--bg);
   color: var(--secondary-font);
   padding: 5px 20px;
+}
+
+#user-info-edit-btn a {
+  color: var(--secondary-font);
 }
 
 /* 

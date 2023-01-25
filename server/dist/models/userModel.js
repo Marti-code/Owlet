@@ -35,6 +35,9 @@ let userSchema = new mongoose_1.default.Schema({
     theme: {
         type: String,
     },
+    offersPosted: {
+        type: [],
+    },
 }, { collection: "users" });
 const User = mongoose_1.default.model("User", userSchema, "user");
 exports.default = User;

@@ -32,6 +32,9 @@ let userSchema = new mongoose.Schema(
     theme: {
       type: String,
     },
+    offersPosted: {
+      type: [],
+    },
   },
   { collection: "users" }
 );

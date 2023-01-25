@@ -1,68 +1,143 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import API, { UserInfoType } from '../../API';
-import { Form, FormWrapper, Heading, Input, Loader, Submit } from './EditProfile.styles';
-
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import API, { UserInfoType } from "../../API";
+import {
+  Form,
+  FormWrapper,
+  Heading,
+  Input,
+  LanguagesWrapper,
+  Loader,
+  Select,
+  Submit,
+} from "./EditProfile.styles";
 
 type Props = {
   isLoggedIn: boolean;
   loading: boolean;
   userData: UserInfoType | undefined;
   getData: any;
-}
+};
 
-const EditProfile: React.FC<Props> = ({isLoggedIn, userData, loading, getData}) => {
-  const [name, setName] = useState('');
-  const [mail, setMail] = useState('');
-  const [img, setImage] = useState('');
-
-  const handleSubmit = async() => {
-
-  }
+const EditProfile: React.FC<Props> = ({
+  isLoggedIn,
+  userData,
+  loading,
+  getData,
+}) => {
+  const [name, setName] = useState("");
+  const [show, setShow] = useState(false);
+  const [img, setImage] = useState("");
+  const [info, setInfo] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getData();
-  }, [])
+    // console.log("islogged in edit page: " + isLoggedIn)
 
-  if (loading)
-    return <>Loading...</>
+    if (!isLoggedIn) {
+      console.log(isLoggedIn);
+      navigate("/sign-in");
+    }
+    // getData();
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    console.log(show);
+  })
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!userData || !userData.mail) return;
+
+    if (name == "" || name.length < 3) {
+      setInfo("Nazwa powinna mieć przynajmniej 3 znaki");
+      return;
+    }
+
+    const data = await API.editProfile(name, userData?.mail);
+    console.log(data);
+
+    if (data.ok) {
+      setInfo("Zapisano zmiany!");
+      getData();
+    } else {
+      setInfo("Nie zapisano zmian.");
+    }
+  };
+
+  if (loading) return <>Loading...</>;
 
   return (
-    <div className='container'>
+    <div className="container">
       <FormWrapper>
         <>
-        <Heading>Edytuj profil</Heading>
+          <Heading>Edytuj profil</Heading>
 
-        <Form method="post" onSubmit={handleSubmit}>
-          <p>
-            <Input
-              onChange={(e) => setName(e.target.value)}
-              value={mail}
-              type="text"
-              name="name"
-              placeholder={userData?.name}
-              required
-              autoComplete='off'
-            />
-          </p>  
-      
-          <p>
-            <Input
-              onChange={(e) => setMail(e.target.value)}
-              type="mail"
-              name="mail"
-              placeholder={userData?.mail}
-              required
-            />
-          </p>
+          <Form method="post" onSubmit={handleSubmit} autoComplete="off">
+            <p>
+              <Input
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                type="text"
+                name="username"
+                placeholder={userData?.name}
+                required
+              />
+            </p>
+            
+            <div onClick={() => {
+              setShow(!show);
+            }}>Wybierz przedmioty</div>
 
-          <Submit>Zapisz zmiany</Submit>
-        </Form>
-        {loading ? <Loader /> : null}
+            <LanguagesWrapper show={show}>
+              <label>
+                Matematyka
+                <input type="checkbox" value="Matematyka"></input>
+              </label>
+
+              <label>
+                Fizyka
+                <input type="checkbox" value="Fizyka"></input>
+              </label>
+
+              <label>
+                Polski
+                <input type="checkbox" value="Polski"></input>
+              </label>
+              <label>
+                Angielski
+                <input type="checkbox" value="Angielski"></input>
+              </label>
+
+              <label>
+                Biologia
+                <input type="checkbox" value="Biologia"></input>
+              </label>
+              <label>
+                Chemia
+                <input type="checkbox" value="Chemia"></input>
+              </label>
+
+              <label>
+                Niemiecki
+                <input type="checkbox" value="Niemiecki"></input>
+              </label>
+            </LanguagesWrapper>
+          
+
+            <Submit>Zapisz zmiany</Submit>
+          </Form>
+          {info}
+          {loading ? <Loader /> : null}
         </>
+
+        <button>
+          <Link to="/dashboard">Powrót</Link>
+        </button>
       </FormWrapper>
     </div>
-  )
-}
+  );
+};
 
-export default EditProfile
+export default EditProfile;

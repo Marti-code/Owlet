@@ -23,6 +23,7 @@ export default {
         mail: mail,
         password: password,
         theme: "light",
+        offersPosted: [],
       }),
     });
 
@@ -121,6 +122,24 @@ export default {
     return await res.json();
   },
 
+  editProfile: async (username: string, email: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/editProfile`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        mail: email,
+        username: username,
+      }),
+    });
+
+    return await res.json();
+  },
+
+  //getting users subjects depending on their email
   getSubjects: async (mail: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/getSubjects`;
 
@@ -137,8 +156,9 @@ export default {
     return await res.json();
   },
 
-  getOffers: async (subject: string) => {
-    const endpoint = `${process.env.REACT_APP_API_URL}/api/getOffers`;
+  //getting featured offers for user
+  getChosenOffers: async (subject: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/getChosenOffers`;
 
     const res = await fetch(endpoint, {
       method: "POST",

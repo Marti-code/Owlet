@@ -66,6 +66,7 @@ app.post(
         email: req.body.mail,
         password: newPassword,
         theme: "light",
+        offersPosted: [],
       });
 
       res.json({ ok: true });
@@ -119,6 +120,7 @@ app.post(
           taught: user.taught,
           profileImage: user.profileImage,
           theme: user.theme,
+          offersPosted: user.offersPosted,
         },
       });
     } else {
@@ -164,6 +166,7 @@ app.post(
         taught: user.taught,
         profileImage: user.profileImage,
         theme: user.theme,
+        offersPosted: user.offersPosted,
       },
     });
   }
@@ -254,6 +257,40 @@ app.put(
   }
 );
 
+app.post(
+  "/api/editProfile",
+  [
+    check("mail").isEmail().trim().escape().normalizeEmail(),
+    check("username").trim().escape(),
+  ],
+  async (req: express.Request, res: express.Response) => {
+    console.log(req.body.mail);
+
+    const user = await User.findOne({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Nie znaleziono." });
+    }
+
+    try {
+      await User.updateOne(
+        { email: user.email },
+        {
+          name: req.body.username,
+        }
+      );
+    } catch (err) {
+      return res.json({ ok: false, error: "Wystąpił błąd" });
+    }
+
+    return res.json({
+      ok: true,
+    });
+  }
+);
+
 // Handle get subjects from database
 app.post(
   "/api/getSubjects",
@@ -274,26 +311,38 @@ app.post(
   }
 );
 
-// Handle get offers from database
+// Handle get featured offers for user from database
 app.post(
-  "/api/getOffers",
+  "/api/getChosenOffers",
   [check("subject")],
   async (req: express.Request, res: express.Response) => {
-    const offers = await Offer.find({
-      subject: req.body.subject,
-    });
+    Offer.aggregate([
+      {
+        $lookup: {
+          from: "user",
+          localField: "email",
+          foreignField: "email",
+          as: "authorName",
+        },
+      },
+    ])
+      .then(async (data) => {
+        let offers: any[] = [];
 
-    if (!offers) {
-      return res.json({ ok: false, error: "Błąd pobierania ofert" });
-    }
+        data.forEach((el) => {
+          if (el.subject == req.body.subject) {
+            offers.push(el);
+          }
+        });
 
-    return res.json({
-      ok: true,
-      offers: offers,
-      // subject: offers[0].subject,
-      // title: offers[0].title,
-      // name: offers.name,
-    });
+        return res.json({
+          ok: true,
+          offers: offers,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 );
 

@@ -22,6 +22,7 @@ let offerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    authorId: { type: mongoose.Schema.Types.String, ref: "User" },
   },
   { collection: "offers" }
 );
