@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
 import { Link, useNavigate } from "react-router-dom";
 
+import TeacherModal from "../TeacherModal/TeacherModal";
+
 type Profile = {
   isLoggedIn: boolean;
   setLoggedIn: any;
@@ -24,8 +26,16 @@ const Profile: React.FC<Profile> = ({
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(userData?.theme || "light");
+  const [userPoints, setUserPoints] = useState(userData?.points || 0);
 
   const [userOffersArr, setUserOffersArr] = useState([""]);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalInfo, setModalInfo] = useState({
+    userName: "",
+    subject: "",
+    title: "",
+  });
 
   let userSubjects: string[] = [];
   let userOffers: any[] = [];
@@ -35,6 +45,7 @@ const Profile: React.FC<Profile> = ({
   useEffect(() => {
     console.log(userData);
     getCurrentTheme();
+    handleGetPoints();
     handleGetSubjects().then(() => {
       handleGetOffers();
     });
@@ -105,6 +116,31 @@ const Profile: React.FC<Profile> = ({
     console.log("refreshed");
   };
 
+  const handleGetPoints = async () => {
+    const data = await API.getPoints(userData?.mail || "");
+    setUserPoints(data.points);
+  };
+
+  const handleUpdatePoints = async () => {
+    const data = await API.updatePoints(userPoints + -40, userData?.mail || "");
+    if (data.ok) {
+      console.log("punkty zaktualizowane");
+    } else {
+      console.log(data);
+    }
+  };
+
+  const toggleModal = (userName: string, title: string, subject: string) => {
+    setIsOpen(!isOpen);
+    modalInfo.userName = userName;
+    modalInfo.title = title;
+    modalInfo.subject = subject;
+  };
+
+  const hideModal = () => {
+    setIsOpen(false);
+  };
+
   if (!isLoggedIn) {
     return <div>Musisz najpierw się zalogować!</div>;
   }
@@ -131,7 +167,9 @@ const Profile: React.FC<Profile> = ({
               </div>
               <div className={`header-links-a ${menuOpen ? "open" : "closed"}`}>
                 <div className="header-link">
-                  <a href="#">Pomóż</a>
+                  <a href="#" onClick={handleUpdatePoints}>
+                    Pomóż
+                  </a>
                 </div>
                 <div className="header-link">
                   <a href="/post-offer">Otrzymaj pomoc</a>
@@ -168,16 +206,20 @@ const Profile: React.FC<Profile> = ({
 
                   <div className="user-info-subjects">
                     <p>Przedmioty:</p>
-                    <p>Matematyka, Fizyka</p>
+                    <p>
+                      {userData && userData.subjects.map((el: any) => el + " ")}
+                    </p>
                   </div>
 
                   <div className="user-info-teach">
-                    <p>Nauczał: 15h</p>
+                    <p>Osiągnięcia:</p>
+                    <br></br>
+                    <br></br>
                   </div>
 
-                  <div className="user-info-learn">
+                  {/* <div className="user-info-learn">
                     <p>Uczył się: 10h</p>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="user-info-edit">
@@ -204,10 +246,10 @@ const Profile: React.FC<Profile> = ({
             <section className="hours-left-container">
               <div className="hours-left-content">
                 <div className="hours-left-number">
-                  <p>4</p>
+                  <p>{userPoints}</p>
                 </div>
                 <div className="hours-left-text">
-                  <p>Liczba dostępnych godzin na naukę</p>
+                  <p>Liczba dostępnych punktów na naukę</p>
                 </div>
               </div>
             </section>
@@ -215,7 +257,7 @@ const Profile: React.FC<Profile> = ({
             {/* deal */}
             <section className="deal-container">
               <div className="deal-text">
-                <p>Poleć znajomemu i zyskaj 2 darmowe godziny!</p>
+                <p>Poleć znajomemu i zyskaj 50 punktów!</p>
               </div>
             </section>
 
@@ -233,7 +275,17 @@ const Profile: React.FC<Profile> = ({
                     userOffersArr.map((el: any, key: any) => {
                       if (el != "") {
                         return (
-                          <div className="teacher-el" key={key}>
+                          <div
+                            className="teacher-el"
+                            key={key}
+                            onClick={() => {
+                              toggleModal(
+                                el.authorName[0].name,
+                                el.subject,
+                                el.title
+                              );
+                            }}
+                          >
                             <div className="teacher-pic">
                               <div className="t-pic"></div>
                             </div>
@@ -285,11 +337,15 @@ const Profile: React.FC<Profile> = ({
           </button>
         </div>
       </div>
-      {/* {inCall ? (
-        <VideoCall setInCall={setInCall} userName={"John"} roomId={roomId} />
-      ) : (
-        //insert profile here
-      )} */}
+      {isOpen && (
+        <TeacherModal
+          userName={modalInfo.userName}
+          title={modalInfo.title}
+          subject={modalInfo.subject}
+          info="bla bla"
+          hideModal={hideModal}
+        />
+      )}
     </div>
   );
 };

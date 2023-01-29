@@ -91,6 +91,7 @@ app.post("/api/register", [
             email: req.body.mail,
             password: newPassword,
             theme: "light",
+            points: 100,
             offersPosted: [],
         });
         res.json({ ok: true });
@@ -129,6 +130,7 @@ app.post("/api/login", [
                 taught: user.taught,
                 profileImage: user.profileImage,
                 theme: user.theme,
+                points: user.points,
                 offersPosted: user.offersPosted,
             },
         });
@@ -164,6 +166,7 @@ app.post("/api/getData", [(0, express_validator_1.check)("mail").isEmail().trim(
             taught: user.taught,
             profileImage: user.profileImage,
             theme: user.theme,
+            points: user.points,
             offersPosted: user.offersPosted,
         },
     });
@@ -187,6 +190,7 @@ app.post("/api/postoffer", [
             info: req.body.info,
             price: req.body.price,
             email: req.body.email,
+            dates: req.body.dates,
         });
         res.json({ ok: true });
     }
@@ -267,32 +271,7 @@ app.post("/api/getSubjects", [(0, express_validator_1.check)("mail").isEmail().t
         subjects: user.subjects,
     });
 }));
-// Handle get offers from database
-// app.post(
-//   "/api/getOffers",
-//   [check("subject")],
-//   async (req: express.Request, res: express.Response) => {
-//     const offers = await Offer.find({
-//       subject: req.body.subject,
-//     });
-//     const user = await User.findOne({
-//       email: "eva789$@gmail.com",
-//     });
-//     offers.forEach((offer) => {
-//       if (offer.email == user.email) {
-//         console.log(user.name);
-//         // offer.userName = user.name;
-//       }
-//     });
-//     if (!offers) {
-//       return res.json({ ok: false, error: "Błąd pobierania ofert" });
-//     }
-//     return res.json({
-//       ok: true,
-//       offers: offers,
-//     });
-//   }
-// );
+// Handle get featured offers for user from database
 app.post("/api/getChosenOffers", [(0, express_validator_1.check)("subject")], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     offerModel_1.default.aggregate([
         {
@@ -319,6 +298,38 @@ app.post("/api/getChosenOffers", [(0, express_validator_1.check)("subject")], (r
         .catch((error) => {
         console.log(error);
     });
+}));
+// Handle get points from database
+app.post("/api/getPoints", [(0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield userModel_1.default.findOne({
+        email: req.body.mail,
+    });
+    if (!user) {
+        return res.json({ ok: false, error: "Błąd pobierania przedmiotów" });
+    }
+    return res.json({
+        ok: true,
+        points: user.points,
+    });
+}));
+app.put("/api/updatePoints", [(0, express_validator_1.check)("email").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const errors = (0, express_validator_1.validationResult)(req);
+    if (!errors.isEmpty()) {
+        return res.json({ ok: false, errors: errors.array() });
+    }
+    try {
+        const filter = { email: req.body.email };
+        const update = { points: req.body.points };
+        yield userModel_1.default.findOneAndUpdate(filter, update);
+        res.json({ ok: true });
+    }
+    catch (err) {
+        console.log(err);
+        res.json({
+            ok: false,
+            errors: [{ msg: "Aktualizacja punktów się nie powiodła" }],
+        });
+    }
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
 //# sourceMappingURL=index.js.map

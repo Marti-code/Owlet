@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     console.log(loggedIn);
-  }, [loggedIn])
+  }, [loggedIn]);
 
   return (
     <div className="App">

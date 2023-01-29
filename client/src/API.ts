@@ -6,6 +6,7 @@ export type UserInfoType = {
   subjects: string[];
   studied: number;
   taught: number;
+  points: number;
   theme: string;
 };
 
@@ -23,7 +24,6 @@ export default {
         mail: mail,
         password: password,
         theme: "light",
-        offersPosted: [],
       }),
     });
 
@@ -84,9 +84,17 @@ export default {
     subject: string,
     info: string,
     price: string,
-    email: string
+    email: string,
+    dates: string[],
+    hours: string[]
   ) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/postoffer`;
+
+    const fullDates = [];
+
+    for (let i = 0; i < hours.length; i++) {
+      fullDates[i] = hours[i] + ";" + dates[i];
+    }
 
     const res = await fetch(endpoint, {
       method: "POST",
@@ -99,6 +107,7 @@ export default {
         info: info || "none",
         price: price,
         email: email,
+        dates: fullDates,
       }),
     });
 
@@ -167,6 +176,39 @@ export default {
       },
       body: JSON.stringify({
         subject: subject,
+      }),
+    });
+
+    return await res.json();
+  },
+
+  getPoints: async (mail: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/getPoints`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        mail: mail,
+      }),
+    });
+
+    return await res.json();
+  },
+
+  updatePoints: async (points: number, email: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/updatePoints`;
+
+    const res = await fetch(endpoint, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        points: points,
       }),
     });
 

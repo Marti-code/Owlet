@@ -30,6 +30,24 @@ export const Input = styled.input`
   }
 `;
 
+export const Dropdown = styled.select`
+  width: 100%;
+  font-family: Lexend;
+  border: none;
+  font-size: 14px;
+  line-height: 16px;
+  color: #999;
+  font-weight: 500;
+  padding: 13px 20px;
+  border-radius: 60px;
+  background: var(--blue);
+  outline: none;
+
+  ::placeholder {
+    color: #999;
+  }
+`;
+
 export const Submit = styled.button`
   border-radius: 60px;
   font-size: 14px;
