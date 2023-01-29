@@ -22,7 +22,6 @@ let offerSchema = new mongoose.Schema(
       type: [],
       required: true,
     },
-
     email: {
       type: String,
       required: true,

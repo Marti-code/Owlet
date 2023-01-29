@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Form,
   Input,
@@ -56,7 +56,6 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
     }
   };
 
-  const [datesList, setDatesList] = useState([""]);
   const [hours, setHours] = useState([""]);
   const [dates, setDates] = useState([""]);
 
@@ -109,20 +108,6 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
 
     setListItems([...listItems]);
   };
-
-  // const prepareDates = () => {
-  //   //so the point is to get the time and date to the database somehow though I have to get those together
-  //   //can't be empty since required so one less thing to worry about
-  //   //for some reason only the last one is passed and the first one is always empty no matter how many arguments I add
-  //   setDatesList([hours[0] + ";" + dates[0]]);
-
-  //   for (let i = 1; i < hours.length; i++) {
-  //     setDatesList([...datesList, hours[i] + ";" + dates[i]]);
-  //   }
-
-  //   console.log(dates);
-  //   console.log(hours);
-  // };
 
   return (
     <div className="PostOffer">

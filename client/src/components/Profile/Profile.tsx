@@ -35,6 +35,7 @@ const Profile: React.FC<Profile> = ({
     userName: "",
     subject: "",
     title: "",
+    hours: [""],
   });
 
   let userSubjects: string[] = [];
@@ -106,7 +107,7 @@ const Profile: React.FC<Profile> = ({
     userSubjects.forEach(async (subject: any) => {
       const data = await API.getChosenOffers(subject);
 
-      data.offers.forEach((el: any, id: any) => {
+      data.offers.forEach((el: any) => {
         userOffers.push(el);
       });
 
@@ -130,11 +131,17 @@ const Profile: React.FC<Profile> = ({
     }
   };
 
-  const toggleModal = (userName: string, title: string, subject: string) => {
+  const toggleModal = (
+    userName: string,
+    title: string,
+    subject: string,
+    hours: []
+  ) => {
     setIsOpen(!isOpen);
     modalInfo.userName = userName;
     modalInfo.title = title;
     modalInfo.subject = subject;
+    modalInfo.hours = hours;
   };
 
   const hideModal = () => {
@@ -282,7 +289,8 @@ const Profile: React.FC<Profile> = ({
                               toggleModal(
                                 el.authorName[0].name,
                                 el.subject,
-                                el.title
+                                el.title,
+                                el.dates
                               );
                             }}
                           >
@@ -344,6 +352,7 @@ const Profile: React.FC<Profile> = ({
           subject={modalInfo.subject}
           info="bla bla"
           hideModal={hideModal}
+          timeArr={modalInfo.hours}
         />
       )}
     </div>

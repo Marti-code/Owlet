@@ -7,6 +7,7 @@ interface ModalProps {
   subject: string;
   info: string;
   hideModal: any;
+  timeArr: string[];
 }
 
 const TeacherModal: React.FC<ModalProps> = ({
@@ -15,6 +16,7 @@ const TeacherModal: React.FC<ModalProps> = ({
   subject,
   info,
   hideModal,
+  timeArr,
 }) => {
   return (
     <div className="TeacherModal">
@@ -33,12 +35,10 @@ const TeacherModal: React.FC<ModalProps> = ({
               <p>{info}</p>
             </div>
             <div className="modal-main-right">
-              <p>Hours</p>
+              <p>Dostępne godziny:</p>
               <ul>
-                <li>hi</li>
-                <li>hi</li>
-                <li>hi</li>
-                <li>hi</li>
+                {timeArr &&
+                  timeArr.map((el: any, key: any) => <li key={key}>{el}</li>)}
               </ul>
             </div>
           </div>
