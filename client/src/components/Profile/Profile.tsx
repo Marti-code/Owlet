@@ -16,6 +16,7 @@ type Profile = {
   userData: UserInfoType | undefined;
   setRoomId: any;
   roomId: string;
+  getData: any;
 };
 
 const Profile: React.FC<Profile> = ({
@@ -23,6 +24,7 @@ const Profile: React.FC<Profile> = ({
   userData,
   setRoomId,
   setLoggedIn,
+  getData
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(userData?.theme || "light");
@@ -37,6 +39,7 @@ const Profile: React.FC<Profile> = ({
     title: "",
     info: "",
     hours: [""],
+    id: ""
   });
 
   let userSubjects: string[] = [];
@@ -45,6 +48,8 @@ const Profile: React.FC<Profile> = ({
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!isLoggedIn) navigate("/sign-in");
+
     console.log(userData);
     getCurrentTheme();
     handleGetPoints();
@@ -52,7 +57,8 @@ const Profile: React.FC<Profile> = ({
       handleGetOffers();
     });
 
-    if (!isLoggedIn) navigate("/sign-in");
+    getData();
+
   }, []);
 
   useEffect(() => {
@@ -99,6 +105,7 @@ const Profile: React.FC<Profile> = ({
 
   const handleGetSubjects = async () => {
     const data = await API.getSubjects(userData?.mail || "");
+    
     userSubjects = data.subjects;
   };
 
@@ -107,6 +114,7 @@ const Profile: React.FC<Profile> = ({
 
     userSubjects.forEach(async (subject: any) => {
       const data = await API.getChosenOffers(subject);
+      console.log(data);
 
       data.offers.forEach((el: any) => {
         userOffers.push(el);
@@ -137,7 +145,8 @@ const Profile: React.FC<Profile> = ({
     title: string,
     subject: string,
     info: string,
-    hours: []
+    hours: [],
+    id: string
   ) => {
     setIsOpen(!isOpen);
     modalInfo.userName = userName;
@@ -145,6 +154,7 @@ const Profile: React.FC<Profile> = ({
     modalInfo.subject = subject;
     modalInfo.info = info;
     modalInfo.hours = hours;
+    modalInfo.id = id;
   };
 
   const hideModal = () => {
@@ -294,7 +304,8 @@ const Profile: React.FC<Profile> = ({
                                 el.subject,
                                 el.title,
                                 el.info,
-                                el.dates
+                                el.dates,
+                                el._id
                               );
                             }}
                           >
@@ -357,6 +368,7 @@ const Profile: React.FC<Profile> = ({
           info={modalInfo.info}
           hideModal={hideModal}
           timeArr={modalInfo.hours}
+          id={modalInfo.id}
         />
       )}
     </div>

@@ -8,6 +8,7 @@ interface ModalProps {
   info: string;
   hideModal: any;
   timeArr: string[];
+  id: string
 }
 
 const TeacherModal: React.FC<ModalProps> = ({
@@ -17,7 +18,14 @@ const TeacherModal: React.FC<ModalProps> = ({
   info,
   hideModal,
   timeArr,
+  id
 }) => {
+
+  const handleAccept = () => {
+    
+  }
+
+
   return (
     <div className="TeacherModal">
       <div className="modal-container">
@@ -40,12 +48,12 @@ const TeacherModal: React.FC<ModalProps> = ({
                 {timeArr &&
                   timeArr.map((el: any, key: any) => {
                     return (
-                      <div>
+                      <div key={el}>
                         <input
                           type="radio"
                           value={el}
                           name="chosenTime"
-                          checked
+                          defaultChecked={true}
                         />
                         {el}
                       </div>
@@ -55,7 +63,7 @@ const TeacherModal: React.FC<ModalProps> = ({
             </div>
           </div>
           <div className="modal-footer">
-            <button className="accept-offer" onClick={hideModal}>
+            <button className="accept-offer" onClick={handleAccept}>
               Akceptuj
             </button>
           </div>

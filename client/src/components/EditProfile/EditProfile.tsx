@@ -38,6 +38,8 @@ const EditProfile: React.FC<Props> = ({
     "chemia",
     "niemiecki",
   ]);
+  const [checkedSubjects, setCheckedSubjects] = useState<string[]>([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,9 +52,28 @@ const EditProfile: React.FC<Props> = ({
     // getData();
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    if (!userData || !userData.subjects)
+      return;
+
+    setCheckedSubjects([]);
+    console.log(userData.subjects);
+    userData.subjects.forEach((el) => {
+      setCheckedSubjects([...checkedSubjects, el]);
+    })
+  }, [userData])
+
+  // useEffect(() => {
+  //   console.log(checkedSubjects);
+  // }, [checkedSubjects])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (1) {
+      console.log(checkedSubjects)
+      return;
+    }
 
     if (!userData || !userData.mail) return;
 
@@ -61,7 +82,7 @@ const EditProfile: React.FC<Props> = ({
       return;
     }
 
-    const data = await API.editProfile(name, userData?.mail);
+    const data = await API.editProfile(name, checkedSubjects, userData?.mail);
     console.log(data);
 
     if (data.ok) {
@@ -100,21 +121,28 @@ const EditProfile: React.FC<Props> = ({
               Wybierz przedmioty
             </div>
 
-            <LanguagesWrapper show={show}>
-              {subjects.map((el) => (
-                <label key={el}>
-                  {el}
-                  <input
-                    type="checkbox"
-                    value={el}
-                    defaultChecked={
-                      
-                      userData?.subjects.find((e) => e == "") ? true : false
-                    }
-                  ></input>
-                </label>
-              ))}
-            </LanguagesWrapper>
+            {userData ? (
+              <LanguagesWrapper show={show}>
+                {subjects.map((el) => (
+                  <label key={el}>
+                    {el}
+                    <input
+                      type="checkbox"
+                      value={el}
+                      defaultChecked={
+                        userData?.subjects.find((e) => e == el) ? true : false
+                      }
+                      onClick={(e) => {
+                        if (e.currentTarget.checked)
+                          setCheckedSubjects([...checkedSubjects, e.currentTarget.value]);
+                        else 
+                          setCheckedSubjects(checkedSubjects.filter((el) => el !== e.currentTarget.value));
+                      }}
+                    ></input>
+                  </label>
+                ))}
+              </LanguagesWrapper>
+            ) : null}
 
             <Submit>Zapisz zmiany</Submit>
           </Form>

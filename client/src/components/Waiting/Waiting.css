@@ -1,0 +1,12 @@
+.offers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+}
+
+.single-offer {
+  background: rgb(157, 231, 247);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}

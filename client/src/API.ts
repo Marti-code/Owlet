@@ -131,7 +131,7 @@ export default {
     return await res.json();
   },
 
-  editProfile: async (username: string, email: string) => {
+  editProfile: async (username: string, subjects: string[] ,email: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/editProfile`;
 
     const res = await fetch(endpoint, {
@@ -142,6 +142,7 @@ export default {
       body: JSON.stringify({
         mail: email,
         username: username,
+        subjects: subjects
       }),
     });
 
@@ -210,6 +211,38 @@ export default {
         email: email,
         points: points,
       }),
+    });
+
+    return await res.json();
+  },
+  getUserOffers: async (email: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/getUserOffers`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        mail: email,
+      })
+    });
+
+    return await res.json();
+  },
+  sendOfferRequest: async (mail: string, date: string, id: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/sendOfferRequest`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        mail: mail,
+        date: date,
+        id: id
+      })
     });
 
     return await res.json();

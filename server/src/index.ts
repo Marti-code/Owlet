@@ -139,7 +139,6 @@ app.post(
   "/api/getData",
   [check("mail").isEmail().trim().escape().normalizeEmail()],
   async (req: express.Request, res: express.Response) => {
-    console.log(req.body);
 
     const user = await User.findOne({
       email: req.body.mail,
@@ -268,7 +267,6 @@ app.post(
     check("username").trim().escape(),
   ],
   async (req: express.Request, res: express.Response) => {
-    console.log(req.body.mail);
 
     const user = await User.findOne({
       email: req.body.mail,
@@ -283,6 +281,7 @@ app.post(
         { email: user.email },
         {
           name: req.body.username,
+          subjects: req.body.subjects
         }
       );
     } catch (err) {
@@ -334,7 +333,7 @@ app.post(
         let offers: any[] = [];
 
         data.forEach((el) => {
-          if (el.subject == req.body.subject) {
+          if (el.subject.toLowerCase() == req.body.subject.toLowerCase()) {
             offers.push(el);
           }
         });
@@ -394,6 +393,54 @@ app.put(
         errors: [{ msg: "Aktualizacja punktów się nie powiodła" }],
       });
     }
+  }
+);
+
+app.post(
+  "/api/getUserOffers",
+  [check("mail").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+
+    console.log(req.body.mail)
+
+    const offers = await Offer.find({
+      'email': req.body.mail
+    }) 
+
+    if (!offers) {
+      return res.json({ ok: false, error: "Błąd pobierania ofert" });
+    }
+
+    return res.json({
+      ok: true,
+      data: offers
+    });
+  }
+);
+
+app.post(
+  "/api/sendOfferRequest",
+  [
+    check("mail").isEmail().trim().escape().normalizeEmail(),
+    check("date").trim().escape(),
+    check("id").trim().escape(),
+  ],
+  async (req: express.Request, res: express.Response) => {
+    //TODO
+    // console.log(req.body.mail)
+
+    // const offers = await Offer.find({
+    //   'email': req.body.mail
+    // }) 
+
+    // if (!offers) {
+    //   return res.json({ ok: false, error: "Błąd pobierania ofert" });
+    // }
+
+    // return res.json({
+    //   ok: true,
+    //   data: offers
+    // });
   }
 );
 

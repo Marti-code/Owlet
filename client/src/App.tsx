@@ -9,16 +9,13 @@ import { GlobalStyle } from "./GlobalStyles";
 import { useIsLoggedIn } from "./hooks/useIsLoggedIn";
 import VideoCall from "./components/Room/VideoCall";
 import PostOffer from "./components/PostOffer/PostOffer";
+import Waiting from "./components/Waiting/Waiting";
 
 function App() {
   const { loggedIn, setLoggedIn, userData, setUserData, loading, getData } =
     useIsLoggedIn();
   const [inCall, setInCall] = useState(true);
   const [roomId, setRoomId] = useState("1");
-
-  useEffect(() => {
-    console.log(loggedIn);
-  }, [loggedIn]);
 
   return (
     <div className="App">
@@ -54,6 +51,7 @@ function App() {
               userData={userData}
               isLoggedIn={loggedIn}
               setLoggedIn={setLoggedIn}
+              getData={getData}
             />
           }
         />
@@ -68,8 +66,9 @@ function App() {
             />
           }
         />
-        <Route path="/" element={<Main />} />
         <Route path="/post-offer" element={<PostOffer userData={userData} />} />
+        <Route path="/waiting" element={<Waiting userData={userData} />} />
+        <Route path="/" element={<Main />} />
       </Routes>
       <GlobalStyle />
     </div>
