@@ -29,6 +29,15 @@ const EditProfile: React.FC<Props> = ({
   const [show, setShow] = useState(false);
   const [img, setImage] = useState("");
   const [info, setInfo] = useState("");
+  const [subjects, setSubjects] = useState([
+    "matematyka",
+    "fizyka",
+    "polski",
+    "angielski",
+    "biologia",
+    "chemia",
+    "niemiecki",
+  ]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,9 +50,6 @@ const EditProfile: React.FC<Props> = ({
     // getData();
   }, [isLoggedIn]);
 
-  useEffect(() => {
-    console.log(show);
-  })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,46 +91,30 @@ const EditProfile: React.FC<Props> = ({
                 required
               />
             </p>
-            
-            <div onClick={() => {
-              setShow(!show);
-            }}>Wybierz przedmioty</div>
+
+            <div
+              onClick={() => {
+                setShow(!show);
+              }}
+            >
+              Wybierz przedmioty
+            </div>
 
             <LanguagesWrapper show={show}>
-              <label>
-                Matematyka
-                <input type="checkbox" value="Matematyka"></input>
-              </label>
-
-              <label>
-                Fizyka
-                <input type="checkbox" value="Fizyka"></input>
-              </label>
-
-              <label>
-                Polski
-                <input type="checkbox" value="Polski"></input>
-              </label>
-              <label>
-                Angielski
-                <input type="checkbox" value="Angielski"></input>
-              </label>
-
-              <label>
-                Biologia
-                <input type="checkbox" value="Biologia"></input>
-              </label>
-              <label>
-                Chemia
-                <input type="checkbox" value="Chemia"></input>
-              </label>
-
-              <label>
-                Niemiecki
-                <input type="checkbox" value="Niemiecki"></input>
-              </label>
+              {subjects.map((el) => (
+                <label key={el}>
+                  {el}
+                  <input
+                    type="checkbox"
+                    value={el}
+                    defaultChecked={
+                      
+                      userData?.subjects.find((e) => e == "") ? true : false
+                    }
+                  ></input>
+                </label>
+              ))}
             </LanguagesWrapper>
-          
 
             <Submit>Zapisz zmiany</Submit>
           </Form>

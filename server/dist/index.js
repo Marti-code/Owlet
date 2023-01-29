@@ -267,32 +267,7 @@ app.post("/api/getSubjects", [(0, express_validator_1.check)("mail").isEmail().t
         subjects: user.subjects,
     });
 }));
-// Handle get offers from database
-// app.post(
-//   "/api/getOffers",
-//   [check("subject")],
-//   async (req: express.Request, res: express.Response) => {
-//     const offers = await Offer.find({
-//       subject: req.body.subject,
-//     });
-//     const user = await User.findOne({
-//       email: "eva789$@gmail.com",
-//     });
-//     offers.forEach((offer) => {
-//       if (offer.email == user.email) {
-//         console.log(user.name);
-//         // offer.userName = user.name;
-//       }
-//     });
-//     if (!offers) {
-//       return res.json({ ok: false, error: "Błąd pobierania ofert" });
-//     }
-//     return res.json({
-//       ok: true,
-//       offers: offers,
-//     });
-//   }
-// );
+// Handle get featured offers for user from database
 app.post("/api/getChosenOffers", [(0, express_validator_1.check)("subject")], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     offerModel_1.default.aggregate([
         {
