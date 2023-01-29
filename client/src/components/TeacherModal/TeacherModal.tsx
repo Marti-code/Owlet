@@ -38,7 +38,19 @@ const TeacherModal: React.FC<ModalProps> = ({
               <p>Dostępne godziny:</p>
               <ul>
                 {timeArr &&
-                  timeArr.map((el: any, key: any) => <li key={key}>{el}</li>)}
+                  timeArr.map((el: any, key: any) => {
+                    return (
+                      <div>
+                        <input
+                          type="radio"
+                          value={el}
+                          name="chosenTime"
+                          checked
+                        />
+                        {el}
+                      </div>
+                    );
+                  })}
               </ul>
             </div>
           </div>
