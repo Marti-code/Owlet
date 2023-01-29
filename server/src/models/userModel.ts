@@ -29,6 +29,9 @@ let userSchema = new mongoose.Schema(
     taught: {
       type: Number,
     },
+    points: {
+      type: Number,
+    },
     theme: {
       type: String,
     },

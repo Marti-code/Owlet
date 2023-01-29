@@ -270,6 +270,11 @@
   justify-content: space-between;
 }
 
+.teachers-list,
+.friends-list {
+  margin-top: 1rem;
+}
+
 .teachers-header button {
   background-color: var(--bg);
   color: var(--secondary-font);
@@ -288,7 +293,13 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin: 1rem;
+  border-radius: 1rem;
+  padding: 0.6rem;
+}
+
+.teacher-el:hover,
+.friend-el:hover {
+  background-color: #eef5f7;
 }
 
 .teacher-name {

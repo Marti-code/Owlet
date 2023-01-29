@@ -32,6 +32,9 @@ let userSchema = new mongoose_1.default.Schema({
     taught: {
         type: Number,
     },
+    points: {
+        type: Number,
+    },
     theme: {
         type: String,
     },

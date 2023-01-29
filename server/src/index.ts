@@ -66,6 +66,7 @@ app.post(
         email: req.body.mail,
         password: newPassword,
         theme: "light",
+        points: 100,
         offersPosted: [],
       });
 
@@ -120,6 +121,7 @@ app.post(
           taught: user.taught,
           profileImage: user.profileImage,
           theme: user.theme,
+          points: user.points,
           offersPosted: user.offersPosted,
         },
       });
@@ -166,6 +168,7 @@ app.post(
         taught: user.taught,
         profileImage: user.profileImage,
         theme: user.theme,
+        points: user.points,
         offersPosted: user.offersPosted,
       },
     });
@@ -196,6 +199,7 @@ app.post(
         info: req.body.info,
         price: req.body.price,
         email: req.body.email,
+        dates: req.body.dates,
       });
 
       res.json({ ok: true });
@@ -343,6 +347,53 @@ app.post(
       .catch((error) => {
         console.log(error);
       });
+  }
+);
+
+// Handle get points from database
+app.post(
+  "/api/getPoints",
+  [check("mail").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+    const user = await User.findOne({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Błąd pobierania przedmiotów" });
+    }
+
+    return res.json({
+      ok: true,
+      points: user.points,
+    });
+  }
+);
+
+app.put(
+  "/api/updatePoints",
+  [check("email").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.json({ ok: false, errors: errors.array() });
+    }
+
+    try {
+      const filter = { email: req.body.email };
+      const update = { points: req.body.points };
+
+      await User.findOneAndUpdate(filter, update);
+
+      res.json({ ok: true });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        ok: false,
+        errors: [{ msg: "Aktualizacja punktów się nie powiodła" }],
+      });
+    }
   }
 );
 

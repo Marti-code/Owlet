@@ -18,6 +18,10 @@ let offerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    dates: {
+      type: [],
+      required: true,
+    },
     email: {
       type: String,
       required: true,

@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Form, Input, FormWrapper, Heading } from "../Login/Login.styles";
+import {
+  Form,
+  Input,
+  Dropdown,
+  FormWrapper,
+  Heading,
+} from "../Login/Login.styles";
 
 import "./PostOffer.css";
 
@@ -34,7 +40,9 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
       subject,
       info,
       price,
-      userData?.mail || ""
+      userData?.mail || "",
+      dates,
+      hours
     );
 
     if (data.ok) {
@@ -47,6 +55,60 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
       setBtnState("error");
     }
   };
+
+  const [hours, setHours] = useState([""]);
+  const [dates, setDates] = useState([""]);
+
+  const [listItems, setListItems] = useState([
+    <div className="time-date" key={0}>
+      <p>
+        <Input
+          onChange={(e) => setHours([e.target.value])}
+          type="time"
+          name="time"
+          placeholder="Czas"
+          required
+          autoComplete="off"
+        />
+        <Input
+          onChange={(e) => setDates([e.target.value])}
+          type="date"
+          name="date"
+          placeholder="Data"
+          required
+          autoComplete="off"
+        />
+      </p>
+    </div>,
+  ]);
+
+  const addTimeAndDate = () => {
+    listItems.push(
+      <div className="time-date" key={listItems.length}>
+        <p>
+          <Input
+            onChange={(e) => setHours([...hours, e.target.value])}
+            type="time"
+            name="time"
+            placeholder="Czas"
+            required
+            autoComplete="off"
+          />
+          <Input
+            onChange={(e) => setDates([...dates, e.target.value])}
+            type="date"
+            name="date"
+            placeholder="Data"
+            required
+            autoComplete="off"
+          />
+        </p>
+      </div>
+    );
+
+    setListItems([...listItems]);
+  };
+
   return (
     <div className="PostOffer">
       <FormWrapper>
@@ -64,14 +126,27 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
             />
           </p>
           <p>
-            <Input
+            {/* <Input
               onChange={(e) => setSubject(e.target.value)}
               type="text"
               name="subject"
               placeholder="Przedmiot"
               required
               autoComplete="off"
-            />
+            /> */}
+            <Dropdown
+              name="subjet"
+              id="subjet"
+              onChange={(e) => {
+                setSubject(e.target.value);
+              }}
+            >
+              <option value="Matematyka">Matematyka</option>
+              <option value="Fizyka">Fizyka</option>
+              <option value="Angielski">Angielski</option>
+              <option value="Polski">Polski</option>
+              <option value="Historia">Historia</option>
+            </Dropdown>
           </p>
           <p>
             <Input
@@ -86,13 +161,18 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
             <Input
               onChange={(e) => setPrice(e.target.value)}
               type="number"
-              min="0"
+              min="10"
               name="price"
               placeholder="Cena"
               required
               autoComplete="off"
             />
           </p>
+          <button onClick={addTimeAndDate} type="button">
+            Add
+          </button>
+          {listItems.map((el) => el)}
+
           <p>
             <button
               className={
