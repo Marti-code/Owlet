@@ -35,6 +35,7 @@ const Profile: React.FC<Profile> = ({
     userName: "",
     subject: "",
     title: "",
+    info: "",
     hours: [""],
   });
 
@@ -135,12 +136,14 @@ const Profile: React.FC<Profile> = ({
     userName: string,
     title: string,
     subject: string,
+    info: string,
     hours: []
   ) => {
     setIsOpen(!isOpen);
     modalInfo.userName = userName;
     modalInfo.title = title;
     modalInfo.subject = subject;
+    modalInfo.info = info;
     modalInfo.hours = hours;
   };
 
@@ -290,6 +293,7 @@ const Profile: React.FC<Profile> = ({
                                 el.authorName[0].name,
                                 el.subject,
                                 el.title,
+                                el.info,
                                 el.dates
                               );
                             }}
@@ -350,7 +354,7 @@ const Profile: React.FC<Profile> = ({
           userName={modalInfo.userName}
           title={modalInfo.title}
           subject={modalInfo.subject}
-          info="bla bla"
+          info={modalInfo.info}
           hideModal={hideModal}
           timeArr={modalInfo.hours}
         />
