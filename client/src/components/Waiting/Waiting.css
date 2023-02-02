@@ -10,3 +10,7 @@
   display: flex;
   flex-direction: column;
 }
+
+.waiting-wrapper {
+  height: 100vh;
+}

@@ -167,9 +167,12 @@ export default {
   },
 
   //getting featured offers for user
-  getChosenOffers: async (subject: string) => {
+  getChosenOffers: async (subject: string, mail: string | undefined) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/getChosenOffers`;
 
+    if (!mail)
+      return;
+      
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -177,6 +180,7 @@ export default {
       },
       body: JSON.stringify({
         subject: subject,
+        mail: mail
       }),
     });
 

@@ -70,10 +70,10 @@ const EditProfile: React.FC<Props> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (1) {
-      console.log(checkedSubjects)
-      return;
-    }
+    // if (1) {
+    //   console.log(checkedSubjects)
+    //   return;
+    // }
 
     if (!userData || !userData.mail) return;
 
@@ -105,7 +105,7 @@ const EditProfile: React.FC<Props> = ({
             <p>
               <Input
                 onChange={(e) => setName(e.target.value)}
-                value={name}
+                value={userData?.name}
                 type="text"
                 name="username"
                 placeholder={userData?.name}

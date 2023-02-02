@@ -317,7 +317,7 @@ app.post(
 // Handle get featured offers for user from database
 app.post(
   "/api/getChosenOffers",
-  [check("subject")],
+  [check("subject"), check("mail")],
   async (req: express.Request, res: express.Response) => {
     Offer.aggregate([
       {
@@ -333,7 +333,7 @@ app.post(
         let offers: any[] = [];
 
         data.forEach((el) => {
-          if (el.subject.toLowerCase() == req.body.subject.toLowerCase()) {
+          if (el.subject.toLowerCase() == req.body.subject.toLowerCase() && el.email !== req.body.mail) {
             offers.push(el);
           }
         });
@@ -429,18 +429,19 @@ app.post(
     //TODO
     // console.log(req.body.mail)
 
-    // const offers = await Offer.find({
-    //   'email': req.body.mail
-    // }) 
+    const offers = await Offer.updateOne(
+      {_id: req.body.id},
+      {$addToSet: {acceptedBy: {teacher: req.body.mail, date: req.body.date}}}
+    )
 
-    // if (!offers) {
-    //   return res.json({ ok: false, error: "Błąd pobierania ofert" });
-    // }
+    if (!offers) {
+      return res.json({ ok: false, error: "Błąd pobierania ofert" });
+    }
 
-    // return res.json({
-    //   ok: true,
-    //   data: offers
-    // });
+    return res.json({
+      ok: true,
+      data: offers
+    });
   }
 );
 

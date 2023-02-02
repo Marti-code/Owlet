@@ -113,7 +113,7 @@ const Profile: React.FC<Profile> = ({
     handleGetSubjects();
 
     userSubjects.forEach(async (subject: any) => {
-      const data = await API.getChosenOffers(subject);
+      const data = await API.getChosenOffers(subject, userData?.mail);
       console.log(data);
 
       data.offers.forEach((el: any) => {
@@ -369,6 +369,7 @@ const Profile: React.FC<Profile> = ({
           hideModal={hideModal}
           timeArr={modalInfo.hours}
           id={modalInfo.id}
+          userMail={userData?.mail}
         />
       )}
     </div>

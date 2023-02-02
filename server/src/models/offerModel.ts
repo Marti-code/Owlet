@@ -27,6 +27,10 @@ let offerSchema = new mongoose.Schema(
       required: true,
     },
     authorId: { type: mongoose.Schema.Types.String, ref: "User" },
+    acceptedBy: {
+      type: [],
+      required: false
+    }
   },
   { collection: "offers" }
 );

@@ -271,7 +271,7 @@ app.post("/api/getSubjects", [(0, express_validator_1.check)("mail").isEmail().t
     });
 }));
 // Handle get featured offers for user from database
-app.post("/api/getChosenOffers", [(0, express_validator_1.check)("subject")], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/getChosenOffers", [(0, express_validator_1.check)("subject"), (0, express_validator_1.check)("mail")], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     offerModel_1.default.aggregate([
         {
             $lookup: {
@@ -285,7 +285,7 @@ app.post("/api/getChosenOffers", [(0, express_validator_1.check)("subject")], (r
         .then((data) => __awaiter(void 0, void 0, void 0, function* () {
         let offers = [];
         data.forEach((el) => {
-            if (el.subject.toLowerCase() == req.body.subject.toLowerCase()) {
+            if (el.subject.toLowerCase() == req.body.subject.toLowerCase() && el.email !== req.body.mail) {
                 offers.push(el);
             }
         });
@@ -350,16 +350,14 @@ app.post("/api/sendOfferRequest", [
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //TODO
     // console.log(req.body.mail)
-    // const offers = await Offer.find({
-    //   'email': req.body.mail
-    // }) 
-    // if (!offers) {
-    //   return res.json({ ok: false, error: "Błąd pobierania ofert" });
-    // }
-    // return res.json({
-    //   ok: true,
-    //   data: offers
-    // });
+    const offers = yield offerModel_1.default.updateOne({ _id: req.body.id }, { $addToSet: { acceptedBy: { teacher: req.body.mail, date: req.body.date } } });
+    if (!offers) {
+        return res.json({ ok: false, error: "Błąd pobierania ofert" });
+    }
+    return res.json({
+        ok: true,
+        data: offers
+    });
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
 //# sourceMappingURL=index.js.map

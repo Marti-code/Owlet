@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import API from "../../API";
 import "./TeacherModal.css";
 
 interface ModalProps {
@@ -8,7 +9,8 @@ interface ModalProps {
   info: string;
   hideModal: any;
   timeArr: string[];
-  id: string
+  id: string;
+  userMail: string | undefined;
 }
 
 const TeacherModal: React.FC<ModalProps> = ({
@@ -18,11 +20,27 @@ const TeacherModal: React.FC<ModalProps> = ({
   info,
   hideModal,
   timeArr,
-  id
+  id,
+  userMail
 }) => {
 
-  const handleAccept = () => {
-    
+  const [date, setDate] = useState("");
+  const [modalInfo, setModalInfo] = useState("");
+
+  const handleAccept = async() => {
+    if (date == '') 
+      return;
+
+    let data;
+
+    if (userMail)
+      data = await API.sendOfferRequest(userMail, date, id);
+
+    if (data.ok) {
+      setModalInfo("Wysałno propozycję nauczania. ")
+    } else {
+      setModalInfo("Wystąpił błąd")
+    }
   }
 
 
@@ -53,7 +71,10 @@ const TeacherModal: React.FC<ModalProps> = ({
                           type="radio"
                           value={el}
                           name="chosenTime"
-                          defaultChecked={true}
+                          onChange={(e) => {
+                            if (e.currentTarget.checked)
+                              setDate(e.currentTarget.value);
+                          }}
                         />
                         {el}
                       </div>
@@ -67,6 +88,7 @@ const TeacherModal: React.FC<ModalProps> = ({
               Akceptuj
             </button>
           </div>
+        {modalInfo}
         </div>
         <div className="modal-overlay" onClick={hideModal}></div>
       </div>
