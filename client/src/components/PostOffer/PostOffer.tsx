@@ -37,14 +37,17 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
       return;
     }
 
+    if (dateItems[0] == "" || dateItems.length == 0) {
+      setErrNote("Dodaj przynajmniej 1 datę");
+      return;
+    }
+
     const data = await API.postOfferFetch(
       title,
       subject,
       info,
       price,
       userData?.mail || "",
-      dates,
-      hours,
       dateItems
     );
 
@@ -59,68 +62,16 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
     }
   };
 
-  const [hours, setHours] = useState([""]);
-  const [dates, setDates] = useState([""]);
   const [dateItems, setDateImtes] = useState([""]);
 
-  const [hours2, setHours2] = useState("");
-  const [dates2, setDates2] = useState("");
-
-  const [listItems, setListItems] = useState([
-    <div className="time-date" key={0}>
-      <p>
-        <Input
-          onChange={(e) => setHours([e.target.value])}
-          type="time"
-          name="time"
-          placeholder="Czas"
-          required
-          autoComplete="off"
-        />
-        <Input
-          onChange={(e) => setDates([e.target.value])}
-          type="date"
-          name="date"
-          placeholder="Data"
-          required
-          autoComplete="off"
-        />
-      </p>
-    </div>,
-  ]);
-
-  const addTimeAndDate = () => {
-    listItems.push(
-      <div className="time-date" key={listItems.length}>
-        <p>
-          <Input
-            onChange={(e) => setHours([...hours, e.target.value])}
-            type="time"
-            name="time"
-            placeholder="Czas"
-            required
-            autoComplete="off"
-          />
-          <Input
-            onChange={(e) => setDates([...dates, e.target.value])}
-            type="date"
-            name="date"
-            placeholder="Data"
-            required
-            autoComplete="off"
-          />
-        </p>
-      </div>
-    );
-
-    setListItems([...listItems]);
-  };
+  const [hours, setHours2] = useState("");
+  const [dates, setDates2] = useState("");
 
   const handleAddDates = () => {
-    if (hours2 == "" || dates2 == "") {
+    if (hours == "" || dates == "") {
       setErrNote("Uzupełnij daty");
     } else {
-      const fullDate = hours2 + ";" + dates2;
+      const fullDate = hours + ";" + dates;
       if (dateItems.includes(fullDate)) {
         setErrNote("Ta data już była");
       } else {
@@ -132,6 +83,11 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
         }
       }
     }
+  };
+
+  const deleteDateEl = (idx: number) => {
+    dateItems.splice(idx, 1);
+    setDateImtes([...dateItems]);
   };
 
   return (
@@ -171,6 +127,10 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
               <option value="Angielski">Angielski</option>
               <option value="Polski">Polski</option>
               <option value="Historia">Historia</option>
+              <option value="Niemiecki">Niemiecki</option>
+              <option value="Biologia">Biologia</option>
+              <option value="Chemia">Chemia</option>
+              <option value="Geografia">Geografia</option>
             </Dropdown>
           </p>
           <p>
@@ -193,15 +153,34 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
               autoComplete="off"
             />
           </p>
-          {/* <button onClick={addTimeAndDate} type="button">
-            Dodaj daty
-          </button> */}
 
-          {/* {listItems.map((el) => el)} */}
           <p>Daty:</p>
-          {dateItems.map((el) => (
-            <p>{el}</p>
-          ))}
+
+          {dateItems.length > 0 &&
+            dateItems.map((el, idx) => {
+              return (
+                <div
+                  className="date-el"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <p key={idx}>{el}</p>
+                  <button
+                    type="button"
+                    style={{
+                      display: dateItems[0] == "" ? "none" : "block",
+                      margin: "10px",
+                      height: "30px",
+                      width: "30px",
+                    }}
+                    onClick={() => {
+                      deleteDateEl(idx);
+                    }}
+                  >
+                    x
+                  </button>
+                </div>
+              );
+            })}
 
           <div className="time-date">
             <p style={{ height: "50px" }}>

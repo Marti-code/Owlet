@@ -85,17 +85,9 @@ export default {
     info: string,
     price: string,
     email: string,
-    dates: string[],
-    hours: string[],
     dateItems: string[]
   ) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/postoffer`;
-
-    // const fullDates = [];
-
-    // for (let i = 0; i < hours.length; i++) {
-    //   fullDates[i] = hours[i] + ";" + dates[i];
-    // }
 
     const res = await fetch(endpoint, {
       method: "POST",
