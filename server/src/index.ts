@@ -139,7 +139,6 @@ app.post(
   "/api/getData",
   [check("mail").isEmail().trim().escape().normalizeEmail()],
   async (req: express.Request, res: express.Response) => {
-
     const user = await User.findOne({
       email: req.body.mail,
     });
@@ -267,7 +266,6 @@ app.post(
     check("username").trim().escape(),
   ],
   async (req: express.Request, res: express.Response) => {
-
     const user = await User.findOne({
       email: req.body.mail,
     });
@@ -281,7 +279,7 @@ app.post(
         { email: user.email },
         {
           name: req.body.username,
-          subjects: req.body.subjects
+          subjects: req.body.subjects,
         }
       );
     } catch (err) {
@@ -333,7 +331,10 @@ app.post(
         let offers: any[] = [];
 
         data.forEach((el) => {
-          if (el.subject.toLowerCase() == req.body.subject.toLowerCase() && el.email !== req.body.mail) {
+          if (
+            el.subject.toLowerCase() == req.body.subject.toLowerCase() &&
+            el.email !== req.body.mail
+          ) {
             offers.push(el);
           }
         });
@@ -359,7 +360,7 @@ app.post(
     });
 
     if (!user) {
-      return res.json({ ok: false, error: "Błąd pobierania przedmiotów" });
+      return res.json({ ok: false, error: "Błąd pobierania punktów" });
     }
 
     return res.json({
@@ -400,12 +401,11 @@ app.post(
   "/api/getUserOffers",
   [check("mail").isEmail().trim().escape().normalizeEmail()],
   async (req: express.Request, res: express.Response) => {
-
-    console.log(req.body.mail)
+    console.log(req.body.mail);
 
     const offers = await Offer.find({
-      'email': req.body.mail
-    }) 
+      email: req.body.mail,
+    });
 
     if (!offers) {
       return res.json({ ok: false, error: "Błąd pobierania ofert" });
@@ -413,7 +413,7 @@ app.post(
 
     return res.json({
       ok: true,
-      data: offers
+      data: offers,
     });
   }
 );
@@ -430,9 +430,13 @@ app.post(
     // console.log(req.body.mail)
 
     const offers = await Offer.updateOne(
-      {_id: req.body.id},
-      {$addToSet: {acceptedBy: {teacher: req.body.mail, date: req.body.date}}}
-    )
+      { _id: req.body.id },
+      {
+        $addToSet: {
+          acceptedBy: { teacher: req.body.mail, date: req.body.date },
+        },
+      }
+    );
 
     if (!offers) {
       return res.json({ ok: false, error: "Błąd pobierania ofert" });
@@ -440,7 +444,7 @@ app.post(
 
     return res.json({
       ok: true,
-      data: offers
+      data: offers,
     });
   }
 );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   Input,
@@ -25,6 +25,8 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
 
   const [btnState, setBtnState] = useState("");
 
+  const [errNote, setErrNote] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,7 +44,8 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
       price,
       userData?.mail || "",
       dates,
-      hours
+      hours,
+      dateItems
     );
 
     if (data.ok) {
@@ -58,6 +61,10 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
 
   const [hours, setHours] = useState([""]);
   const [dates, setDates] = useState([""]);
+  const [dateItems, setDateImtes] = useState([""]);
+
+  const [hours2, setHours2] = useState("");
+  const [dates2, setDates2] = useState("");
 
   const [listItems, setListItems] = useState([
     <div className="time-date" key={0}>
@@ -107,6 +114,24 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
     );
 
     setListItems([...listItems]);
+  };
+
+  const handleAddDates = () => {
+    if (hours2 == "" || dates2 == "") {
+      setErrNote("Uzupełnij daty");
+    } else {
+      const fullDate = hours2 + ";" + dates2;
+      if (dateItems.includes(fullDate)) {
+        setErrNote("Ta data już była");
+      } else {
+        setErrNote("");
+        if (dateItems[0] == "") {
+          setDateImtes([fullDate]);
+        } else {
+          setDateImtes([...dateItems, fullDate]);
+        }
+      }
+    }
   };
 
   return (
@@ -168,10 +193,45 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
               autoComplete="off"
             />
           </p>
-          <button onClick={addTimeAndDate} type="button">
-            Add
-          </button>
-          {listItems.map((el) => el)}
+          {/* <button onClick={addTimeAndDate} type="button">
+            Dodaj daty
+          </button> */}
+
+          {/* {listItems.map((el) => el)} */}
+          <p>Daty:</p>
+          {dateItems.map((el) => (
+            <p>{el}</p>
+          ))}
+
+          <div className="time-date">
+            <p style={{ height: "50px" }}>
+              <Input
+                onChange={(e) => setHours2(e.target.value)}
+                type="time"
+                name="time"
+                placeholder="Czas"
+                required
+                autoComplete="off"
+              />
+              <Input
+                onChange={(e) => setDates2(e.target.value)}
+                type="date"
+                name="date"
+                placeholder="Data"
+                required
+                autoComplete="off"
+              />
+              <button
+                onClick={handleAddDates}
+                type="button"
+                style={{ width: "50px", height: "50px", margin: "0" }}
+              >
+                add
+              </button>
+            </p>
+          </div>
+
+          <p style={{ margin: "auto", color: "red" }}>{errNote}</p>
 
           <p>
             <button
@@ -184,7 +244,7 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
               }
               type="submit"
             >
-              Oferta
+              Zapisz
             </button>
           </p>
         </Form>

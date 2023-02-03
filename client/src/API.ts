@@ -86,15 +86,16 @@ export default {
     price: string,
     email: string,
     dates: string[],
-    hours: string[]
+    hours: string[],
+    dateItems: string[]
   ) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/postoffer`;
 
-    const fullDates = [];
+    // const fullDates = [];
 
-    for (let i = 0; i < hours.length; i++) {
-      fullDates[i] = hours[i] + ";" + dates[i];
-    }
+    // for (let i = 0; i < hours.length; i++) {
+    //   fullDates[i] = hours[i] + ";" + dates[i];
+    // }
 
     const res = await fetch(endpoint, {
       method: "POST",
@@ -104,10 +105,10 @@ export default {
       body: JSON.stringify({
         title: title,
         subject: subject,
-        info: info || "none",
+        info: info || "brak",
         price: price,
         email: email,
-        dates: fullDates,
+        dates: dateItems,
       }),
     });
 
@@ -131,7 +132,7 @@ export default {
     return await res.json();
   },
 
-  editProfile: async (username: string, subjects: string[] ,email: string) => {
+  editProfile: async (username: string, subjects: string[], email: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/editProfile`;
 
     const res = await fetch(endpoint, {
@@ -142,7 +143,7 @@ export default {
       body: JSON.stringify({
         mail: email,
         username: username,
-        subjects: subjects
+        subjects: subjects,
       }),
     });
 
@@ -170,9 +171,8 @@ export default {
   getChosenOffers: async (subject: string, mail: string | undefined) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/getChosenOffers`;
 
-    if (!mail)
-      return;
-      
+    if (!mail) return;
+
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -180,7 +180,7 @@ export default {
       },
       body: JSON.stringify({
         subject: subject,
-        mail: mail
+        mail: mail,
       }),
     });
 
@@ -219,6 +219,7 @@ export default {
 
     return await res.json();
   },
+
   getUserOffers: async (email: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/getUserOffers`;
 
@@ -229,11 +230,12 @@ export default {
       },
       body: JSON.stringify({
         mail: email,
-      })
+      }),
     });
 
     return await res.json();
   },
+
   sendOfferRequest: async (mail: string, date: string, id: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/sendOfferRequest`;
 
@@ -245,8 +247,8 @@ export default {
       body: JSON.stringify({
         mail: mail,
         date: date,
-        id: id
-      })
+        id: id,
+      }),
     });
 
     return await res.json();

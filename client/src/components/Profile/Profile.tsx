@@ -24,7 +24,7 @@ const Profile: React.FC<Profile> = ({
   userData,
   setRoomId,
   setLoggedIn,
-  getData
+  getData,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(userData?.theme || "light");
@@ -39,7 +39,7 @@ const Profile: React.FC<Profile> = ({
     title: "",
     info: "",
     hours: [""],
-    id: ""
+    id: "",
   });
 
   let userSubjects: string[] = [];
@@ -58,7 +58,6 @@ const Profile: React.FC<Profile> = ({
     });
 
     getData();
-
   }, []);
 
   useEffect(() => {
@@ -105,7 +104,7 @@ const Profile: React.FC<Profile> = ({
 
   const handleGetSubjects = async () => {
     const data = await API.getSubjects(userData?.mail || "");
-    
+
     userSubjects = data.subjects;
   };
 

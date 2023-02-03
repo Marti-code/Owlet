@@ -247,7 +247,7 @@ app.post("/api/editProfile", [
     try {
         yield userModel_1.default.updateOne({ email: user.email }, {
             name: req.body.username,
-            subjects: req.body.subjects
+            subjects: req.body.subjects,
         });
     }
     catch (err) {
@@ -285,7 +285,8 @@ app.post("/api/getChosenOffers", [(0, express_validator_1.check)("subject"), (0,
         .then((data) => __awaiter(void 0, void 0, void 0, function* () {
         let offers = [];
         data.forEach((el) => {
-            if (el.subject.toLowerCase() == req.body.subject.toLowerCase() && el.email !== req.body.mail) {
+            if (el.subject.toLowerCase() == req.body.subject.toLowerCase() &&
+                el.email !== req.body.mail) {
                 offers.push(el);
             }
         });
@@ -304,7 +305,7 @@ app.post("/api/getPoints", [(0, express_validator_1.check)("mail").isEmail().tri
         email: req.body.mail,
     });
     if (!user) {
-        return res.json({ ok: false, error: "Błąd pobierania przedmiotów" });
+        return res.json({ ok: false, error: "Błąd pobierania punktów" });
     }
     return res.json({
         ok: true,
@@ -333,14 +334,14 @@ app.put("/api/updatePoints", [(0, express_validator_1.check)("email").isEmail().
 app.post("/api/getUserOffers", [(0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body.mail);
     const offers = yield offerModel_1.default.find({
-        'email': req.body.mail
+        email: req.body.mail,
     });
     if (!offers) {
         return res.json({ ok: false, error: "Błąd pobierania ofert" });
     }
     return res.json({
         ok: true,
-        data: offers
+        data: offers,
     });
 }));
 app.post("/api/sendOfferRequest", [
@@ -350,13 +351,17 @@ app.post("/api/sendOfferRequest", [
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //TODO
     // console.log(req.body.mail)
-    const offers = yield offerModel_1.default.updateOne({ _id: req.body.id }, { $addToSet: { acceptedBy: { teacher: req.body.mail, date: req.body.date } } });
+    const offers = yield offerModel_1.default.updateOne({ _id: req.body.id }, {
+        $addToSet: {
+            acceptedBy: { teacher: req.body.mail, date: req.body.date },
+        },
+    });
     if (!offers) {
         return res.json({ ok: false, error: "Błąd pobierania ofert" });
     }
     return res.json({
         ok: true,
-        data: offers
+        data: offers,
     });
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
