@@ -67,7 +67,7 @@ function App() {
           }
         />
         <Route path="/post-offer" element={<PostOffer userData={userData} />} />
-        <Route path="/waiting" element={<Waiting userData={userData} />} />
+        <Route path="/waiting" element={<Waiting getData={getData} userData={userData} />} />
         <Route path="/" element={<Main />} />
       </Routes>
       <GlobalStyle />

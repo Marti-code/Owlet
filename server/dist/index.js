@@ -348,12 +348,15 @@ app.post("/api/sendOfferRequest", [
     (0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail(),
     (0, express_validator_1.check)("date").trim().escape(),
     (0, express_validator_1.check)("id").trim().escape(),
+    (0, express_validator_1.check)("name").trim().escape(),
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //TODO
-    // console.log(req.body.mail)
     const offers = yield offerModel_1.default.updateOne({ _id: req.body.id }, {
         $addToSet: {
-            acceptedBy: { teacher: req.body.mail, date: req.body.date },
+            acceptedBy: {
+                teacher: req.body.mail,
+                date: req.body.date,
+                name: req.body.name,
+            },
         },
     });
     if (!offers) {
@@ -362,6 +365,45 @@ app.post("/api/sendOfferRequest", [
     return res.json({
         ok: true,
         data: offers,
+    });
+}));
+app.post("/api/planLesson", [
+    (0, express_validator_1.check)("teacherMail").isEmail().trim().escape().normalizeEmail(),
+    (0, express_validator_1.check)("date").trim().escape(),
+    (0, express_validator_1.check)("studentMail").trim().escape(),
+    (0, express_validator_1.check)("offerId").trim().escape(),
+], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const student = yield userModel_1.default.updateOne({
+        email: req.body.studentMail,
+    }, {
+        $addToSet: {
+            plannedLessons: {
+                date: req.body.date,
+                teacherMail: req.body.teacherMail,
+                studentMail: req.body.studentMail,
+            },
+        },
+    });
+    const teacher = yield userModel_1.default.updateOne({
+        email: req.body.teacherMail,
+    }, {
+        $addToSet: {
+            plannedLessons: {
+                date: req.body.date,
+                teacherMail: req.body.teacherMail,
+                studentMail: req.body.studentMail,
+            },
+        },
+    });
+    const offers = yield offerModel_1.default.deleteOne({
+        _id: req.body.offerId
+    });
+    console.log(offers);
+    if (!teacher || !student || !offers) {
+        return res.json({ ok: false, error: "Błąd" });
+    }
+    return res.json({
+        ok: true
     });
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
