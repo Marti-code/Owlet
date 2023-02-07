@@ -53,15 +53,14 @@ const EditProfile: React.FC<Props> = ({
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (!userData || !userData.subjects)
-      return;
+    if (!userData || !userData.subjects) return;
 
     setCheckedSubjects([]);
     console.log(userData.subjects);
     userData.subjects.forEach((el) => {
       setCheckedSubjects([...checkedSubjects, el]);
-    })
-  }, [userData])
+    });
+  }, [userData]);
 
   // useEffect(() => {
   //   console.log(checkedSubjects);
@@ -77,7 +76,9 @@ const EditProfile: React.FC<Props> = ({
 
     if (!userData || !userData.mail) return;
 
-    if (name == "" || name.length < 3) {
+    if (name == "") {
+      setName(userData.name);
+    } else if (name.length < 3) {
       setInfo("Nazwa powinna mieć przynajmniej 3 znaki");
       return;
     }
@@ -105,11 +106,10 @@ const EditProfile: React.FC<Props> = ({
             <p>
               <Input
                 onChange={(e) => setName(e.target.value)}
-                value={userData?.name}
                 type="text"
-                name="username"
+                name="username1"
                 placeholder={userData?.name}
-                required
+                autoComplete="off"
               />
             </p>
 
@@ -134,9 +134,16 @@ const EditProfile: React.FC<Props> = ({
                       }
                       onClick={(e) => {
                         if (e.currentTarget.checked)
-                          setCheckedSubjects([...checkedSubjects, e.currentTarget.value]);
-                        else 
-                          setCheckedSubjects(checkedSubjects.filter((el) => el !== e.currentTarget.value));
+                          setCheckedSubjects([
+                            ...checkedSubjects,
+                            e.currentTarget.value,
+                          ]);
+                        else
+                          setCheckedSubjects(
+                            checkedSubjects.filter(
+                              (el) => el !== e.currentTarget.value
+                            )
+                          );
                       }}
                     ></input>
                   </label>

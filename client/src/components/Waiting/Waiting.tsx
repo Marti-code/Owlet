@@ -5,11 +5,12 @@ import "./Waiting.css";
 
 type Props = {
   userData: any;
+  getData: any;
 };
 
 type AcceptedBy = {
   name: string;
-  mail: string;
+  teacher: string;
   date: string;
 }
 
@@ -17,10 +18,13 @@ type Offer = {
   subject: string;
   title: string;
   acceptedBy: AcceptedBy[];
+  _id: string
 };
 
-const Waiting: React.FC<Props> = ({ userData }) => {
+const Waiting: React.FC<Props> = ({ userData, getData }) => {
   const [offers, setOffers] = useState<Offer[]>([]);
+  const [curAcceptedBy, setCurAcceptedBy] = useState<AcceptedBy[]>([]);
+  const [curOfferId, setCurOfferId] = useState("");
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
@@ -53,12 +57,14 @@ const Waiting: React.FC<Props> = ({ userData }) => {
                 <span className="offer-title">{el.title}</span>
                 <button onClick={() => {
                   setOpenModal(true);
-                }}>Pokaz oferty</button>
+                  setCurAcceptedBy(el.acceptedBy);
+                  setCurOfferId(el._id)
+                }}>Pokaz oferty ({el.acceptedBy.length})</button>
               </div>;
             })}
         </div>
 
-        {openModal && <TeacherOffersModal setOpenModal={setOpenModal} />}
+        {openModal && <TeacherOffersModal userData={userData} getData={getData} offerId={curOfferId} acceptedBy={curAcceptedBy} setOpenModal={setOpenModal} />}
       </>
     </div>
   );

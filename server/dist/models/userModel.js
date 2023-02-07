@@ -41,6 +41,9 @@ let userSchema = new mongoose_1.default.Schema({
     offersPosted: {
         type: [],
     },
+    plannedLessons: {
+        type: []
+    }
 }, { collection: "users" });
 const User = mongoose_1.default.model("User", userSchema, "user");
 exports.default = User;

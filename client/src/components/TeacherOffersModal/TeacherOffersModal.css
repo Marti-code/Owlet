@@ -25,10 +25,10 @@
 
 .teacher-modal {
   min-width: 45vw;
-  position: absolute;
-  top: 30vh;
+  position: absolute;  
+  top: 50%;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%, -50%);
   z-index: 10;
   background-color: white;
   border-radius: 2rem;
@@ -37,6 +37,8 @@
   gap: 1rem;
   color: black;
   padding: 2rem;
+  max-height: 600px;
+  overflow: auto;
 }
 
 .modal-header {
@@ -66,4 +68,13 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.modal-offers-col{
+  display: flex;
+  flex-direction: column;
+}
+
+.single-modal-offer {
+  width: 100%;
 }

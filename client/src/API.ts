@@ -228,7 +228,7 @@ export default {
     return await res.json();
   },
 
-  sendOfferRequest: async (mail: string, date: string, id: string) => {
+  sendOfferRequest: async (mail: string, date: string, id: string, name: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/sendOfferRequest`;
 
     const res = await fetch(endpoint, {
@@ -240,6 +240,26 @@ export default {
         mail: mail,
         date: date,
         id: id,
+        name: name
+      }),
+    });
+
+    return await res.json();
+  },
+
+  planLesson: async (teacherMail: string, date: string, studentMail: string, offerId: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/planLesson`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        teacherMail: teacherMail,
+        date: date,
+        studentMail: studentMail,
+        offerId: offerId
       }),
     });
 

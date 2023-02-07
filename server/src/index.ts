@@ -424,16 +424,19 @@ app.post(
     check("mail").isEmail().trim().escape().normalizeEmail(),
     check("date").trim().escape(),
     check("id").trim().escape(),
+    check("name").trim().escape(),
   ],
   async (req: express.Request, res: express.Response) => {
-    //TODO
-    // console.log(req.body.mail)
 
     const offers = await Offer.updateOne(
       { _id: req.body.id },
       {
         $addToSet: {
-          acceptedBy: { teacher: req.body.mail, date: req.body.date },
+          acceptedBy: {
+            teacher: req.body.mail,
+            date: req.body.date,
+            name: req.body.name,
+          },
         },
       }
     );
@@ -445,6 +448,62 @@ app.post(
     return res.json({
       ok: true,
       data: offers,
+    });
+  }
+);
+
+app.post(
+  "/api/planLesson",
+  [
+    check("teacherMail").isEmail().trim().escape().normalizeEmail(),
+    check("date").trim().escape(),
+    check("studentMail").trim().escape(),
+    check("offerId").trim().escape(),
+  ],
+  async (req: express.Request, res: express.Response) => {  
+
+    const student = await User.updateOne(
+      {
+        email: req.body.studentMail,
+      },
+      {
+        $addToSet: {
+          plannedLessons: {
+            date: req.body.date,
+            teacherMail: req.body.teacherMail,
+            studentMail: req.body.studentMail,
+          },
+        },
+      }
+    );
+
+    const teacher = await User.updateOne(
+      {
+        email: req.body.teacherMail,
+      },
+      {
+        $addToSet: {
+          plannedLessons: {
+            date: req.body.date,
+            teacherMail: req.body.teacherMail,
+            studentMail: req.body.studentMail,
+          },
+        },
+      }
+    );
+
+    const offers = await Offer.deleteOne({
+      _id: req.body.offerId
+    })
+
+    console.log(offers)
+
+    if (!teacher || !student || !offers) {
+      return res.json({ ok: false, error: "Błąd" });
+    }
+
+    return res.json({
+      ok: true
     });
   }
 );

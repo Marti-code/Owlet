@@ -38,6 +38,9 @@ let userSchema = new mongoose.Schema(
     offersPosted: {
       type: [],
     },
+    plannedLessons: {
+      type: []
+    }
   },
   { collection: "users" }
 );
