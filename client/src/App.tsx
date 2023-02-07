@@ -49,6 +49,7 @@ function App() {
               setRoomId={setRoomId}
               roomId={roomId}
               userData={userData}
+              setUserData={setUserData}
               isLoggedIn={loggedIn}
               setLoggedIn={setLoggedIn}
               getData={getData}

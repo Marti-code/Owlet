@@ -91,7 +91,7 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
   };
 
   return (
-    <div className="PostOffer">
+    <div className={`PostOffer ${userData?.theme || "light"}`}>
       <FormWrapper>
         <Heading>Oferta</Heading>
 

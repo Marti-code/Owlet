@@ -14,6 +14,7 @@ type Profile = {
   isLoggedIn: boolean;
   setLoggedIn: any;
   userData: UserInfoType | undefined;
+  setUserData: any;
   setRoomId: any;
   roomId: string;
   getData: any;
@@ -22,6 +23,7 @@ type Profile = {
 const Profile: React.FC<Profile> = ({
   isLoggedIn,
   userData,
+  setUserData,
   setRoomId,
   setLoggedIn,
   getData,
@@ -88,12 +90,17 @@ const Profile: React.FC<Profile> = ({
 
   const handleTheme = async (e: React.FormEvent) => {
     e.preventDefault();
+
     toggleTheme();
 
     const data = await API.putTheme(
       theme == "light" ? "dark" : "light",
       userData?.mail || ""
     );
+
+    setUserData({ ...userData, theme: theme });
+    console.log(theme);
+    console.log(userData);
 
     if (data.ok) {
       console.log("zmiana");
