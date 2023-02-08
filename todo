@@ -1,18 +1,14 @@
-Calling friends
-
-Accepting help
-
-Create group chat
-
 Chat:
 screen sharing - switching back
 controls
 refreshing the circles after a change
 
-Styles - themes, dark and light
-
-It will have points for each converstation
-
-You'll be able to unlock achievements so a lot like brainly but about online helping
-
-When we render lessons we add them to the "user" and delete from offers
+App:
+Themes (updates after main page reloads)
+Styles (yeah, we're fucked)
+Points (methods prepared, gotta implement them)
+Achievements (yep, no idea how to do those)
+Lessons rendering (either a button which will create a link at a given hour or a link prepared in a db earlier)
+Blocking ability to post offers when not enough points
+Adding friends
+Group chat

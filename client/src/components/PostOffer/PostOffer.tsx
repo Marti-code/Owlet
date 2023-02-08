@@ -5,13 +5,23 @@ import {
   Dropdown,
   FormWrapper,
   Heading,
-} from "../Login/Login.styles";
+  Label,
+  Textarea,
+} from "./PostOffer.styles";
+
+import math from "./cone.png";
+import english from "./english-language (1).png";
+import geography from "./globe.png";
+import history from "./ancient-scroll.png";
+import physics from "./atom.png";
+import polish from "./book.png";
 
 import "./PostOffer.css";
 
 import API from "../../API";
 import { UserInfoType } from "../../API";
 import { useNavigate } from "react-router-dom";
+import ProfileHeader from "../Profile/ProfileHeader";
 
 type Profile = {
   userData: UserInfoType | undefined;
@@ -26,15 +36,23 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
   const [btnState, setBtnState] = useState("");
 
   const [errNote, setErrNote] = useState("");
+  const [subjectsErrNote, setSubjectsErrNote] = useState("");
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title || !subject || !price) {
+    if (!title || !price) {
       console.log("Uzupełnij dane");
       return;
+    }
+
+    if (!subject) {
+      setSubjectsErrNote("Wybierz przedmiot");
+      return;
+    } else {
+      setSubjectsErrNote("");
     }
 
     if (dateItems[0] == "" || dateItems.length == 0) {
@@ -92,98 +110,162 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
 
   return (
     <div className={`PostOffer ${userData?.theme || "light"}`}>
+      <ProfileHeader />
       <FormWrapper>
-        <Heading>Oferta</Heading>
-
         <Form method="POST" onSubmit={handleSubmit}>
-          <p>
+          <div>
+            <Label>
+              Określ w 3 lub mniej słowach czego będzie dotyczyć lekcja
+            </Label>
             <Input
               onChange={(e) => setTitle(e.target.value)}
               type="text"
               name="title"
-              placeholder="Tytuł"
               required
               autoComplete="off"
             />
-          </p>
-          <p>
-            {/* <Input
-              onChange={(e) => setSubject(e.target.value)}
-              type="text"
-              name="subject"
-              placeholder="Przedmiot"
-              required
-              autoComplete="off"
-            /> */}
-            <Dropdown
-              name="subjet"
-              id="subjet"
-              onChange={(e) => {
-                setSubject(e.target.value);
-              }}
-            >
-              <option value="Matematyka">Matematyka</option>
-              <option value="Fizyka">Fizyka</option>
-              <option value="Angielski">Angielski</option>
-              <option value="Polski">Polski</option>
-              <option value="Historia">Historia</option>
-              <option value="Niemiecki">Niemiecki</option>
-              <option value="Biologia">Biologia</option>
-              <option value="Chemia">Chemia</option>
-              <option value="Geografia">Geografia</option>
-            </Dropdown>
-          </p>
-          <p>
-            <Input
+          </div>
+          <div>
+            <Label>Z jakiego przedmiotu potrzebujesz pomocy?</Label>
+
+            <div className="section over-hide z-bigger">
+              <div className="pb-5">
+                <div className="row justify-content-center pb-5">
+                  <div className="col-12 pb-5">
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-1"
+                        onClick={(e) => {
+                          setSubject("Matematyka");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-1">
+                        <img src={math} alt="" />
+                      </label>
+                      <p>Matematyka</p>
+                    </div>
+
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-2"
+                        onClick={(e) => {
+                          setSubject("Fizyka");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-2">
+                        <img src={physics} alt="" />
+                      </label>
+                      <p>Fizyka</p>
+                    </div>
+
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-3"
+                        onClick={(e) => {
+                          setSubject("Angielski");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-3">
+                        <img src={english} alt="" />
+                      </label>
+                      <p>Angielski</p>
+                    </div>
+
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-4"
+                        onClick={(e) => {
+                          setSubject("Polski");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-4">
+                        <img src={polish} alt="" />
+                      </label>
+                      <p>Polski</p>
+                    </div>
+
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-5"
+                        onClick={(e) => {
+                          setSubject("Historia");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-5">
+                        <img src={history} alt="" />
+                      </label>
+                      <p>Historia</p>
+                    </div>
+
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-6"
+                        onClick={(e) => {
+                          setSubject("Geografia");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-6">
+                        <img src={geography} alt="" />
+                      </label>
+                      <p>Geografia</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p style={{ margin: "30px auto 0", color: "red" }}>
+              {subjectsErrNote}
+            </p>
+          </div>
+          <div>
+            <Label>
+              Opisz czego chciałbyś się nauczyć i ile czasu potrzebujesz...
+            </Label>
+            <Textarea
               onChange={(e) => setInfo(e.target.value)}
-              type="text"
               name="info"
-              placeholder="Opis"
               autoComplete="off"
             />
-          </p>
-          <p>
+          </div>
+          <div>
+            <Label>
+              Ile jest warty poświęcony tobie czas? (10 punktów to minimalna
+              cena)
+            </Label>
             <Input
               onChange={(e) => setPrice(e.target.value)}
               type="number"
               min="10"
               name="price"
-              placeholder="Cena"
               required
               autoComplete="off"
             />
-          </p>
-
-          <p>Daty:</p>
-
-          {dateItems.length > 0 &&
-            dateItems.map((el, idx) => {
-              return (
-                <div
-                  className="date-el"
-                  style={{ display: "flex", alignItems: "center" }}
-                >
-                  <p key={idx}>{el}</p>
-                  <button
-                    type="button"
-                    style={{
-                      display: dateItems[0] == "" ? "none" : "block",
-                      margin: "10px",
-                      height: "30px",
-                      width: "30px",
-                    }}
-                    onClick={() => {
-                      deleteDateEl(idx);
-                    }}
-                  >
-                    x
-                  </button>
-                </div>
-              );
-            })}
+          </div>
 
           <div className="time-date">
-            <p style={{ height: "50px" }}>
+            <Label>
+              Kiedy lekcje mogłyby się odbyć? (Pamiętaj że to nauczyciel
+              wybierze ostateczny termin z podanych poniżej)
+            </Label>
+            <p className="time-date-p">
               <Input
                 onChange={(e) => setHours2(e.target.value)}
                 type="time"
@@ -203,11 +285,40 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
               <button
                 onClick={handleAddDates}
                 type="button"
-                style={{ width: "50px", height: "50px", margin: "0" }}
+                style={{ minWidth: "40px", minHeight: "40px", margin: "0" }}
               >
-                add
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                  <path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z" />
+                </svg>
               </button>
             </p>
+          </div>
+
+          <div>
+            <p>Daty:</p>
+
+            {dateItems.length > 0 &&
+              dateItems.map((el, idx) => {
+                return (
+                  <div
+                    className="date-el"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <p
+                      key={idx}
+                      className="addedDate"
+                      onClick={() => {
+                        deleteDateEl(idx);
+                      }}
+                      style={{
+                        display: dateItems[0] == "" ? "none" : "block",
+                      }}
+                    >
+                      {el.slice(6)}, {el.slice(0, 5)}
+                    </p>
+                  </div>
+                );
+              })}
           </div>
 
           <p style={{ margin: "auto", color: "red" }}>{errNote}</p>

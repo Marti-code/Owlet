@@ -9,6 +9,7 @@ import { UserInfoType } from "../../API";
 import { Link, useNavigate } from "react-router-dom";
 
 import TeacherModal from "../TeacherModal/TeacherModal";
+import ProfileHeader from "./ProfileHeader";
 
 type Profile = {
   isLoggedIn: boolean;
@@ -176,40 +177,10 @@ const Profile: React.FC<Profile> = ({
   };
 
   return (
-    <div className={`Profile ${theme}`}>
+    <div className={`Profile ${theme || "light"}`}>
       <div className="Dashboard">
-        <header className="profile-header">
-          <div className="header-content">
-            <div className="header-logo">
-              <div className="logo">
-                <img src={logo} alt="Site Logo" />
-              </div>
-            </div>
-            <div className="header-links">
-              <div className="header-menu" onClick={toggleMenu}>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <div className={`header-links-a ${menuOpen ? "open" : "closed"}`}>
-                <div className="header-link">
-                  <a href="#" onClick={handleUpdatePoints}>
-                    Pomóż
-                  </a>
-                </div>
-                <div className="header-link">
-                  <a href="/post-offer">Otrzymaj pomoc</a>
-                </div>
-                <div className="header-link">
-                  <a href="#">Chat grupowy</a>
-                </div>
-              </div>
-            </div>
-            <div className="header-user-pic">
-              <div className="user-pic"></div>
-            </div>
-          </div>
-        </header>
+        <ProfileHeader />
+
         <main id="profile-main">
           <div className="main-content">
             {/* COLUMN 1 */}
