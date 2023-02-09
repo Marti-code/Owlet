@@ -6,7 +6,7 @@ export const Form = styled.form`
   gap: 70px;
   max-width: 80vw;
   width: 100%;
-  background-color: #fff;
+  background-color: var(--light-bg);
   padding: 70px 15%;
   border-radius: 1rem;
   -webkit-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
@@ -22,7 +22,7 @@ export const Label = styled.p`
   width: 100%;
   font-family: Lexend;
   font-size: 18px;
-  color: #606060;
+  color: var(--secondary-font);
   text-align: center;
   margin-bottom: 10px;
 `;
@@ -33,7 +33,7 @@ export const Input = styled.input`
   border: none;
   font-size: 14px;
   line-height: 16px;
-  color: #606060;
+  color: var(--secondary-font);
   font-weight: 500;
   padding: 13px 20px;
   border-radius: 10px;
@@ -49,7 +49,7 @@ export const Textarea = styled.textarea`
   border: none;
   font-size: 14px;
   line-height: 16px;
-  color: #606060;
+  color: var(--secondary-font);
   font-weight: 500;
   padding: 13px 20px;
   border-radius: 10px;
@@ -57,24 +57,6 @@ export const Textarea = styled.textarea`
   border: 2px solid var(--bg);
   outline: none;
   max-width: 100%;
-`;
-
-export const Dropdown = styled.select`
-  width: 100%;
-  font-family: Lexend;
-  border: none;
-  font-size: 14px;
-  line-height: 16px;
-  color: #999;
-  font-weight: 500;
-  padding: 13px 20px;
-  border-radius: 60px;
-  background: var(--blue);
-  outline: none;
-
-  ::placeholder {
-    color: #999;
-  }
 `;
 
 export const Submit = styled.button`

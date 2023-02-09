@@ -8,7 +8,7 @@
   --reverse-font: #000;
 }
 
-.Profile.light {
+.light {
   --bg: #dce7ea;
   --light-bg: #fff;
   --main-font: #000;
@@ -19,7 +19,7 @@
   --reverse-font: #fff;
 }
 
-.Profile.dark {
+.dark {
   --bg: #1a1a1a;
   --light-bg: #262625;
   --main-font: #fff;

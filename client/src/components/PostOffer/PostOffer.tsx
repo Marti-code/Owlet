@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Input,
-  Dropdown,
-  FormWrapper,
-  Heading,
-  Label,
-  Textarea,
-} from "./PostOffer.styles";
+import { Form, Input, FormWrapper, Label, Textarea } from "./PostOffer.styles";
 
 import math from "./cone.png";
 import english from "./english-language (1).png";

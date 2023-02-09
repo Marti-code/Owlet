@@ -37,7 +37,9 @@ const ProfileHeader = () => {
           </div>
         </div>
         <div className="header-user-pic">
-          <div className="user-pic"></div>
+          <a href="/dashboard">
+            <div className="user-pic"></div>
+          </a>
         </div>
       </div>
     </header>
