@@ -13,6 +13,8 @@ export const Form = styled.form`
   -moz-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
   box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
 
+  color: var(--main-font);
+
   p {
     display: flex;
   }
@@ -64,16 +66,13 @@ export const Submit = styled.button`
   font-size: 14px;
   font-weight: 700;
   background: var(--accent);
-  border: none;
   display: inline-block;
   padding: 13px 20px;
   width: auto;
-  margin: 0 auto;
 `;
 
 export const FormInfo = styled.div`
   text-align: center;
-  margin-top: 15px;
 `;
 
 export const Loader = styled.div`
@@ -135,4 +134,39 @@ export const SuccessAlert = styled.div`
   margin: auto;
   padding: 12px;
   width: 400px;
+`;
+
+export const Select = styled.input`
+  width: 100%;
+  font-family: Lexend;
+  border: none;
+  font-size: 14px;
+  line-height: 16px;
+  color: #999;
+  font-weight: 500;
+  padding: 13px 20px;
+  border-radius: 60px;
+  background: var(--blue);
+  outline: none;
+
+  ::placeholder {
+    color: #999;
+  }
+`;
+
+type Button = {
+  show: boolean;
+};
+
+export const LanguagesWrapper = styled.div<Button>`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transform: ${(e) => (e.show ? `scale(1)` : `scale(0)`)};
+  height: ${(e) => (e.show ? `100%` : `0`)};
+
+  label {
+    display: flex;
+    gap: 10px;
+  }
 `;

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API, { UserInfoType } from "../../API";
+import ProfileHeader from "../Profile/ProfileHeader";
 import {
+  ButtonContainer,
   Form,
   FormWrapper,
   Heading,
   Input,
+  Label,
   LanguagesWrapper,
   Loader,
   Select,
   Submit,
-} from "./EditProfile.styles";
+} from "../../GlobalForm.styles";
 
 type Props = {
   isLoggedIn: boolean;
@@ -97,13 +100,15 @@ const EditProfile: React.FC<Props> = ({
   if (loading) return <>Loading...</>;
 
   return (
-    <div className="container">
+    <div className="sign-container light">
+      <ProfileHeader />
       <FormWrapper>
         <>
-          <Heading>Edytuj profil</Heading>
-
           <Form method="post" onSubmit={handleSubmit} autoComplete="off">
-            <p>
+            {/* <Heading>Edytuj profil</Heading> */}
+
+            <div>
+              <Label>Imię i nazwisko</Label>
               <Input
                 onChange={(e) => setName(e.target.value)}
                 type="text"
@@ -111,7 +116,7 @@ const EditProfile: React.FC<Props> = ({
                 placeholder={userData?.name}
                 autoComplete="off"
               />
-            </p>
+            </div>
 
             <div
               onClick={() => {
@@ -151,15 +156,25 @@ const EditProfile: React.FC<Props> = ({
               </LanguagesWrapper>
             ) : null}
 
-            <Submit>Zapisz zmiany</Submit>
-          </Form>
-          {info}
-          {loading ? <Loader /> : null}
-        </>
+            {info}
+            {loading ? <Loader /> : null}
 
-        <button>
-          <Link to="/dashboard">Powrót</Link>
-        </button>
+            <ButtonContainer>
+              <a href="/dashboard">
+                <button type="button">Anuluj</button>
+              </a>
+              <Submit
+                onClick={() => {
+                  setTimeout(() => {
+                    navigate("/dashboard");
+                  }, 1000);
+                }}
+              >
+                Zapisz zmiany
+              </Submit>
+            </ButtonContainer>
+          </Form>
+        </>
       </FormWrapper>
     </div>
   );

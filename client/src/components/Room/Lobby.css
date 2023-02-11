@@ -2,7 +2,7 @@
   width: 90%;
   max-width: 600px;
   border-radius: 10px;
-  background-color: #262625;
+  background-color: var(--light-bg);
   position: fixed;
   top: 50%;
   left: 50%;

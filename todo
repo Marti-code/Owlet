@@ -5,15 +5,15 @@ refreshing the circles after a change
 
 App:
 Themes (updates after main page reloads)
-Styles (yeah, we're fucked)
+Styles (we might not be fucked up)
 Points (methods prepared, gotta implement them)
 Achievements (yep, no idea how to do those)
 Lessons rendering (either a button which will create a link at a given hour or a link prepared in a db earlier)
 Blocking ability to post offers when not enough points
 Adding friends
 Group chat
+Forgot your password?
 
 Form styles:
 EditProfile
-Login
-Register
+the info in Register and Login

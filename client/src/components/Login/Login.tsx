@@ -8,7 +8,8 @@ import {
   SignHeading,
   SignAside,
   Label,
-} from "./Login.styles";
+  FormInfo,
+} from "../../GlobalForm.styles";
 
 import { Link, useNavigate } from "react-router-dom";
 import API, { UserInfoType } from "../../API";
@@ -63,7 +64,7 @@ const Login: React.FC<Props> = ({ isLoggedIn, setLoggedIn, setUserData }) => {
   }, []);
 
   return (
-    <div className="sign-container light" style={{ background: "var(--bg)" }}>
+    <div className="sign-container light">
       <FormWrapper>
         <SignForm method="POST" onSubmit={handleSubmit}>
           <SignHeading>Witaj ponownie!</SignHeading>
@@ -96,8 +97,10 @@ const Login: React.FC<Props> = ({ isLoggedIn, setLoggedIn, setUserData }) => {
             </Link>
           </Label>
 
-          {info}
-          {loading ? <Loader /> : null}
+          <FormInfo>
+            {info}
+            {loading ? <Loader /> : null}
+          </FormInfo>
 
           <p>
             <Submit type="submit">Zaloguj się</Submit>

@@ -218,24 +218,23 @@ const Profile: React.FC<Profile> = ({
                     <p>Uczył się: 10h</p>
                   </div> */}
                 </div>
-
-                <div className="user-info-edit">
-                  <button id="theme-edit-btn" onClick={handleTheme}>
-                    Motyw
-                  </button>
-                  <button id="user-info-edit-btn">
-                    <Link to="edit">Edytuj</Link>
-                  </button>
-                  <button
-                    id="user-info-edit-btn"
-                    onClick={() => {
-                      localStorage.removeItem("user");
-                      setLoggedIn(false);
-                    }}
-                  >
-                    Wyloguj
-                  </button>
-                </div>
+              </div>
+              <div className="user-info-edit">
+                <button id="user-info-edit-btn" onClick={handleTheme}>
+                  Motyw
+                </button>
+                <button id="user-info-edit-btn">
+                  <Link to="edit">Edytuj</Link>
+                </button>
+                <button
+                  id="user-info-edit-btn"
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                    setLoggedIn(false);
+                  }}
+                >
+                  Wyloguj
+                </button>
               </div>
             </section>
 

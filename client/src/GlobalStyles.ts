@@ -7,9 +7,11 @@ export const GlobalStyle = createGlobalStyle`
   --main-font: #000;
   --secondary-font: #606060;
   --accent: #4386e6;
+  --accent-alpha: #4386e6;
   --secondary-accent: #ffa34e;
   --reverse-font: #000;
   --hover:#eef5f7;
+  --border: #fff;
 }
 
 .light {
@@ -18,9 +20,11 @@ export const GlobalStyle = createGlobalStyle`
   --main-font: #000;
   --secondary-font: #606060;
   --accent: #ff69b4;
+  --accent-alpha: #ff69b499;
   --secondary-accent: #ffa34e;
   --reverse-font: #fff;
   --hover:#eef5f7;
+  --border: #fff;
 }
 
 .dark {
@@ -29,9 +33,11 @@ export const GlobalStyle = createGlobalStyle`
   --main-font: #fff;
   --secondary-font: rgb(218, 218, 218);
   --accent: #845695;
+  --accent-alpha: #84569580;
   --secondary-accent: #ffa34e;
   --reverse-font: #fff;
   --hover:#353636;
+  --border: #111;
 }
 
   * {
@@ -69,8 +75,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: #1a1a1a;
-    color: #fff;
+    background-color: black;
+    /* background-color: var(--bg); */
+    color: var(--main-font);
 
     font-size: 14px;
     padding: 0;
@@ -85,11 +92,15 @@ export const GlobalStyle = createGlobalStyle`
 
   a {
     text-decoration: none;
-    color: #fff;
+    color: var(--main-font);
+  }
+
+  .sign-container{
+    background-color: var(--bg);
   }
 
   button {
-    margin-top: 32px;
+    /* margin-top: 32px; */
     cursor: pointer;
     background-color: var(--accent);
     border: 2px solid var(--accent);
@@ -122,19 +133,6 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
-  .avatar__md {
-    height: 40px;
-    width: 40px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-
-  .avatar__sm {
-    height: 30px;
-    width: 30px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
 
   #nav {
     position: fixed;
@@ -144,8 +142,8 @@ export const GlobalStyle = createGlobalStyle`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #000000;
-    background-color: #1a1a1a;
+    border-bottom: 1px solid var(--light-bg);
+    background-color: var(--bg);
     text-decoration: none;
     padding: 16px 5%;
     z-index: 999;
@@ -159,7 +157,7 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 700;
     line-height: 0;
     margin: 0;
-    color: #ebe0e0;
+    color: var(--main-font);
   }
 
   .sign-label{

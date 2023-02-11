@@ -29,6 +29,26 @@ export const SignForm = styled.form`
   }
 `;
 
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  max-width: 80vw;
+  width: 100%;
+  background-color: var(--light-bg);
+  padding: 70px 15%;
+  border-radius: 1rem;
+  -webkit-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
+  -moz-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
+  box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
+
+  color: var(--main-font);
+
+  p {
+    display: flex;
+  }
+`;
+
 export const SignAside = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,12 +129,10 @@ export const Submit = styled.button`
   display: inline-block;
   padding: 13px 20px;
   width: auto;
-  margin: 0 auto;
 `;
 
 export const FormInfo = styled.div`
   text-align: center;
-  margin-top: 15px;
 `;
 
 export const Loader = styled.div`
@@ -158,10 +176,11 @@ export const FormWrapper = styled.div`
   justify-content: center;
   color: red;
   padding: 100px 10px;
-  /* flex-direction: column; */
   flex-wrap: wrap;
-  /* gap: 50px; */
   align-items: center;
+  font-size: 16px;
+  background-color: var(--bg);
+  color: var(--main-font);
 `;
 
 export const SignHeading = styled.h1`
@@ -181,4 +200,61 @@ export const SuccessAlert = styled.div`
   margin: auto;
   padding: 12px;
   width: 400px;
+`;
+
+export const Select = styled.input`
+  width: 100%;
+  font-family: Lexend;
+  border: none;
+  font-size: 14px;
+  line-height: 16px;
+  color: #999;
+  font-weight: 500;
+  padding: 13px 20px;
+  border-radius: 60px;
+  background: var(--blue);
+  outline: none;
+
+  ::placeholder {
+    color: #999;
+  }
+`;
+
+type Button = {
+  show: boolean;
+};
+
+export const LanguagesWrapper = styled.div<Button>`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transform: ${(e) => (e.show ? `scale(1)` : `scale(0)`)};
+  height: ${(e) => (e.show ? `100%` : `0`)};
+
+  label {
+    display: flex;
+    gap: 10px;
+  }
+`;
+
+export const FormWrapper2 = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 100px 10px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 50px;
+  align-items: center;
+`;
+
+export const Heading = styled.h1`
+  text-align: center;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
 `;

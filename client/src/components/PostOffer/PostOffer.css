@@ -4,12 +4,6 @@
   box-sizing: border-box;
 }
 
-.PostOffer {
-  font-size: 16px;
-  background-color: var(--bg);
-  color: var(--main-font);
-}
-
 .time-date-p {
   display: flex;
   justify-content: center;
@@ -75,24 +69,16 @@ div > p {
 
 .button {
   min-width: 150px;
-  margin: 20px auto;
-  background: #8bc34a;
-  color: #fefefe;
-  font-size: 1.2em;
-  padding: 1em;
+  margin: 20px 0;
+  font-weight: bold;
   border-radius: 10rem;
   text-align: center;
   position: relative;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
-  border: 0;
   transition: border-radius linear 0.05s, width linear 0.05s;
   transition: background 0.3s ease;
-}
-
-.button:hover {
-  background: #8cd835;
 }
 
 .button.animate {
@@ -197,6 +183,7 @@ div > p {
   }
   to {
     transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+    /* background-color: #8bc34a; */
   }
 }
 
@@ -206,6 +193,7 @@ div > p {
   }
   to {
     -webkit-transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+    /* background-color: #8bc34a; */
   }
 }
 

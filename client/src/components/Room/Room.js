@@ -35,7 +35,7 @@ function Room(props) {
   }
 
   return (
-    <div className="Room">
+    <div className="Room light">
       <Header
         handleMemberContainer={handleMemberContainer}
         handleChatPanel={handleChatPanel}

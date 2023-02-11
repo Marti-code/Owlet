@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, FormWrapper, Label, Textarea } from "./PostOffer.styles";
+import {
+  Form,
+  Input,
+  FormWrapper,
+  Label,
+  Textarea,
+  ButtonContainer,
+} from "../../GlobalForm.styles";
 
-import math from "./cone.png";
-import english from "./english-language (1).png";
-import geography from "./globe.png";
-import history from "./ancient-scroll.png";
-import physics from "./atom.png";
-import polish from "./book.png";
+import math from "./icons/cone.png";
+import english from "./icons/english-language (1).png";
+import geography from "./icons/globe.png";
+import history from "./icons/ancient-scroll.png";
+import physics from "./icons/atom.png";
+import polish from "./icons/book.png";
 
 import "./PostOffer.css";
 
@@ -315,7 +322,10 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
 
           <p style={{ margin: "auto", color: "red" }}>{errNote}</p>
 
-          <p>
+          <ButtonContainer>
+            <a href="/dashboard">
+              <button type="button">Anuluj</button>
+            </a>
             <button
               className={
                 btnState == "success"
@@ -328,15 +338,9 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
             >
               Zapisz
             </button>
-          </p>
+          </ButtonContainer>
         </Form>
       </FormWrapper>
-
-      <div className="return-btn-container">
-        <button id="return-btn">
-          <a href="/dashboard">Powrót</a>
-        </button>
-      </div>
     </div>
   );
 };

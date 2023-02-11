@@ -9,7 +9,7 @@ import {
   FormInfo,
   Label,
   SignAside,
-} from "./Register.styles";
+} from "../../GlobalForm.styles";
 
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../API";
@@ -68,7 +68,7 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
   }, []);
 
   return (
-    <div className="sign-container light" style={{ background: "var(--bg)" }}>
+    <div className="sign-container light">
       <FormWrapper>
         <SignForm method="POST" onSubmit={handleSubmit}>
           <SignHeading>Dołącz już teraz!</SignHeading>
