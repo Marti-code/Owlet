@@ -123,7 +123,9 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
           </FormInfo>
 
           <p>
-            <Submit type="submit">Zarejestruj się</Submit>
+            <Submit style={{ margin: "auto" }} type="submit">
+              Zarejestruj się
+            </Submit>
           </p>
         </SignForm>
 

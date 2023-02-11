@@ -103,7 +103,9 @@ const Login: React.FC<Props> = ({ isLoggedIn, setLoggedIn, setUserData }) => {
           </FormInfo>
 
           <p>
-            <Submit type="submit">Zaloguj się</Submit>
+            <Submit style={{ margin: "auto" }} type="submit">
+              Zaloguj się
+            </Submit>
           </p>
         </SignForm>
 
