@@ -271,7 +271,7 @@ img {
   margin: 15px;
 }
 
-.pb-5 {
+.PostOffer .pb-5 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -280,7 +280,7 @@ img {
   margin-top: 5px;
 }
 
-.section {
+.PostOffer .section {
   position: relative;
   width: 100%;
   display: block;
@@ -288,21 +288,21 @@ img {
   margin: 0 auto;
 }
 
-.over-hide {
+.PostOffer .over-hide {
   overflow: hidden;
 }
 
-.z-bigger {
+.PostOffer .z-bigger {
   z-index: 100 !important;
 }
 
-[type="radio"]:checked,
-[type="radio"]:not(:checked) {
+.PostOffer [type="radio"]:checked,
+.PostOffer [type="radio"]:not(:checked) {
   display: none;
 }
 
-.checkbox-tools:checked + label,
-.checkbox-tools:not(:checked) + label {
+.PostOffer .checkbox-tools:checked + label,
+.PostOffer .checkbox-tools:not(:checked) + label {
   position: relative;
   display: inline-block;
   width: 80px;
@@ -321,22 +321,22 @@ img {
   transition: all 300ms linear;
 }
 
-.checkbox-tools:not(:checked) + label {
+.PostOffer .checkbox-tools:not(:checked) + label {
   background-color: var(--bg);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
-.checkbox-tools:checked + label {
+.PostOffer .checkbox-tools:checked + label {
   background-color: transparent;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-.checkbox-tools:not(:checked) + label:hover {
+.PostOffer .checkbox-tools:not(:checked) + label:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-.checkbox-tools:checked + label::before,
-.checkbox-tools:not(:checked) + label::before {
+.PostOffer .checkbox-tools:checked + label::before,
+.PostOffer .checkbox-tools:not(:checked) + label::before {
   position: absolute;
   content: "";
   top: 0;
@@ -348,8 +348,8 @@ img {
   z-index: -1;
 }
 
-.checkbox-tools:checked + label .uil,
-.checkbox-tools:not(:checked) + label .uil {
+.PostOffer .checkbox-tools:checked + label .uil,
+.PostOffer .checkbox-tools:not(:checked) + label .uil {
   font-size: 24px;
   line-height: 24px;
   display: block;

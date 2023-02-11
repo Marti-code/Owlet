@@ -16,6 +16,7 @@ function Room(props) {
     testChannel,
     uid,
     client,
+    userData,
   } = props;
 
   //scroll messages into view - doesn't work yet
@@ -35,7 +36,7 @@ function Room(props) {
   }
 
   return (
-    <div className="Room light">
+    <div className={`Room ${userData?.theme || "light"}`}>
       <Header
         handleMemberContainer={handleMemberContainer}
         handleChatPanel={handleChatPanel}
@@ -62,18 +63,6 @@ function Room(props) {
             testChannel={testChannel}
             uid={client.uid}
           />
-
-          {/* bot messages? */}
-          {/* 
-            <div id="messages">
-              <div className="message__wrapper">
-              <div className="message__body__bot">
-                <strong className="message__author__bot">🤖 Mumble Bot</strong>
-                <p className="message__text__bot">
-                  Welcome to the room, Don't be shy, say hello!
-                </p>
-              </div>
-            </div> */}
         </div>
       </main>
     </div>

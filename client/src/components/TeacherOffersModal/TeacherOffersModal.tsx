@@ -45,7 +45,7 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className="TeacherModal">
+    <div className={`TeacherModal ${userData?.theme || "light"}`}>
       <div className="modal-container">
         <div className="teacher-modal">
           <div className="modal-header modal-offers-col">

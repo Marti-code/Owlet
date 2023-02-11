@@ -12,13 +12,13 @@ type AcceptedBy = {
   name: string;
   teacher: string;
   date: string;
-}
+};
 
 type Offer = {
   subject: string;
   title: string;
   acceptedBy: AcceptedBy[];
-  _id: string
+  _id: string;
 };
 
 const Waiting: React.FC<Props> = ({ userData, getData }) => {
@@ -45,26 +45,40 @@ const Waiting: React.FC<Props> = ({ userData, getData }) => {
   };
 
   return (
-    <div className="waiting-wrapper">
+    <div className={`waiting-wrapper ${userData?.theme || "light"}`}>
       <>
         <h1>Oczekujace</h1>
 
         <div className="offers-grid">
           {offers &&
             offers.map((el) => {
-              return <div key={el.title} className="single-offer">
-                <span className="offer-title">{el.subject}</span>
-                <span className="offer-title">{el.title}</span>
-                <button onClick={() => {
-                  setOpenModal(true);
-                  setCurAcceptedBy(el.acceptedBy);
-                  setCurOfferId(el._id)
-                }}>Pokaz oferty ({el.acceptedBy.length})</button>
-              </div>;
+              return (
+                <div key={el.title} className="single-offer">
+                  <span className="offer-title">{el.subject}</span>
+                  <span className="offer-title">{el.title}</span>
+                  <button
+                    onClick={() => {
+                      setOpenModal(true);
+                      setCurAcceptedBy(el.acceptedBy);
+                      setCurOfferId(el._id);
+                    }}
+                  >
+                    Pokaz oferty ({el.acceptedBy.length})
+                  </button>
+                </div>
+              );
             })}
         </div>
 
-        {openModal && <TeacherOffersModal userData={userData} getData={getData} offerId={curOfferId} acceptedBy={curAcceptedBy} setOpenModal={setOpenModal} />}
+        {openModal && (
+          <TeacherOffersModal
+            userData={userData}
+            getData={getData}
+            offerId={curOfferId}
+            acceptedBy={curAcceptedBy}
+            setOpenModal={setOpenModal}
+          />
+        )}
       </>
     </div>
   );

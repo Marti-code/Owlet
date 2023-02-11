@@ -100,7 +100,7 @@ const EditProfile: React.FC<Props> = ({
   if (loading) return <>Loading...</>;
 
   return (
-    <div className="sign-container light">
+    <div className={`sign-container ${userData?.theme || "light"}`}>
       <ProfileHeader />
       <FormWrapper>
         <>

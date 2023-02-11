@@ -262,8 +262,8 @@ for now will have to do */
 }
 
 .teachers-header button {
-  background-color: var(--bg);
-  color: var(--secondary-font);
+  background-color: var(--accent);
+  color: #fff;
   padding: 5px 20px;
   margin: 0;
 }
@@ -322,9 +322,16 @@ body {
 
 #feedback-btn {
   background-color: var(--secondary-accent);
+  border: 2px solid var(--secondary-accent);
   width: fit-content;
   padding: 0.6rem 1.6rem;
   border-radius: 1.6rem;
+}
+
+#feedback-btn:hover {
+  background-color: var(--secondary-accent);
+  border: 2px solid var(--secondary-accent);
+  color: #fff;
 }
 
 /* 

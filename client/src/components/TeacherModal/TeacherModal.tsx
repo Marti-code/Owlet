@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import API from "../../API";
+import API, { UserInfoType } from "../../API";
 import "./TeacherModal.css";
 
 interface ModalProps {
@@ -11,6 +11,7 @@ interface ModalProps {
   timeArr: string[];
   id: string;
   userMail: string | undefined;
+  userData: UserInfoType | undefined;
 }
 
 const TeacherModal: React.FC<ModalProps> = ({
@@ -21,15 +22,14 @@ const TeacherModal: React.FC<ModalProps> = ({
   hideModal,
   timeArr,
   id,
-  userMail
+  userMail,
+  userData,
 }) => {
-
   const [date, setDate] = useState("");
   const [modalInfo, setModalInfo] = useState("");
 
-  const handleAccept = async() => {
-    if (date == '') 
-      return;
+  const handleAccept = async () => {
+    if (date == "") return;
 
     let data;
 
@@ -37,15 +37,14 @@ const TeacherModal: React.FC<ModalProps> = ({
       data = await API.sendOfferRequest(userMail, date, id, userName);
 
     if (data.ok) {
-      setModalInfo("Wysałno propozycję nauczania. ")
+      setModalInfo("Wysałno propozycję nauczania. ");
     } else {
-      setModalInfo("Wystąpił błąd")
+      setModalInfo("Wystąpił błąd");
     }
-  }
-
+  };
 
   return (
-    <div className="TeacherModal">
+    <div className={`TeacherModal ${userData?.theme || "light"}`}>
       <div className="modal-container">
         <div className="teacher-modal">
           <div className="modal-header">
@@ -88,7 +87,7 @@ const TeacherModal: React.FC<ModalProps> = ({
               Akceptuj
             </button>
           </div>
-        {modalInfo}
+          {modalInfo}
         </div>
         <div className="modal-overlay" onClick={hideModal}></div>
       </div>

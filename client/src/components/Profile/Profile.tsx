@@ -4,6 +4,14 @@ import React, { useState, useEffect } from "react";
 import logo from "../Room/logo1.png";
 import API from "../../API";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faRefresh,
+  faSun,
+  faMoon,
+  faUserEdit,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
 import { Link, useNavigate } from "react-router-dom";
@@ -221,10 +229,16 @@ const Profile: React.FC<Profile> = ({
               </div>
               <div className="user-info-edit">
                 <button id="user-info-edit-btn" onClick={handleTheme}>
-                  Motyw
+                  {theme == "light" ? (
+                    <FontAwesomeIcon icon={faSun} />
+                  ) : (
+                    <FontAwesomeIcon icon={faMoon} />
+                  )}
                 </button>
                 <button id="user-info-edit-btn">
-                  <Link to="edit">Edytuj</Link>
+                  <Link to="edit">
+                    <FontAwesomeIcon icon={faUserEdit} />
+                  </Link>
                 </button>
                 <button
                   id="user-info-edit-btn"
@@ -263,7 +277,9 @@ const Profile: React.FC<Profile> = ({
               <div className="teachers-content">
                 <div className="teachers-header">
                   <p>Wybrane dla ciebie</p>
-                  <button onClick={handleGetOffers}>refresh</button>
+                  <button onClick={handleGetOffers}>
+                    <FontAwesomeIcon icon={faRefresh} />
+                  </button>
                 </div>
                 <div className="teachers-list">
                   {/* insert offers here */}
@@ -346,6 +362,7 @@ const Profile: React.FC<Profile> = ({
           timeArr={modalInfo.hours}
           id={modalInfo.id}
           userMail={userData?.mail}
+          userData={userData}
         />
       )}
     </div>
