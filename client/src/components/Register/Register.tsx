@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
-  Form,
+  SignForm,
   Input,
   Submit,
   Loader,
   FormWrapper,
-  Heading,
+  SignHeading,
   FormInfo,
+  Label,
+  SignAside,
 } from "./Register.styles";
 
-import bluearrow from "../../assets/blue-arrow-right.svg";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../API";
 
@@ -45,7 +46,6 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
     if (data.ok) {
       setLoading(false);
       setInfo([<>Zarejestrowano</>]);
-      // navigate('/sign-in');
     } else {
       console.log(data.errors);
       if (data.errors.length) {
@@ -63,15 +63,15 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
   };
 
   useEffect(() => {
+    //add a page to choose subjects
     if (isLoggedIn) navigate("/dashboard");
   }, []);
 
   return (
-    <div className="container">
+    <div className="sign-container light" style={{ background: "var(--bg)" }}>
       <FormWrapper>
-        <Heading>Zarejestruj się!</Heading>
-
-        <Form method="POST" onSubmit={handleSubmit}>
+        <SignForm method="POST" onSubmit={handleSubmit}>
+          <SignHeading>Dołącz już teraz!</SignHeading>
           <p>
             <Input
               onChange={(e) => setName(e.target.value)}
@@ -106,23 +106,34 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
               autoComplete="new-password"
             />
           </p>
-          <p>
+
+          <Label className="sign-label">
             Masz już konto?&nbsp;
-            <Link to="/sign-in">
+            <Link to="/sign-in" style={{ color: "#000" }}>
               <b>Zaloguj się!</b>
             </Link>
-          </p>
+          </Label>
+
+          {loading ? <Loader /> : null}
+          <FormInfo>
+            {info &&
+              info.map((e, i) => {
+                return <div key={i}>{e}</div>;
+              })}
+          </FormInfo>
+
           <p>
             <Submit type="submit">Zarejestruj się</Submit>
           </p>
-        </Form>
-        {loading ? <Loader /> : null}
-        <FormInfo>
-          {info &&
-            info.map((e, i) => {
-              return <div key={i}>{e}</div>;
-            })}
-        </FormInfo>
+        </SignForm>
+
+        <SignAside>
+          <SignHeading>Masz już konto?</SignHeading>
+          <p>Zaloguj się i ucz się razem z nami</p>
+          <Link to="/sign-in">
+            <button className="negative">Zaloguj się</button>
+          </Link>
+        </SignAside>
       </FormWrapper>
     </div>
   );

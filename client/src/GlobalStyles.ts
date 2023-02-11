@@ -2,20 +2,37 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-    --bg: #eaeaea;
-    --light-bg: #fff;
-    --black: #000;
-    --gray: #606060;
-    --cyan: #00dfd2;
-    --orange: #ffa34e;
+  --bg: #dce7ea;
+  --light-bg: #fff;
+  --main-font: #000;
+  --secondary-font: #606060;
+  --accent: #4386e6;
+  --secondary-accent: #ffa34e;
+  --reverse-font: #000;
+  --hover:#eef5f7;
+}
 
-    /* old */
-    --blackText: #272727;
-    --maxWidth: 1140px;
-    --yellow: #FFE600;
-    --blue: #DCF0F2;
-  }
-  
+.light {
+  --bg: #dce7ea;
+  --light-bg: #fff;
+  --main-font: #000;
+  --secondary-font: #606060;
+  --accent: #ff69b4;
+  --secondary-accent: #ffa34e;
+  --reverse-font: #fff;
+  --hover:#eef5f7;
+}
+
+.dark {
+  --bg: #1a1a1a;
+  --light-bg: #262625;
+  --main-font: #fff;
+  --secondary-font: rgb(218, 218, 218);
+  --accent: #845695;
+  --secondary-accent: #ffa34e;
+  --reverse-font: #fff;
+  --hover:#353636;
+}
 
   * {
     margin: 0;
@@ -74,16 +91,35 @@ export const GlobalStyle = createGlobalStyle`
   button {
     margin-top: 32px;
     cursor: pointer;
-    background-color: #845695;
-    border: none;
+    background-color: var(--accent);
+    border: 2px solid var(--accent);
     color: #fff;
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 12px;
-    border-radius: 5px;
+    border-radius: 60px;
     gap: 10px;
+    transition: all 0.2s ease;
+
+    :hover{
+      background-color: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
+  }
+
+  button.negative{
+    background-color: transparent;
+    border: 2px solid #fff;
+    padding: 12px 24px;
+
+    :hover{
+      background-color: #fff;
+      border: 2px solid #fff;
+      color: var(--accent);
+    }
   }
 
   .avatar__md {
@@ -126,9 +162,17 @@ export const GlobalStyle = createGlobalStyle`
     color: #ebe0e0;
   }
 
+  .sign-label{
+      display: none;
+    }
+
   @media (max-width: 640px) {
     #logo span {
       display: none;
+    }
+
+    .sign-label{
+      display: flex;
     }
   }
 

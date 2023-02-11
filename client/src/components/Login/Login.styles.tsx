@@ -1,15 +1,72 @@
 import styled from "styled-components";
 
-export const Form = styled.form`
+export const SignForm = styled.form`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 20px;
-  max-width: 500px;
+  max-width: 40vw;
   width: 100%;
+  height: 75vh;
+  background-color: var(--light-bg);
+  padding: 70px 5%;
+  border-radius: 1rem 0rem 0rem 1rem;
+  -webkit-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
+  -moz-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
+  box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
 
   p {
     display: flex;
   }
+
+  @media (max-width: 860px) {
+    max-width: 60vw;
+    border-radius: 1rem;
+  }
+
+  @media (max-width: 540px) {
+    max-width: 80vw;
+  }
+`;
+
+export const SignAside = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 25vw;
+  height: 75vh;
+  background-color: var(--accent);
+  padding: 40px 2%;
+  text-align: center;
+  border-radius: 0rem 1rem 1rem 0rem;
+  -webkit-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
+  -moz-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
+  box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
+
+  p {
+    display: flex;
+    color: var(--light-bg);
+  }
+
+  h1 {
+    color: var(--light-bg);
+  }
+
+  @media (max-width: 860px) {
+    max-width: 30vw;
+    display: none;
+  }
+`;
+
+export const Label = styled.p`
+  width: 100%;
+  font-family: Lexend;
+  font-size: 18px;
+  color: var(--secondary-font);
+  text-align: center;
+  margin-bottom: 10px;
 `;
 
 export const Input = styled.input`
@@ -18,42 +75,37 @@ export const Input = styled.input`
   border: none;
   font-size: 14px;
   line-height: 16px;
-  color: #999;
+  color: var(--secondary-font);
   font-weight: 500;
   padding: 13px 20px;
-  border-radius: 60px;
-  background: var(--blue);
+  border-radius: 10px;
+  background: transparent;
+  border: 2px solid var(--bg);
   outline: none;
-
-  ::placeholder {
-    color: #999;
-  }
 `;
 
-export const Dropdown = styled.select`
+export const Textarea = styled.textarea`
   width: 100%;
+  height: 200px;
   font-family: Lexend;
   border: none;
   font-size: 14px;
   line-height: 16px;
-  color: #999;
+  color: var(--secondary-font);
   font-weight: 500;
   padding: 13px 20px;
-  border-radius: 60px;
-  background: var(--blue);
+  border-radius: 10px;
+  background: transparent;
+  border: 2px solid var(--bg);
   outline: none;
-
-  ::placeholder {
-    color: #999;
-  }
+  max-width: 100%;
 `;
 
 export const Submit = styled.button`
   border-radius: 60px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
-  background: var(--yellow);
-  border: none;
+  background: var(--accent);
   display: inline-block;
   padding: 13px 20px;
   width: auto;
@@ -104,15 +156,20 @@ export const Loader = styled.div`
 export const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
+  color: red;
   padding: 100px 10px;
-  flex-direction: column;
+  /* flex-direction: column; */
   flex-wrap: wrap;
-  gap: 50px;
+  /* gap: 50px; */
   align-items: center;
 `;
 
-export const Heading = styled.h1`
+export const SignHeading = styled.h1`
   text-align: center;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 34px;
+  margin-bottom: 20px;
 `;
 
 export const SuccessAlert = styled.div`

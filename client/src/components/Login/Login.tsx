@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
-  Form,
+  SignForm,
   Input,
   Submit,
   Loader,
   FormWrapper,
-  Heading,
+  SignHeading,
+  SignAside,
+  Label,
 } from "./Login.styles";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -61,11 +63,10 @@ const Login: React.FC<Props> = ({ isLoggedIn, setLoggedIn, setUserData }) => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="sign-container light" style={{ background: "var(--bg)" }}>
       <FormWrapper>
-        <Heading>Zaloguj się i zacznij pobierać!</Heading>
-
-        <Form method="POST" onSubmit={handleSubmit}>
+        <SignForm method="POST" onSubmit={handleSubmit}>
+          <SignHeading>Witaj ponownie!</SignHeading>
           <p>
             <Input
               onChange={(e) => setMail(e.target.value)}
@@ -88,18 +89,28 @@ const Login: React.FC<Props> = ({ isLoggedIn, setLoggedIn, setUserData }) => {
               autoComplete="new-password"
             />
           </p>
-          <p>
+          <Label>
             Nie masz konta?
-            <Link to="/sign-up">
+            <Link to="/sign-up" style={{ color: "#000" }}>
               <b>&nbsp;Zarejestruj się!</b>
             </Link>
-          </p>
+          </Label>
+
+          {info}
+          {loading ? <Loader /> : null}
+
           <p>
             <Submit type="submit">Zaloguj się</Submit>
           </p>
-        </Form>
-        {info}
-        {loading ? <Loader /> : null}
+        </SignForm>
+
+        <SignAside>
+          <SignHeading>Pierwszy raz?</SignHeading>
+          <p>Zarejestruj się i zacznij się uczyć razem z nami</p>
+          <Link to="/sign-up">
+            <button className="negative">Zarejestruj się</button>
+          </Link>
+        </SignAside>
       </FormWrapper>
     </div>
   );

@@ -63,7 +63,7 @@ export const Submit = styled.button`
   border-radius: 60px;
   font-size: 14px;
   font-weight: 700;
-  background: var(--yellow);
+  background: var(--accent);
   border: none;
   display: inline-block;
   padding: 13px 20px;

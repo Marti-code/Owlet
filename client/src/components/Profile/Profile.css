@@ -1,34 +1,3 @@
-:root {
-  --bg: #dce7ea;
-  --light-bg: #fff;
-  --main-font: #000;
-  --secondary-font: #606060;
-  --accent: #4386e6;
-  --secondary-accent: #ffa34e;
-  --reverse-font: #000;
-}
-
-.light {
-  --bg: #dce7ea;
-  --light-bg: #fff;
-  --main-font: #000;
-  --secondary-font: #606060;
-  --accent: #ff69b4;
-  /* --accent: #4386e6; */
-  --secondary-accent: #ffa34e;
-  --reverse-font: #fff;
-}
-
-.dark {
-  --bg: #1a1a1a;
-  --light-bg: #262625;
-  --main-font: #fff;
-  --secondary-font: rgb(218, 218, 218);
-  --accent: #845695;
-  --secondary-accent: #ffa34e;
-  --reverse-font: #fff;
-}
-
 /* 
   header
  */
@@ -275,6 +244,13 @@
   margin-top: 1rem;
 }
 
+/* change later
+for now will have to do */
+.teachers-list {
+  overflow-y: scroll;
+  max-height: 350px;
+}
+
 .teachers-header button {
   background-color: var(--bg);
   color: var(--secondary-font);
@@ -299,7 +275,7 @@
 
 .teacher-el:hover,
 .friend-el:hover {
-  background-color: #eef5f7;
+  background-color: var(--hover);
 }
 
 .teacher-name {

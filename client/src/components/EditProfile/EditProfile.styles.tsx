@@ -10,8 +10,7 @@ export const Form = styled.form`
   p {
     display: flex;
   }
-`
-
+`;
 
 export const Input = styled.input`
   width: 100%;
@@ -27,31 +26,37 @@ export const Input = styled.input`
   outline: none;
 
   ::placeholder {
-    color: #999
+    color: #999;
   }
-`
+`;
 
 export const Submit = styled.button`
   border-radius: 60px;
   font-size: 14px;
   font-weight: 700;
-  background: var(--yellow);    
-  border: none; 
+  background: var(--accent);
+  border: none;
   display: inline-block;
   padding: 13px 20px;
   width: auto;
   margin: 0 auto;
-`
+`;
 
 export const FormInfo = styled.div`
   text-align: center;
   margin-top: 15px;
-`
+`;
 
 export const Loader = styled.div`
   @keyframes spin {
-    0%{ -webkit-transform: rotate(0deg); tranform: rotate(0deg);}
-    100%{ -webkit-transform: rotate(360deg); tranform: rotate(360deg);}
+    0% {
+      -webkit-transform: rotate(0deg);
+      tranform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      tranform: rotate(360deg);
+    }
   }
 
   position: relative;
@@ -60,13 +65,13 @@ export const Loader = styled.div`
   height: 30px;
   vertical-align: middle;
   border-radius: 50px;
-	border: 6px solid rgba(255,255,255,0.4);
+  border: 6px solid rgba(255, 255, 255, 0.4);
   margin: 10px auto 0;
 
   ::after {
-    content: '';
+    content: "";
     position: absolute;
-    top: -6px; 
+    top: -6px;
     left: -6px;
     bottom: -6px;
     right: -6px;
@@ -76,7 +81,7 @@ export const Loader = styled.div`
     -webkit-animation: spin 1s linear infinite;
     animation: spin 1s linear infinite;
   }
-`
+`;
 
 export const FormWrapper = styled.div`
   display: flex;
@@ -86,11 +91,11 @@ export const FormWrapper = styled.div`
   flex-wrap: wrap;
   gap: 50px;
   align-items: center;
-`
+`;
 
 export const Heading = styled.h1`
   text-align: center;
-`
+`;
 
 export const Select = styled.input`
   width: 100%;
@@ -106,23 +111,23 @@ export const Select = styled.input`
   outline: none;
 
   ::placeholder {
-    color: #999
+    color: #999;
   }
-`
+`;
 
 type Button = {
   show: boolean;
-}
+};
 
 export const LanguagesWrapper = styled.div<Button>`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transform: ${e => e.show ? `scale(1)` : `scale(0)`};
-  height: ${e => e.show ? `100%` : `0`};
+  transform: ${(e) => (e.show ? `scale(1)` : `scale(0)`)};
+  height: ${(e) => (e.show ? `100%` : `0`)};
 
   label {
     display: flex;
     gap: 10px;
   }
-`
+`;

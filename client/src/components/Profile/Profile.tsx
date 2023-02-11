@@ -243,7 +243,7 @@ const Profile: React.FC<Profile> = ({
             <section className="hours-left-container">
               <div className="hours-left-content">
                 <div className="hours-left-number">
-                  <p>{userPoints}</p>
+                  <p>{userPoints || 0}</p>
                 </div>
                 <div className="hours-left-text">
                   <p>Liczba dostępnych punktów na naukę</p>

@@ -19,7 +19,7 @@
 }
 
 .addedDate {
-  background-color: #845695;
+  background-color: var(--accent);
   border-radius: 20px;
   padding: 10px 20px;
   color: white;
@@ -269,7 +269,7 @@ body {
 }
 
 #return-btn {
-  background-color: var(--orange);
+  background-color: var(--secondary-accent);
   width: fit-content;
   padding: 0.6rem 1.6rem;
   border-radius: 1.6rem;
