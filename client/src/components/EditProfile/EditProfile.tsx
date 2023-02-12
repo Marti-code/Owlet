@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API, { UserInfoType } from "../../API";
 import ProfileHeader from "../Profile/ProfileHeader";
@@ -42,6 +42,7 @@ const EditProfile: React.FC<Props> = ({
     "niemiecki",
   ]);
   const [checkedSubjects, setCheckedSubjects] = useState<string[]>([]);
+  const nameInput: any = useRef();
 
   const navigate = useNavigate();
 
@@ -63,6 +64,8 @@ const EditProfile: React.FC<Props> = ({
     userData.subjects.forEach((el) => {
       setCheckedSubjects([...checkedSubjects, el]);
     });
+
+    setName(userData.name);
   }, [userData]);
 
   // useEffect(() => {
@@ -79,9 +82,7 @@ const EditProfile: React.FC<Props> = ({
 
     if (!userData || !userData.mail) return;
 
-    if (name == "") {
-      setName(userData.name);
-    } else if (name.length < 3) {
+    if (name.length < 3) {
       setInfo("Nazwa powinna mieć przynajmniej 3 znaki");
       return;
     }
@@ -115,6 +116,8 @@ const EditProfile: React.FC<Props> = ({
                 name="username1"
                 placeholder={userData?.name}
                 autoComplete="off"
+                value={name}
+                ref={nameInput}
               />
             </div>
 
