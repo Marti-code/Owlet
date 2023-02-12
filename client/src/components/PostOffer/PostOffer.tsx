@@ -296,28 +296,30 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
           <div>
             <p>Daty:</p>
 
-            {dateItems.length > 0 &&
-              dateItems.map((el, idx) => {
-                return (
-                  <div
-                    className="date-el"
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    <p
-                      key={idx}
-                      className="addedDate"
-                      onClick={() => {
-                        deleteDateEl(idx);
-                      }}
-                      style={{
-                        display: dateItems[0] == "" ? "none" : "block",
-                      }}
+            <div className="dates-container">
+              {dateItems.length > 0 &&
+                dateItems.map((el, idx) => {
+                  return (
+                    <div
+                      className="date-el"
+                      style={{ display: "flex", alignItems: "center" }}
                     >
-                      {el.slice(6)}, {el.slice(0, 5)}
-                    </p>
-                  </div>
-                );
-              })}
+                      <p
+                        key={idx}
+                        className="addedDate"
+                        onClick={() => {
+                          deleteDateEl(idx);
+                        }}
+                        style={{
+                          display: dateItems[0] == "" ? "none" : "block",
+                        }}
+                      >
+                        {el.slice(6)}, {el.slice(0, 5)}
+                      </p>
+                    </div>
+                  );
+                })}
+            </div>
           </div>
 
           <p style={{ margin: "auto", color: "red" }}>{errNote}</p>

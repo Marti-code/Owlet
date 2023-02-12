@@ -2,6 +2,16 @@ import React, { useState } from "react";
 import API from "../../API";
 import "./TeacherOffersModal.css";
 
+import {
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalMain,
+  Modal,
+  ModalContainer,
+} from "../TeacherModal/TeacherModal.styles";
+
 type AcceptedBy = {
   name: string;
   teacher: string;
@@ -45,9 +55,9 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className={`TeacherModal ${userData?.theme || "light"}`}>
-      <div className="modal-container">
-        <div className="teacher-modal">
+    <Modal className={`TeacherModal ${userData?.theme || "light"}`}>
+      <ModalContainer>
+        <ModalContent>
           <div className="modal-header modal-offers-col">
             {acceptedBy &&
               acceptedBy.map((el, i) => {
@@ -69,15 +79,15 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
               })}
           </div>
           {modalInfo}
-        </div>
-        <div
+        </ModalContent>
+        <ModalOverlay
           className="modal-overlay"
           onClick={() => {
             setOpenModal(false);
           }}
-        ></div>
-      </div>
-    </div>
+        ></ModalOverlay>
+      </ModalContainer>
+    </Modal>
   );
 };
 

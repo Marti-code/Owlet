@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-  --bg: #dce7ea;
+  --bg: #F4F4F7;
   --light-bg: #fff;
   --main-font: #000;
   --secondary-font: #606060;
@@ -15,7 +15,8 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 .light {
-  --bg: #dce7ea;
+  --bg: #F4F4F7;
+  /* --bg: #dce7ea; */
   --light-bg: #fff;
   --main-font: #000;
   --secondary-font: #606060;

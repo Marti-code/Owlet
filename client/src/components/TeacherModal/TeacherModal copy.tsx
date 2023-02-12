@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import API, { UserInfoType } from "../../API";
-import "./RadioBtns.css";
 
 import {
   ModalOverlay,
@@ -70,40 +69,7 @@ const TeacherModal: React.FC<ModalProps> = ({
             </div>
             <div>
               <ModalSubHeaders>Dostępne godziny:</ModalSubHeaders>
-              <div className="section over-hide z-bigger">
-                <div className="pb-5">
-                  <div className="row justify-content-center pb-5">
-                    <div className="col-12 pb-5">
-                      {timeArr &&
-                        timeArr.map((el: any, idx: any) => {
-                          return (
-                            <div className="subject-el" key={idx}>
-                              <input
-                                className="checkbox-tools"
-                                type="radio"
-                                name="chosenTime"
-                                value={el}
-                                id={"tool-" + idx}
-                                defaultChecked={idx == 0 ? true : false}
-                                onChange={(e) => {
-                                  if (e.currentTarget.checked)
-                                    setDate(e.currentTarget.value);
-                                }}
-                              />
-                              <label
-                                className="for-checkbox-tools"
-                                htmlFor={"tool-" + idx}
-                              >
-                                {el}
-                              </label>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* <ul>
+              <ul>
                 {timeArr &&
                   timeArr.map((el: any, key: any) => {
                     return (
@@ -121,7 +87,7 @@ const TeacherModal: React.FC<ModalProps> = ({
                       </div>
                     );
                   })}
-              </ul> */}
+              </ul>
             </div>
           </ModalMain>
           <ModalFooter>
