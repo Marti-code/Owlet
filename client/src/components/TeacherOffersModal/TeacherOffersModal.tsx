@@ -36,10 +36,9 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
   const [modalInfo, setModalInfo] = useState("");
 
   const handleSubmit: any = async (mail: string, date: string) => {
-    console.log(userData);
     console.log(mail);
     console.log(date);
-    console.log(userData.name);
+    console.log(userData.mail);
     console.log(offerId);
     const data = await API.planLesson(mail, date, userData.mail, offerId);
 
@@ -63,13 +62,17 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
               acceptedBy.map((el, i) => {
                 return (
                   <div className="single-modal-offer" key={i}>
-                    <div className="modal-image"></div>
+                    <div className="modal-image" onClick={() => {
+                      console.log(el.teacher);
+                      console.log(userData.mail);
+                      console.log(offerId);
+                    }}></div>
                     <div className="modal-header-info">
                       {el.teacher}, {el.date}
                     </div>
                     <button
                       onClick={() => {
-                        handleSubmit(el.name, el.teacher, el.date);
+                        handleSubmit(el.teacher, el.date);
                       }}
                     >
                       Akceptuj oferte

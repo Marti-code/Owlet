@@ -348,14 +348,12 @@ app.post("/api/sendOfferRequest", [
     (0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail(),
     (0, express_validator_1.check)("date").trim().escape(),
     (0, express_validator_1.check)("id").trim().escape(),
-    (0, express_validator_1.check)("name").trim().escape(),
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const offers = yield offerModel_1.default.updateOne({ _id: req.body.id }, {
         $addToSet: {
             acceptedBy: {
                 teacher: req.body.mail,
                 date: req.body.date,
-                name: req.body.name,
             },
         },
     });

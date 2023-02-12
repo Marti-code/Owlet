@@ -47,7 +47,7 @@ const TeacherModal: React.FC<ModalProps> = ({
     let data;
 
     if (userMail)
-      data = await API.sendOfferRequest(userMail, date, id, userName);
+      data = await API.sendOfferRequest(userMail, date, id);
 
     if (data.ok) {
       setModalInfo("Wysałno propozycję nauczania. ");

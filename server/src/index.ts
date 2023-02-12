@@ -424,7 +424,6 @@ app.post(
     check("mail").isEmail().trim().escape().normalizeEmail(),
     check("date").trim().escape(),
     check("id").trim().escape(),
-    check("name").trim().escape(),
   ],
   async (req: express.Request, res: express.Response) => {
 
@@ -435,7 +434,6 @@ app.post(
           acceptedBy: {
             teacher: req.body.mail,
             date: req.body.date,
-            name: req.body.name,
           },
         },
       }
