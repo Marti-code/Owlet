@@ -39,6 +39,7 @@ function App() {
               userName={"John"}
               roomId={roomId}
               setRoomId={setRoomId}
+              userData={userData}
             />
           }
         />
@@ -49,6 +50,7 @@ function App() {
               setRoomId={setRoomId}
               roomId={roomId}
               userData={userData}
+              setUserData={setUserData}
               isLoggedIn={loggedIn}
               setLoggedIn={setLoggedIn}
               getData={getData}
@@ -67,7 +69,10 @@ function App() {
           }
         />
         <Route path="/post-offer" element={<PostOffer userData={userData} />} />
-        <Route path="/waiting" element={<Waiting getData={getData} userData={userData} />} />
+        <Route
+          path="/waiting"
+          element={<Waiting getData={getData} userData={userData} />}
+        />
         <Route path="/" element={<Main />} />
       </Routes>
       <GlobalStyle />

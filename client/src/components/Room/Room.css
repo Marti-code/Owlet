@@ -1,6 +1,14 @@
+body {
+  background-color: var(--bg);
+}
+
+.Room {
+  background-color: var(--bg);
+  color: var(--main-font);
+}
+
 .container {
-  margin-top: 74px;
-  height: clac(100vh - 74px);
+  margin-top: 105px;
   width: 100%;
   position: relative;
 }
@@ -12,8 +20,8 @@
 }
 
 #members__container {
-  background-color: #262625;
-  border-right: 1px solid #797a79;
+  background-color: var(--light-bg);
+  border-right: 1px solid var(--border);
   overflow-y: auto;
   width: 90%;
   max-width: 250px;
@@ -23,7 +31,7 @@
 }
 
 #members__count {
-  background-color: #1d1d1c;
+  background-color: var(--bg);
   padding: 7px 15px;
   font-size: 14px;
   font-weight: 600;
@@ -37,8 +45,9 @@
   padding: 0 1rem;
   position: fixed;
   font-size: 18px;
-  background-color: #323143;
-  width: 218px;
+  background-color: var(--accent-alpha);
+  padding: 1rem;
+  width: 250px;
 }
 
 #member__list {
@@ -74,14 +83,14 @@
 }
 
 #messages__container {
-  height: calc(100vh - 85px);
-  background-color: #262625;
+  height: calc(100vh - 105px);
+  background-color: var(--light-bg);
   right: 0;
   position: absolute;
   width: 100%;
   max-width: 25rem;
   overflow-y: auto;
-  border-left: 1px solid #111;
+  border-left: 1px solid var(--border);
 }
 
 #messages {
@@ -101,7 +110,7 @@
 }
 
 .message__body {
-  background-color: #363739;
+  background-color: var(--bg);
   border-radius: 10px;
   padding: 10px 15px;
   width: fit-content;
@@ -110,13 +119,13 @@
 
 .message__body strong {
   font-weight: 600;
-  color: #ede0e0;
+  color: var(--main-font);
 }
 
 .message__body__bot {
   padding: 0 20px;
   max-width: 900px;
-  color: #bdbdbd;
+  color: var(--secondary-font);
 }
 
 .message__author {
@@ -134,23 +143,24 @@
 }
 
 #message__form {
-  width: 23.2rem;
+  width: 25rem;
   position: fixed;
   bottom: 0;
   display: block;
-  background-color: #1a1a1a;
+  background-color: var(--light-bg);
   padding: 1em;
+  box-shadow: none;
 }
 
 #message__form input {
-  color: #fff;
+  color: var(--font-main);
   width: 100%;
   border: none;
   border-radius: 5px;
   padding: 18px;
   font-size: 14px;
   box-sizing: border-box;
-  background-color: #3f434a;
+  background-color: var(--bg);
 }
 
 #message__form input:focus {
@@ -164,11 +174,12 @@
 #stream__container {
   justify-self: center;
   width: calc(100% - 40.7rem);
+  outline: 1px solid var(--border);
   position: fixed;
   left: 15.7rem;
-  top: clac(100vh - 72px);
   overflow-y: auto;
   height: 100%;
+  background-color: var(--bg);
 }
 
 #stream__box {
@@ -257,10 +268,6 @@
     display: none;
   }
 
-  #members__container {
-    margin-top: 45px;
-  }
-
   #members__button {
     display: block;
   }
@@ -281,7 +288,7 @@
   }
 
   #message__form {
-    width: 18.2rem;
+    width: 20rem;
   }
 }
 
@@ -333,7 +340,7 @@
 .stream__actions a,
 .stream__actions button {
   cursor: pointer;
-  background-color: #262625;
+  background-color: var(--light-bg);
   color: #fff;
   border: none;
   display: flex;

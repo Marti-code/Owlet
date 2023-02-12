@@ -55,9 +55,9 @@ export default function Controls(props) {
 
   const ActionBtn = styled.button`
     cursor: pointer;
-    background-color: #262625;
+    background-color: var(--light-bg);
     color: #fff;
-    border: none;
+    border: 2px solid transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,7 +75,7 @@ export default function Controls(props) {
     cursor: pointer;
     background-color: #ff5050;
     color: #fff;
-    border: none;
+    border: 2px solid #f83a3a;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,6 +85,7 @@ export default function Controls(props) {
     transition: all 0.2s ease-in-out;
     transition: ease background-color 250ms;
     &:hover {
+      border: 2px solid #f83a3a;
       background-color: #f83a3a;
     }
   `;
@@ -95,7 +96,9 @@ export default function Controls(props) {
         <div>
           <ActionBtn
             style={{
-              backgroundColor: trackState.audio ? "#262625" : "#845695",
+              backgroundColor: trackState.audio
+                ? "var(--light-bg)"
+                : "var(--accent)",
             }}
             onClick={() => mute("audio")}
           >
@@ -113,7 +116,9 @@ export default function Controls(props) {
         <div>
           <ActionBtn
             style={{
-              backgroundColor: trackState.video ? "#262625" : "#845695",
+              backgroundColor: trackState.video
+                ? "var(--light-bg)"
+                : "var(--accent)",
             }}
             onClick={() => mute("video")}
           >
@@ -136,7 +141,9 @@ export default function Controls(props) {
               setIfScreenShared(true);
             }}
             style={{
-              backgroundColor: isScreenSharing ? "#845695" : "#262625",
+              backgroundColor: isScreenSharing
+                ? "var(--accent)"
+                : "var(--light-bg)",
             }}
           >
             <svg

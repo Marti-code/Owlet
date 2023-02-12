@@ -4,16 +4,26 @@ import React, { useState, useEffect } from "react";
 import logo from "../Room/logo1.png";
 import API from "../../API";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faRefresh,
+  faSun,
+  faMoon,
+  faUserEdit,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
 import { Link, useNavigate } from "react-router-dom";
 
 import TeacherModal from "../TeacherModal/TeacherModal";
+import ProfileHeader from "./ProfileHeader";
 
 type Profile = {
   isLoggedIn: boolean;
   setLoggedIn: any;
   userData: UserInfoType | undefined;
+  setUserData: any;
   setRoomId: any;
   roomId: string;
   getData: any;
@@ -22,6 +32,7 @@ type Profile = {
 const Profile: React.FC<Profile> = ({
   isLoggedIn,
   userData,
+  setUserData,
   setRoomId,
   setLoggedIn,
   getData,
@@ -88,12 +99,17 @@ const Profile: React.FC<Profile> = ({
 
   const handleTheme = async (e: React.FormEvent) => {
     e.preventDefault();
+
     toggleTheme();
 
     const data = await API.putTheme(
       theme == "light" ? "dark" : "light",
       userData?.mail || ""
     );
+
+    setUserData({ ...userData, theme: theme });
+    console.log(theme);
+    console.log(userData);
 
     if (data.ok) {
       console.log("zmiana");
@@ -169,40 +185,10 @@ const Profile: React.FC<Profile> = ({
   };
 
   return (
-    <div className={`Profile ${theme}`}>
+    <div className={`Profile ${theme || "light"}`}>
       <div className="Dashboard">
-        <header className="profile-header">
-          <div className="header-content">
-            <div className="header-logo">
-              <div className="logo">
-                <img src={logo} alt="Site Logo" />
-              </div>
-            </div>
-            <div className="header-links">
-              <div className="header-menu" onClick={toggleMenu}>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <div className={`header-links-a ${menuOpen ? "open" : "closed"}`}>
-                <div className="header-link">
-                  <a href="#" onClick={handleUpdatePoints}>
-                    Pomóż
-                  </a>
-                </div>
-                <div className="header-link">
-                  <a href="/post-offer">Otrzymaj pomoc</a>
-                </div>
-                <div className="header-link">
-                  <a href="#">Chat grupowy</a>
-                </div>
-              </div>
-            </div>
-            <div className="header-user-pic">
-              <div className="user-pic"></div>
-            </div>
-          </div>
-        </header>
+        <ProfileHeader />
+
         <main id="profile-main">
           <div className="main-content">
             {/* COLUMN 1 */}
@@ -240,24 +226,29 @@ const Profile: React.FC<Profile> = ({
                     <p>Uczył się: 10h</p>
                   </div> */}
                 </div>
-
-                <div className="user-info-edit">
-                  <button id="theme-edit-btn" onClick={handleTheme}>
-                    Motyw
-                  </button>
-                  <button id="user-info-edit-btn">
-                    <Link to="edit">Edytuj</Link>
-                  </button>
-                  <button
-                    id="user-info-edit-btn"
-                    onClick={() => {
-                      localStorage.removeItem("user");
-                      setLoggedIn(false);
-                    }}
-                  >
-                    Wyloguj
-                  </button>
-                </div>
+              </div>
+              <div className="user-info-edit">
+                <button id="user-info-edit-btn" onClick={handleTheme}>
+                  {theme == "light" ? (
+                    <FontAwesomeIcon icon={faSun} />
+                  ) : (
+                    <FontAwesomeIcon icon={faMoon} />
+                  )}
+                </button>
+                <button id="user-info-edit-btn">
+                  <Link to="edit">
+                    <FontAwesomeIcon icon={faUserEdit} />
+                  </Link>
+                </button>
+                <button
+                  id="user-info-edit-btn"
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                    setLoggedIn(false);
+                  }}
+                >
+                  Wyloguj
+                </button>
               </div>
             </section>
 
@@ -265,7 +256,7 @@ const Profile: React.FC<Profile> = ({
             <section className="hours-left-container">
               <div className="hours-left-content">
                 <div className="hours-left-number">
-                  <p>{userPoints}</p>
+                  <p>{userPoints || 0}</p>
                 </div>
                 <div className="hours-left-text">
                   <p>Liczba dostępnych punktów na naukę</p>
@@ -286,7 +277,9 @@ const Profile: React.FC<Profile> = ({
               <div className="teachers-content">
                 <div className="teachers-header">
                   <p>Wybrane dla ciebie</p>
-                  <button onClick={handleGetOffers}>refresh</button>
+                  <button onClick={handleGetOffers}>
+                    <FontAwesomeIcon icon={faRefresh} />
+                  </button>
                 </div>
                 <div className="teachers-list">
                   {/* insert offers here */}
@@ -369,6 +362,7 @@ const Profile: React.FC<Profile> = ({
           timeArr={modalInfo.hours}
           id={modalInfo.id}
           userMail={userData?.mail}
+          userData={userData}
         />
       )}
     </div>

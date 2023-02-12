@@ -2,20 +2,44 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-    --bg: #eaeaea;
-    --light-bg: #fff;
-    --black: #000;
-    --gray: #606060;
-    --cyan: #00dfd2;
-    --orange: #ffa34e;
+  --bg: #F4F4F7;
+  --light-bg: #fff;
+  --main-font: #000;
+  --secondary-font: #606060;
+  --accent: #4386e6;
+  --accent-alpha: #4386e6;
+  --secondary-accent: #ffa34e;
+  --reverse-font: #000;
+  --hover:#eef5f7;
+  --border: #fff;
+}
 
-    /* old */
-    --blackText: #272727;
-    --maxWidth: 1140px;
-    --yellow: #FFE600;
-    --blue: #DCF0F2;
-  }
-  
+.light {
+  --bg: #F4F4F7;
+  /* --bg: #dce7ea; */
+  --light-bg: #fff;
+  --main-font: #000;
+  --secondary-font: #606060;
+  --accent: #ff69b4;
+  --accent-alpha: #ff69b499;
+  --secondary-accent: #ffa34e;
+  --reverse-font: #fff;
+  --hover:#eef5f7;
+  --border: #fff;
+}
+
+.dark {
+  --bg: #1a1a1a;
+  --light-bg: #262625;
+  --main-font: #fff;
+  --secondary-font: rgb(218, 218, 218);
+  --accent: #845695;
+  --accent-alpha: #84569580;
+  --secondary-accent: #ffa34e;
+  --reverse-font: #fff;
+  --hover:#353636;
+  --border: #111;
+}
 
   * {
     margin: 0;
@@ -52,8 +76,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: #1a1a1a;
-    color: #fff;
+    background-color: black;
+    /* background-color: var(--bg); */
+    color: var(--main-font);
 
     font-size: 14px;
     padding: 0;
@@ -68,37 +93,47 @@ export const GlobalStyle = createGlobalStyle`
 
   a {
     text-decoration: none;
-    color: #fff;
+    color: var(--main-font);
+  }
+
+  .sign-container{
+    background-color: var(--bg);
   }
 
   button {
-    margin-top: 32px;
+    /* margin-top: 32px; */
     cursor: pointer;
-    background-color: #845695;
-    border: none;
+    background-color: var(--accent);
+    border: 2px solid var(--accent);
     color: #fff;
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 12px;
-    border-radius: 5px;
+    border-radius: 60px;
     gap: 10px;
+    transition: all 0.2s ease;
+
+    :hover{
+      background-color: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
   }
 
-  .avatar__md {
-    height: 40px;
-    width: 40px;
-    object-fit: cover;
-    border-radius: 50%;
+  button.negative{
+    background-color: transparent;
+    border: 2px solid #fff;
+    padding: 12px 24px;
+
+    :hover{
+      background-color: #fff;
+      border: 2px solid #fff;
+      color: var(--accent);
+    }
   }
 
-  .avatar__sm {
-    height: 30px;
-    width: 30px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
 
   #nav {
     position: fixed;
@@ -108,8 +143,8 @@ export const GlobalStyle = createGlobalStyle`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #000000;
-    background-color: #1a1a1a;
+    border-bottom: 1px solid var(--light-bg);
+    background-color: var(--bg);
     text-decoration: none;
     padding: 16px 5%;
     z-index: 999;
@@ -123,12 +158,20 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 700;
     line-height: 0;
     margin: 0;
-    color: #ebe0e0;
+    color: var(--main-font);
   }
+
+  .sign-label{
+      display: none;
+    }
 
   @media (max-width: 640px) {
     #logo span {
       display: none;
+    }
+
+    .sign-label{
+      display: flex;
     }
   }
 

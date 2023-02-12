@@ -1,34 +1,6 @@
-:root {
-  --bg: #dce7ea;
-  --light-bg: #fff;
-  --main-font: #000;
-  --secondary-font: #606060;
-  --accent: #4386e6;
-  --secondary-accent: #ffa34e;
-  --reverse-font: #000;
+.Profile {
+  position: relative;
 }
-
-.Profile.light {
-  --bg: #dce7ea;
-  --light-bg: #fff;
-  --main-font: #000;
-  --secondary-font: #606060;
-  --accent: #ff69b4;
-  /* --accent: #4386e6; */
-  --secondary-accent: #ffa34e;
-  --reverse-font: #fff;
-}
-
-.Profile.dark {
-  --bg: #1a1a1a;
-  --light-bg: #262625;
-  --main-font: #fff;
-  --secondary-font: rgb(218, 218, 218);
-  --accent: #845695;
-  --secondary-accent: #ffa34e;
-  --reverse-font: #fff;
-}
-
 /* 
   header
  */
@@ -167,6 +139,13 @@
   user info
  */
 
+.user-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .user-info-header {
   display: flex;
   justify-content: space-between;
@@ -219,15 +198,18 @@
   justify-content: space-between;
 }
 
-#user-info-edit-btn,
-#theme-edit-btn {
-  background-color: var(--bg);
-  color: var(--secondary-font);
+#user-info-edit-btn {
+  color: #fff;
   padding: 5px 20px;
 }
 
 #user-info-edit-btn a {
-  color: var(--secondary-font);
+  color: #fff;
+}
+
+#user-info-edit-btn:hover,
+#user-info-edit-btn:hover a {
+  color: var(--accent);
 }
 
 /* 
@@ -275,9 +257,16 @@
   margin-top: 1rem;
 }
 
+/* change later
+for now will have to do */
+.teachers-list {
+  overflow-y: scroll;
+  max-height: 350px;
+}
+
 .teachers-header button {
-  background-color: var(--bg);
-  color: var(--secondary-font);
+  background-color: var(--accent);
+  color: #fff;
   padding: 5px 20px;
   margin: 0;
 }
@@ -299,7 +288,7 @@
 
 .teacher-el:hover,
 .friend-el:hover {
-  background-color: #eef5f7;
+  background-color: var(--hover);
 }
 
 .teacher-name {
@@ -336,9 +325,16 @@ body {
 
 #feedback-btn {
   background-color: var(--secondary-accent);
+  border: 2px solid var(--secondary-accent);
   width: fit-content;
   padding: 0.6rem 1.6rem;
   border-radius: 1.6rem;
+}
+
+#feedback-btn:hover {
+  background-color: var(--secondary-accent);
+  border: 2px solid var(--secondary-accent);
+  color: #fff;
 }
 
 /* 

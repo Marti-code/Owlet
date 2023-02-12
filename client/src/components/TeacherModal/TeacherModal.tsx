@@ -1,6 +1,19 @@
 import React, { useState } from "react";
-import API from "../../API";
-import "./TeacherModal.css";
+import API, { UserInfoType } from "../../API";
+import "./RadioBtns.css";
+
+import {
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalMain,
+  Modal,
+  ModalContainer,
+  ModalSubHeaders,
+} from "./TeacherModal.styles";
+
+import { Heading } from "../../GlobalForm.styles";
 
 interface ModalProps {
   userName: string;
@@ -11,6 +24,7 @@ interface ModalProps {
   timeArr: string[];
   id: string;
   userMail: string | undefined;
+  userData: UserInfoType | undefined;
 }
 
 const TeacherModal: React.FC<ModalProps> = ({
@@ -21,15 +35,14 @@ const TeacherModal: React.FC<ModalProps> = ({
   hideModal,
   timeArr,
   id,
-  userMail
+  userMail,
+  userData,
 }) => {
-
   const [date, setDate] = useState("");
   const [modalInfo, setModalInfo] = useState("");
 
-  const handleAccept = async() => {
-    if (date == '') 
-      return;
+  const handleAccept = async () => {
+    if (date == "") return;
 
     let data;
 
@@ -37,32 +50,60 @@ const TeacherModal: React.FC<ModalProps> = ({
       data = await API.sendOfferRequest(userMail, date, id, userName);
 
     if (data.ok) {
-      setModalInfo("Wysałno propozycję nauczania. ")
+      setModalInfo("Wysałno propozycję nauczania. ");
     } else {
-      setModalInfo("Wystąpił błąd")
+      setModalInfo("Wystąpił błąd");
     }
-  }
-
+  };
 
   return (
-    <div className="TeacherModal">
-      <div className="modal-container">
-        <div className="teacher-modal">
-          <div className="modal-header">
-            <div className="modal-image"></div>
-            <div className="modal-header-info">
-              <h2>{userName}</h2>
-              <h3>{subject + "-" + title}</h3>
-            </div>
-          </div>
-          <div className="modal-main">
-            <div className="modal-main-left">
-              <p>Opis</p>
+    <Modal className={`TeacherModal ${userData?.theme || "light"}`}>
+      <ModalContainer>
+        <ModalContent>
+          <ModalHeader>
+            <Heading>{subject + "-" + title}</Heading>
+          </ModalHeader>
+          <ModalMain>
+            <div>
+              <ModalSubHeaders>Opis</ModalSubHeaders>
               <p>{info}</p>
             </div>
-            <div className="modal-main-right">
-              <p>Dostępne godziny:</p>
-              <ul>
+            <div>
+              <ModalSubHeaders>Dostępne godziny:</ModalSubHeaders>
+              <div className="section over-hide z-bigger">
+                <div className="pb-5">
+                  <div className="row justify-content-center pb-5">
+                    <div className="col-12 pb-5">
+                      {timeArr &&
+                        timeArr.map((el: any, idx: any) => {
+                          return (
+                            <div className="subject-el" key={idx}>
+                              <input
+                                className="checkbox-tools"
+                                type="radio"
+                                name="chosenTime"
+                                value={el}
+                                id={"tool-" + idx}
+                                defaultChecked={idx == 0 ? true : false}
+                                onChange={(e) => {
+                                  if (e.currentTarget.checked)
+                                    setDate(e.currentTarget.value);
+                                }}
+                              />
+                              <label
+                                className="for-checkbox-tools"
+                                htmlFor={"tool-" + idx}
+                              >
+                                {el}
+                              </label>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* <ul>
                 {timeArr &&
                   timeArr.map((el: any, key: any) => {
                     return (
@@ -80,19 +121,19 @@ const TeacherModal: React.FC<ModalProps> = ({
                       </div>
                     );
                   })}
-              </ul>
+              </ul> */}
             </div>
-          </div>
-          <div className="modal-footer">
+          </ModalMain>
+          <ModalFooter>
             <button className="accept-offer" onClick={handleAccept}>
               Akceptuj
             </button>
-          </div>
-        {modalInfo}
-        </div>
-        <div className="modal-overlay" onClick={hideModal}></div>
-      </div>
-    </div>
+          </ModalFooter>
+          {modalInfo}
+        </ModalContent>
+        <ModalOverlay onClick={hideModal}></ModalOverlay>
+      </ModalContainer>
+    </Modal>
   );
 };
 
