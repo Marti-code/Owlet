@@ -27,11 +27,11 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
   const [modalInfo, setModalInfo] = useState("");
 
   const handleSubmit: any = async(mail: string, date: string) => {
-    console.log(userData);
-    console.log(mail);
-    console.log(date);
-    console.log(userData.name);
-    console.log(offerId);
+    // console.log(userData);
+    // console.log(mail);
+    // console.log(date);
+    // console.log(userData.name);
+    // console.log(offerId);
     const data = await API.planLesson(mail, date, userData.mail, offerId);
 
     console.log(data);

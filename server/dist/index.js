@@ -373,6 +373,10 @@ app.post("/api/planLesson", [
     (0, express_validator_1.check)("studentMail").trim().escape(),
     (0, express_validator_1.check)("offerId").trim().escape(),
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body.teacherMail);
+    console.log(req.body.studentMail);
+    console.log(req.body.date);
+    console.log(req.body.offerId);
     const student = yield userModel_1.default.updateOne({
         email: req.body.studentMail,
     }, {

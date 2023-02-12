@@ -250,6 +250,11 @@ export default {
   planLesson: async (teacherMail: string, date: string, studentMail: string, offerId: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/planLesson`;
 
+    console.log(teacherMail)
+    console.log(date)
+    console.log(studentMail)
+    console.log(offerId)
+
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {

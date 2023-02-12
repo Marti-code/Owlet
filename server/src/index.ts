@@ -462,6 +462,11 @@ app.post(
   ],
   async (req: express.Request, res: express.Response) => {  
 
+    console.log(req.body.teacherMail)
+    console.log(req.body.studentMail)
+    console.log(req.body.date)
+    console.log(req.body.offerId)
+
     const student = await User.updateOne(
       {
         email: req.body.studentMail,
