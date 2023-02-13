@@ -175,7 +175,7 @@ export const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
   color: red;
-  padding: 100px 10px;
+  padding: 40px 10px;
   flex-wrap: wrap;
   align-items: center;
   font-size: 16px;
@@ -240,7 +240,7 @@ export const LanguagesWrapper = styled.div<Button>`
 export const FormWrapper2 = styled.div`
   display: flex;
   justify-content: center;
-  padding: 100px 10px;
+  padding: 40px 10px;
   flex-direction: column;
   flex-wrap: wrap;
   gap: 50px;
@@ -249,6 +249,7 @@ export const FormWrapper2 = styled.div`
 
 export const Heading = styled.h1`
   text-align: center;
+  color: var(--main-font);
 `;
 
 export const ButtonContainer = styled.div`

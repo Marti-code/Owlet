@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../../API";
+import { Heading } from "../../GlobalForm.styles";
+import ProfileHeader from "../Profile/ProfileHeader";
 import TeacherOffersModal from "../TeacherOffersModal/TeacherOffersModal";
 import "./Waiting.css";
 
@@ -30,13 +32,8 @@ const Waiting: React.FC<Props> = ({ userData, getData }) => {
   useEffect(() => {
     if (!userData) return;
 
-    console.log("test");
     getUserOffers(userData.mail);
   }, [userData]);
-
-  useEffect(() => {
-    console.log(offers);
-  }, [offers]);
 
   const getUserOffers = async (mail: string) => {
     const data = await API.getUserOffers(mail);
@@ -45,29 +42,30 @@ const Waiting: React.FC<Props> = ({ userData, getData }) => {
   };
 
   return (
-    <div className={`waiting-wrapper ${userData?.theme || "light"}`}>
+    <div className={`Waiting ${userData?.theme || "light"}`}>
+      <ProfileHeader></ProfileHeader>
       <>
-        <h1>Oczekujace</h1>
-
         <div className="offers-grid">
-          {offers &&
-            offers.map((el) => {
-              return (
-                <div key={el.title} className="single-offer">
-                  <span className="offer-title">{el.subject}</span>
-                  <span className="offer-title">{el.title}</span>
-                  <button
-                    onClick={() => {
-                      setOpenModal(true);
-                      setCurAcceptedBy(el.acceptedBy);
-                      setCurOfferId(el._id);
-                    }}
-                  >
-                    Pokaz oferty ({el.acceptedBy.length})
-                  </button>
-                </div>
-              );
-            })}
+          <div className="offers-content">
+            {offers &&
+              offers.map((el) => {
+                return (
+                  <div key={el.title} className="single-offer">
+                    <Heading className="offer-subject">{el.subject}</Heading>
+                    <span className="offer-title">{el.title}</span>
+                    <button
+                      onClick={() => {
+                        setOpenModal(true);
+                        setCurAcceptedBy(el.acceptedBy);
+                        setCurOfferId(el._id);
+                      }}
+                    >
+                      Oferty ({el.acceptedBy.length})
+                    </button>
+                  </div>
+                );
+              })}
+          </div>
         </div>
 
         {openModal && (
