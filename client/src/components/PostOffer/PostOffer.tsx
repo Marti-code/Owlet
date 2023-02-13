@@ -36,11 +36,21 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
 
   const [errNote, setErrNote] = useState("");
   const [subjectsErrNote, setSubjectsErrNote] = useState("");
+  const [pointsErrNote, setPointsErrNote] = useState("");
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const userPoints = userData?.points || 0;
+
+    if (parseInt(price) > userPoints) {
+      setPointsErrNote("Nie masz na tyle punktów na koncie");
+      return;
+    } else {
+      setPointsErrNote("");
+    }
 
     if (!title || !price) {
       console.log("Uzupełnij dane");
@@ -257,6 +267,9 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
               required
               autoComplete="off"
             />
+            <p style={{ margin: "30px auto 0", color: "red" }}>
+              {pointsErrNote}
+            </p>
           </div>
 
           <div className="time-date">

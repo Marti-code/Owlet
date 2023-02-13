@@ -26,6 +26,12 @@ const ProfileHeader = () => {
           </div>
           <div className={`header-links-a ${menuOpen ? "open" : "closed"}`}>
             <div className="header-link">
+              <a href="/waiting">Oczekujące</a>
+            </div>
+            <div className="header-link">
+              <a href="#">Lekcje</a>
+            </div>
+            <div className="header-link">
               <a href="#">Pomóż</a>
             </div>
             <div className="header-link">

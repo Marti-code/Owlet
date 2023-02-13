@@ -46,8 +46,7 @@ const TeacherModal: React.FC<ModalProps> = ({
 
     let data;
 
-    if (userMail)
-      data = await API.sendOfferRequest(userMail, date, id);
+    if (userMail) data = await API.sendOfferRequest(userMail, date, id);
 
     if (data.ok) {
       setModalInfo("Wysałno propozycję nauczania. ");
@@ -94,7 +93,7 @@ const TeacherModal: React.FC<ModalProps> = ({
                                 className="for-checkbox-tools"
                                 htmlFor={"tool-" + idx}
                               >
-                                {el}
+                                {el.slice(6)}, {el.slice(0, 5)}
                               </label>
                             </div>
                           );
@@ -123,13 +122,13 @@ const TeacherModal: React.FC<ModalProps> = ({
                   })}
               </ul> */}
             </div>
+            {modalInfo}
           </ModalMain>
           <ModalFooter>
             <button className="accept-offer" onClick={handleAccept}>
               Akceptuj
             </button>
           </ModalFooter>
-          {modalInfo}
         </ModalContent>
         <ModalOverlay onClick={hideModal}></ModalOverlay>
       </ModalContainer>
