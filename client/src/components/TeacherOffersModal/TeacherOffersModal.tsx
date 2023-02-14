@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import API from "../../API";
 import "./TeacherOffersModal.css";
 
+import { v4 as uuidv4 } from "uuid";
+
 import {
   ModalOverlay,
   ModalContent,
@@ -24,6 +26,7 @@ interface ModalProps {
   offerId: string;
   userData: any;
   getData: any;
+  setRoomId: any;
 }
 
 const TeacherOffersModal: React.FC<ModalProps> = ({
@@ -32,11 +35,20 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
   offerId,
   userData,
   getData,
+  setRoomId,
 }) => {
   const [modalInfo, setModalInfo] = useState("");
 
   const handleSubmit: any = async (mail: string, date: string) => {
-    const data = await API.planLesson(mail, date, userData.mail, offerId, "");
+    const inviteCode = uuidv4();
+    setRoomId(inviteCode);
+    const data = await API.planLesson(
+      mail,
+      date,
+      userData.mail,
+      offerId,
+      inviteCode
+    );
 
     console.log(data);
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import API, { UserInfoType } from "../../API";
 import { Heading } from "../../GlobalForm.styles";
 import ProfileHeader from "../Profile/ProfileHeader";
@@ -6,16 +7,15 @@ import "./Lessons.css";
 
 type Props = {
   userData: UserInfoType | undefined;
-  getData: any;
 };
 
-const Lessons: React.FC<Props> = ({ userData, getData }) => {
-  // const [currDate, setCurrDate] = useState("");
+const Lessons: React.FC<Props> = ({ userData }) => {
   const [lessons, setLessons] = useState([
     {
       date: "",
       teacherMail: "",
       studentMail: "",
+      lessonUrl: "",
     },
   ]);
 
@@ -24,6 +24,8 @@ const Lessons: React.FC<Props> = ({ userData, getData }) => {
 
     getUserLessons(userData.mail);
   }, [userData]);
+
+  // const [currDate, setCurrDate] = useState("");
 
   // useEffect(() => {
   //   let today = new Date();
@@ -66,31 +68,28 @@ const Lessons: React.FC<Props> = ({ userData, getData }) => {
           <div className="offers-content">
             {lessons &&
               lessons.map((el, key) => {
-                if (lessons.length == 1) {
-                  if (el.date == "") {
-                    return <Heading>Brak lekcji</Heading>;
-                  }
-                } else {
-                  return (
-                    <div key={key} className="single-offer">
-                      <Heading className="offer-subject">{el.date}</Heading>
-                      <span className="offer-title">{el.teacherMail}</span>
+                return (
+                  <div key={key} className="single-offer">
+                    <Heading className="offer-subject">{el.date}</Heading>
+                    <span className="offer-title">{el.teacherMail}</span>
+                    <span className="offer-title">{el.lessonUrl}</span>
 
-                      {/* enable the button when it time for the lesson */}
-                      {/* ADD if user doesn't answer within 15min the lesson is canceled */}
-                      {new Date() >
-                      new Date(
-                        `${el.date.slice(6)}T${el.date.slice(0, 5)}:00Z`
-                      ) ? (
-                        <button type="button">Dołącz</button>
-                      ) : (
-                        <button type="button" disabled>
-                          Dołącz
-                        </button>
-                      )}
-                    </div>
-                  );
-                }
+                    {/* enable the button with the url from db when it time for the lesson */}
+                    {/* ADD if user doesn't answer within 15min the lesson is canceled */}
+                    {new Date() >
+                    new Date(
+                      `${el.date.slice(6)}T${el.date.slice(0, 5)}:00Z`
+                    ) ? (
+                      <button type="button">
+                        <a href={el.lessonUrl}>Dołącz</a>
+                      </button>
+                    ) : (
+                      <button type="button" disabled>
+                        Dołącz
+                      </button>
+                    )}
+                  </div>
+                );
               })}
           </div>
         </div>

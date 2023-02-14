@@ -8,6 +8,8 @@ import "./Waiting.css";
 type Props = {
   userData: any;
   getData: any;
+  roomId: any;
+  setRoomId: any;
 };
 
 type AcceptedBy = {
@@ -23,7 +25,7 @@ type Offer = {
   _id: string;
 };
 
-const Waiting: React.FC<Props> = ({ userData, getData }) => {
+const Waiting: React.FC<Props> = ({ userData, getData, roomId, setRoomId }) => {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [curAcceptedBy, setCurAcceptedBy] = useState<AcceptedBy[]>([]);
   const [curOfferId, setCurOfferId] = useState("");
@@ -75,6 +77,7 @@ const Waiting: React.FC<Props> = ({ userData, getData }) => {
             offerId={curOfferId}
             acceptedBy={curAcceptedBy}
             setOpenModal={setOpenModal}
+            setRoomId={setRoomId}
           />
         )}
       </>

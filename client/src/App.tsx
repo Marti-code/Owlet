@@ -72,12 +72,16 @@ function App() {
         <Route path="/post-offer" element={<PostOffer userData={userData} />} />
         <Route
           path="/waiting"
-          element={<Waiting getData={getData} userData={userData} />}
+          element={
+            <Waiting
+              getData={getData}
+              userData={userData}
+              roomId={roomId}
+              setRoomId={setRoomId}
+            />
+          }
         />
-        <Route
-          path="/lessons"
-          element={<Lessons getData={getData} userData={userData} />}
-        />
+        <Route path="/lessons" element={<Lessons userData={userData} />} />
         <Route path="/" element={<Main />} />
       </Routes>
       <GlobalStyle />
