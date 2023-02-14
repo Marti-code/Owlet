@@ -66,25 +66,31 @@ const Lessons: React.FC<Props> = ({ userData, getData }) => {
           <div className="offers-content">
             {lessons &&
               lessons.map((el, key) => {
-                return (
-                  <div key={key} className="single-offer">
-                    <Heading className="offer-subject">{el.date}</Heading>
-                    <span className="offer-title">{el.teacherMail}</span>
+                if (lessons.length == 1) {
+                  if (el.date == "") {
+                    return <Heading>Brak lekcji</Heading>;
+                  }
+                } else {
+                  return (
+                    <div key={key} className="single-offer">
+                      <Heading className="offer-subject">{el.date}</Heading>
+                      <span className="offer-title">{el.teacherMail}</span>
 
-                    {/* enable the button when it time for the lesson */}
-                    {/* ADD if user doesn't answer within 15min the lesson is canceled */}
-                    {new Date() >
-                    new Date(
-                      `${el.date.slice(6)}T${el.date.slice(0, 5)}:00Z`
-                    ) ? (
-                      <button type="button">Dołącz</button>
-                    ) : (
-                      <button type="button" disabled>
-                        Dołącz
-                      </button>
-                    )}
-                  </div>
-                );
+                      {/* enable the button when it time for the lesson */}
+                      {/* ADD if user doesn't answer within 15min the lesson is canceled */}
+                      {new Date() >
+                      new Date(
+                        `${el.date.slice(6)}T${el.date.slice(0, 5)}:00Z`
+                      ) ? (
+                        <button type="button">Dołącz</button>
+                      ) : (
+                        <button type="button" disabled>
+                          Dołącz
+                        </button>
+                      )}
+                    </div>
+                  );
+                }
               })}
           </div>
         </div>

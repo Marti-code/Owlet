@@ -456,13 +456,9 @@ app.post(
     check("date").trim().escape(),
     check("studentMail").trim().escape(),
     check("offerId").trim().escape(),
+    check("lessonUrl").trim().escape(),
   ],
   async (req: express.Request, res: express.Response) => {
-    console.log(req.body.teacherMail);
-    console.log(req.body.studentMail);
-    console.log(req.body.date);
-    console.log(req.body.offerId);
-
     const student = await User.updateOne(
       {
         email: req.body.studentMail,
@@ -473,6 +469,7 @@ app.post(
             date: req.body.date,
             teacherMail: req.body.teacherMail,
             studentMail: req.body.studentMail,
+            lessonUrl: req.body.lessonUrl,
           },
         },
       }
@@ -488,6 +485,7 @@ app.post(
             date: req.body.date,
             teacherMail: req.body.teacherMail,
             studentMail: req.body.studentMail,
+            lessonUrl: req.body.lessonUrl,
           },
         },
       }

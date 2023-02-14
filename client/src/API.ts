@@ -250,7 +250,8 @@ export default {
     teacherMail: string,
     date: string,
     studentMail: string,
-    offerId: string
+    offerId: string,
+    lessonUrl: string
   ) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/planLesson`;
 
@@ -269,6 +270,7 @@ export default {
         date: date,
         studentMail: studentMail,
         offerId: offerId,
+        lessonUrl: lessonUrl,
       }),
     });
 
