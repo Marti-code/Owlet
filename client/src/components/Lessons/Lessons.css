@@ -17,13 +17,13 @@
   min-height: 78vh;
 }
 
-.Waiting.light .offers-content {
+.Lessons.light .offers-content {
   -webkit-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
   -moz-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
   box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
 }
 
-.Waiting.dark .offers-content {
+.Lessons.dark .offers-content {
   border: 1px solid #000;
 }
 
@@ -49,8 +49,16 @@
   flex-direction: column;
 }
 
-.Waiting button {
+.Lessons button {
   min-width: fit-content;
   width: 140px;
   margin: auto;
+}
+
+.Lessons button:disabled,
+.Lessons button:disabled:hover {
+  background-color: red;
+  border: 1px solid red;
+  color: white;
+  cursor: auto;
 }

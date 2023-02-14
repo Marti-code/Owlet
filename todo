@@ -7,10 +7,11 @@ App:
 Themes (updates after main page reloads)
 Styles (we might not be fucked up)
 Points (methods prepared, gotta implement them)
+Lessons rendering (get the link from db)
+Adding profile photos (yeah wait what?)
 Achievements (yep, no idea how to do those)
-Lessons rendering (either a button which will create a link at a given hour or a link prepared in a db earlier)
 Adding friends
-Group chat
+Group chat (more like how to get all those people into the same room)
 Forgot your password?
 
 Styles:

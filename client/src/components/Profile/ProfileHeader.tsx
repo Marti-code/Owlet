@@ -29,7 +29,7 @@ const ProfileHeader = () => {
               <a href="/waiting">Oczekujące</a>
             </div>
             <div className="header-link">
-              <a href="#">Lekcje</a>
+              <a href="/lessons">Lekcje</a>
             </div>
             <div className="header-link">
               <a href="#">Pomóż</a>

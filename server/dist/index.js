@@ -398,14 +398,26 @@ app.post("/api/planLesson", [
         },
     });
     const offers = yield offerModel_1.default.deleteOne({
-        _id: req.body.offerId
+        _id: req.body.offerId,
     });
     console.log(offers);
     if (!teacher || !student || !offers) {
         return res.json({ ok: false, error: "Błąd" });
     }
     return res.json({
-        ok: true
+        ok: true,
+    });
+}));
+app.post("/api/getLessons", [(0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield userModel_1.default.find({
+        email: req.body.mail,
+    });
+    if (!user) {
+        return res.json({ ok: false, error: "Błąd pobierania lekcji" });
+    }
+    return res.json({
+        ok: true,
+        data: user,
     });
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
