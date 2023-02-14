@@ -11,7 +11,6 @@ import {
   faUserEdit,
 } from "@fortawesome/free-solid-svg-icons";
 
-// import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -73,15 +72,6 @@ const Profile: React.FC<Profile> = ({
   useEffect(() => {
     if (!isLoggedIn) navigate("/sign-in");
   }, [isLoggedIn]);
-
-  // function handleCreateRoom(e: any) {
-  //   e.preventDefault();
-
-  //   const inviteCode = uuidv4();
-
-  //   setRoomId(inviteCode);
-  //   navigate(`/room/${inviteCode}`);
-  // }
 
   async function getCurrentTheme() {
     const d = await API.getUserThemeFetch(userData?.mail || "");

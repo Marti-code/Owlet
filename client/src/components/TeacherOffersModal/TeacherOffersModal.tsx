@@ -79,7 +79,10 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
                       }}
                     ></div>
                     <div className="modal-header-info">
-                      {el.teacher}, {el.date}
+                      <b>{el.teacher}</b>
+                    </div>
+                    <div className="modal-header-info">
+                      {el.date.slice(6)} {el.date.slice(0, 5)}
                     </div>
                     <button
                       onClick={() => {

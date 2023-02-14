@@ -11,12 +11,6 @@
   border-radius: 50%;
 }
 
-.modal-main {
-  display: flex;
-  align-items: center;
-  gap: 4rem;
-}
-
 .modal-main-right {
   min-width: 100px;
 }
@@ -30,8 +24,21 @@
 .modal-offers-col {
   display: flex;
   flex-direction: column;
+  padding: 30px;
+  min-height: 60vh;
+}
+
+.Waiting .modal-offers-col button {
+  margin: 0;
+  margin-left: auto;
 }
 
 .single-modal-offer {
   width: 100%;
+  background-color: var(--bg);
+  border-radius: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
 }

@@ -25,29 +25,6 @@ const Lessons: React.FC<Props> = ({ userData }) => {
     getUserLessons(userData.mail);
   }, [userData]);
 
-  // const [currDate, setCurrDate] = useState("");
-
-  // useEffect(() => {
-  //   let today = new Date();
-  //   let month = today.getMonth() + 1;
-  //   let year = today.getFullYear();
-  //   let day = today.getDate();
-  //   let hours = today.getHours();
-  //   let minutes = today.getMinutes();
-  //   let dateTime =
-  //     (hours < 10 ? "0" + hours : hours) +
-  //     ":" +
-  //     (minutes < 10 ? "0" + minutes : minutes) +
-  //     ";" +
-  //     year +
-  //     "-" +
-  //     (month < 10 ? "0" + month : month) +
-  //     "-" +
-  //     (day < 10 ? "0" + day : day);
-
-  //   setCurrDate(dateTime);
-  // }, []);
-
   const getUserLessons = async (mail: string) => {
     const uData = await API.getLessons(mail);
 
@@ -81,7 +58,7 @@ const Lessons: React.FC<Props> = ({ userData }) => {
                       `${el.date.slice(6)}T${el.date.slice(0, 5)}:00Z`
                     ) ? (
                       <button type="button">
-                        <a href={el.lessonUrl}>Dołącz</a>
+                        <a href={"room/" + el.lessonUrl}>Dołącz</a>
                       </button>
                     ) : (
                       <button type="button" disabled>
