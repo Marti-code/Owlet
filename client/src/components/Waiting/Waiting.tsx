@@ -13,7 +13,7 @@ type Props = {
 };
 
 type AcceptedBy = {
-  name: string;
+  teacherName: string;
   teacher: string;
   date: string;
 };
@@ -39,9 +39,13 @@ const Waiting: React.FC<Props> = ({ userData, getData, roomId, setRoomId }) => {
 
   const getUserOffers = async (mail: string) => {
     const data = await API.getUserOffers(mail);
-
+    console.log(data)
     setOffers(data.data);
   };
+
+  useEffect(() => {
+    console.log(curAcceptedBy);
+  }, [curAcceptedBy])
 
   return (
     <div className={`Waiting ${userData?.theme || "light"}`}>

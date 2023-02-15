@@ -225,11 +225,11 @@ const Profile: React.FC<Profile> = ({
                     <FontAwesomeIcon icon={faMoon} />
                   )}
                 </button>
-                <button id="user-info-edit-btn">
                   <Link to="edit">
+                <button id="user-info-edit-btn">
                     <FontAwesomeIcon icon={faUserEdit} />
-                  </Link>
                 </button>
+                  </Link>
                 <button
                   id="user-info-edit-btn"
                   onClick={() => {
