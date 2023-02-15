@@ -5,6 +5,8 @@ import { Heading } from "../../GlobalForm.styles";
 import ProfileHeader from "../Profile/ProfileHeader";
 import "./Lessons.css";
 
+const { DateTime } = require("luxon");
+
 type Props = {
   userData: UserInfoType | undefined;
 };
@@ -18,6 +20,17 @@ const Lessons: React.FC<Props> = ({ userData }) => {
       lessonUrl: "",
     },
   ]);
+
+  const getDateDiff = (el: any) => {
+    const givenDate = DateTime.fromISO(
+      `${el.date.slice(6)}T${el.date.slice(0, 5)}:00`
+    );
+
+    const now = DateTime.local();
+    const diffInSeconds = now.diff(givenDate, "seconds").toObject().seconds;
+
+    return diffInSeconds;
+  };
 
   useEffect(() => {
     if (!userData) return;
@@ -52,11 +65,8 @@ const Lessons: React.FC<Props> = ({ userData }) => {
                     <span className="offer-title">{el.lessonUrl}</span>
 
                     {/* enable the button with the url from db when it time for the lesson */}
-                    {/* ADD if user doesn't answer within 15min the lesson is canceled */}
-                    {new Date() >
-                    new Date(
-                      `${el.date.slice(6)}T${el.date.slice(0, 5)}:00Z`
-                    ) ? (
+                    {/* ADD if user doesn't answer within 10min the lesson is canceled */}
+                    {getDateDiff(el) > 0 && getDateDiff(el) < 600 ? (
                       <button type="button">
                         <a href={"room/" + el.lessonUrl}>Dołącz</a>
                       </button>
