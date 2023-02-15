@@ -114,7 +114,7 @@ export const Loader = styled.div`
 export const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 100px 10px;
+  padding: 40px 10px;
   flex-direction: column;
   flex-wrap: wrap;
   gap: 50px;

@@ -53,6 +53,10 @@ export const GlobalStyle = createGlobalStyle`
     font-family: "Poppins", sans-serif;
   }
 
+  html {
+    background-color: var(--bg);
+  }
+
   /* width */
   ::-webkit-scrollbar {
     width: 7px;
@@ -98,6 +102,7 @@ export const GlobalStyle = createGlobalStyle`
 
   .sign-container{
     background-color: var(--bg);
+    margin-top: 7vh;
   }
 
   button {

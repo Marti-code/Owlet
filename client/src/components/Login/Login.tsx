@@ -90,12 +90,12 @@ const Login: React.FC<Props> = ({ isLoggedIn, setLoggedIn, setUserData }) => {
               autoComplete="new-password"
             />
           </p>
-          <Label>
+          <p className="additional-info">
             Nie masz konta?
             <Link to="/sign-up" style={{ color: "#000" }}>
               <b>&nbsp;Zarejestruj się!</b>
             </Link>
-          </Label>
+          </p>
 
           <FormInfo>
             {info}

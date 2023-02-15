@@ -15,8 +15,24 @@ export const SignForm = styled.form`
   -moz-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
   box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
 
-  p {
+  p:not(.additional-info) {
     display: flex;
+  }
+
+  p.additional-info {
+    display: none;
+    width: 100%;
+    font-family: Lexend;
+    font-size: 18px;
+    color: var(--secondary-font);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 860px) {
+    p.additional-info {
+      display: flex;
+    }
   }
 
   @media (max-width: 860px) {
@@ -175,7 +191,7 @@ export const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
   color: red;
-  padding: 100px 10px;
+  padding: 40px 10px;
   flex-wrap: wrap;
   align-items: center;
   font-size: 16px;
@@ -240,7 +256,7 @@ export const LanguagesWrapper = styled.div<Button>`
 export const FormWrapper2 = styled.div`
   display: flex;
   justify-content: center;
-  padding: 100px 10px;
+  padding: 40px 10px;
   flex-direction: column;
   flex-wrap: wrap;
   gap: 50px;
@@ -249,6 +265,7 @@ export const FormWrapper2 = styled.div`
 
 export const Heading = styled.h1`
   text-align: center;
+  color: var(--main-font);
 `;
 
 export const ButtonContainer = styled.div`

@@ -450,7 +450,6 @@ app.post(
     check("id").trim().escape(),
   ],
   async (req: express.Request, res: express.Response) => {
-
     const offers = await Offer.updateOne(
       { _id: req.body.id },
       {
@@ -481,14 +480,9 @@ app.post(
     check("date").trim().escape(),
     check("studentMail").trim().escape(),
     check("offerId").trim().escape(),
+    check("lessonUrl").trim().escape(),
   ],
-  async (req: express.Request, res: express.Response) => {  
-
-    console.log(req.body.teacherMail)
-    console.log(req.body.studentMail)
-    console.log(req.body.date)
-    console.log(req.body.offerId)
-
+  async (req: express.Request, res: express.Response) => {
     const student = await User.updateOne(
       {
         email: req.body.studentMail,
@@ -499,6 +493,7 @@ app.post(
             date: req.body.date,
             teacherMail: req.body.teacherMail,
             studentMail: req.body.studentMail,
+            lessonUrl: req.body.lessonUrl,
           },
         },
       }
@@ -514,23 +509,43 @@ app.post(
             date: req.body.date,
             teacherMail: req.body.teacherMail,
             studentMail: req.body.studentMail,
+            lessonUrl: req.body.lessonUrl,
           },
         },
       }
     );
 
     const offers = await Offer.deleteOne({
-      _id: req.body.offerId
-    })
+      _id: req.body.offerId,
+    });
 
-    console.log(offers)
+    console.log(offers);
 
     if (!teacher || !student || !offers) {
       return res.json({ ok: false, error: "Błąd" });
     }
 
     return res.json({
-      ok: true
+      ok: true,
+    });
+  }
+);
+
+app.post(
+  "/api/getLessons",
+  [check("mail").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+    const user = await User.find({
+      email: req.body.mail,
+    });
+
+    if (!user) {
+      return res.json({ ok: false, error: "Błąd pobierania lekcji" });
+    }
+
+    return res.json({
+      ok: true,
+      data: user,
     });
   }
 );

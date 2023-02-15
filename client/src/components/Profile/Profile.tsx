@@ -1,7 +1,6 @@
 import "./Profile.css";
 import React, { useState, useEffect } from "react";
 
-import logo from "../Room/logo1.png";
 import API from "../../API";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,12 +11,12 @@ import {
   faUserEdit,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { v4 as uuidv4 } from "uuid";
 import { UserInfoType } from "../../API";
 import { Link, useNavigate } from "react-router-dom";
 
 import TeacherModal from "../TeacherModal/TeacherModal";
 import ProfileHeader from "./ProfileHeader";
+import { Heading } from "../../GlobalForm.styles";
 
 type Profile = {
   isLoggedIn: boolean;
@@ -74,15 +73,6 @@ const Profile: React.FC<Profile> = ({
   useEffect(() => {
     if (!isLoggedIn) navigate("/sign-in");
   }, [isLoggedIn]);
-
-  function handleCreateRoom(e: any) {
-    e.preventDefault();
-
-    const inviteCode = uuidv4();
-
-    setRoomId(inviteCode);
-    navigate(`/room/${inviteCode}`);
-  }
 
   async function getCurrentTheme() {
     const d = await API.getUserThemeFetch(userData?.mail || "");
@@ -283,7 +273,7 @@ const Profile: React.FC<Profile> = ({
                 </div>
                 <div className="teachers-list">
                   {/* insert offers here */}
-                  {userOffersArr.length > 0 &&
+                  {userOffersArr.length > 0 ? (
                     userOffersArr.map((el: any, key: any) => {
                       if (el != "") {
                         return (
@@ -315,7 +305,10 @@ const Profile: React.FC<Profile> = ({
                           </div>
                         );
                       }
-                    })}
+                    })
+                  ) : (
+                    <Heading>Brak ofert</Heading>
+                  )}
                 </div>
               </div>
             </section>
@@ -347,9 +340,7 @@ const Profile: React.FC<Profile> = ({
         </main>
 
         <div className="feedback-btn-container">
-          <button id="feedback-btn" onClick={handleCreateRoom}>
-            Feedback
-          </button>
+          <button id="feedback-btn">Feedback</button>
         </div>
       </div>
       {isOpen && (

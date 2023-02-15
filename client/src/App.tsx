@@ -10,6 +10,7 @@ import { useIsLoggedIn } from "./hooks/useIsLoggedIn";
 import VideoCall from "./components/Room/VideoCall";
 import PostOffer from "./components/PostOffer/PostOffer";
 import Waiting from "./components/Waiting/Waiting";
+import Lessons from "./components/Lessons/Lessons";
 
 function App() {
   const { loggedIn, setLoggedIn, userData, setUserData, loading, getData } =
@@ -71,8 +72,16 @@ function App() {
         <Route path="/post-offer" element={<PostOffer userData={userData} />} />
         <Route
           path="/waiting"
-          element={<Waiting getData={getData} userData={userData} />}
+          element={
+            <Waiting
+              getData={getData}
+              userData={userData}
+              roomId={roomId}
+              setRoomId={setRoomId}
+            />
+          }
         />
+        <Route path="/lessons" element={<Lessons userData={userData} />} />
         <Route path="/" element={<Main />} />
       </Routes>
       <GlobalStyle />
