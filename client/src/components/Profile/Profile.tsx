@@ -16,6 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import TeacherModal from "../TeacherModal/TeacherModal";
 import ProfileHeader from "./ProfileHeader";
+import { Heading } from "../../GlobalForm.styles";
 
 type Profile = {
   isLoggedIn: boolean;
@@ -272,7 +273,7 @@ const Profile: React.FC<Profile> = ({
                 </div>
                 <div className="teachers-list">
                   {/* insert offers here */}
-                  {userOffersArr.length > 0 &&
+                  {userOffersArr.length > 0 ? (
                     userOffersArr.map((el: any, key: any) => {
                       if (el != "") {
                         return (
@@ -304,7 +305,10 @@ const Profile: React.FC<Profile> = ({
                           </div>
                         );
                       }
-                    })}
+                    })
+                  ) : (
+                    <Heading>Brak ofert</Heading>
+                  )}
                 </div>
               </div>
             </section>

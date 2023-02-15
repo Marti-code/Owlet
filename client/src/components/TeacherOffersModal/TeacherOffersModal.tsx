@@ -13,6 +13,7 @@ import {
   Modal,
   ModalContainer,
 } from "../TeacherModal/TeacherModal.styles";
+import { FormInfo, Heading } from "../../GlobalForm.styles";
 
 type AcceptedBy = {
   name: string;
@@ -65,37 +66,42 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
     <Modal className={`TeacherModal ${userData?.theme || "light"}`}>
       <ModalContainer>
         <ModalContent>
-          <div className="modal-header modal-offers-col">
-            {acceptedBy &&
-              acceptedBy.map((el, i) => {
-                return (
-                  <div className="single-modal-offer" key={i}>
-                    <div
-                      className="modal-image"
-                      onClick={() => {
-                        console.log(el.teacher);
-                        console.log(userData.mail);
-                        console.log(offerId);
-                      }}
-                    ></div>
-                    <div className="modal-header-info">
-                      <b>{el.teacher}</b>
+          <div className="scroll-container">
+            <div className="modal-header modal-offers-col">
+              {acceptedBy.length > 0 ? (
+                acceptedBy.map((el, i) => {
+                  return (
+                    <div className="single-modal-offer" key={i}>
+                      <div
+                        className="modal-image"
+                        onClick={() => {
+                          console.log(el.teacher);
+                          console.log(userData.mail);
+                          console.log(offerId);
+                        }}
+                      ></div>
+                      <div className="modal-header-info">
+                        <b>{el.teacher}</b>
+                      </div>
+                      <div className="modal-header-info">
+                        {el.date.slice(6)} {el.date.slice(0, 5)}
+                      </div>
+                      <button
+                        onClick={() => {
+                          handleSubmit(el.teacher, el.date);
+                        }}
+                      >
+                        Akceptuj oferte
+                      </button>
                     </div>
-                    <div className="modal-header-info">
-                      {el.date.slice(6)} {el.date.slice(0, 5)}
-                    </div>
-                    <button
-                      onClick={() => {
-                        handleSubmit(el.teacher, el.date);
-                      }}
-                    >
-                      Akceptuj oferte
-                    </button>
-                  </div>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <Heading>Brak ofert</Heading>
+              )}
+              <FormInfo>{modalInfo}</FormInfo>
+            </div>
           </div>
-          {modalInfo}
         </ModalContent>
         <ModalOverlay
           className="modal-overlay"

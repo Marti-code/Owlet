@@ -56,7 +56,7 @@ const Lessons: React.FC<Props> = ({ userData }) => {
       <>
         <div className="offers-grid">
           <div className="offers-content">
-            {lessons &&
+            {lessons.length > 0 && lessons[0].date != "" ? (
               lessons.map((el, key) => {
                 return (
                   <div key={key} className="single-offer">
@@ -67,9 +67,9 @@ const Lessons: React.FC<Props> = ({ userData }) => {
                     {/* enable the button with the url from db when it time for the lesson */}
                     {/* ADD if user doesn't answer within 10min the lesson is canceled */}
                     {getDateDiff(el) > 0 && getDateDiff(el) < 600 ? (
-                      <button type="button">
-                        <a href={"room/" + el.lessonUrl}>Dołącz</a>
-                      </button>
+                      <a href={"room/" + el.lessonUrl}>
+                        <button type="button">Dołącz</button>
+                      </a>
                     ) : (
                       <button type="button" disabled>
                         Dołącz
@@ -77,7 +77,10 @@ const Lessons: React.FC<Props> = ({ userData }) => {
                     )}
                   </div>
                 );
-              })}
+              })
+            ) : (
+              <Heading>Brak zaplanowanych lekcji</Heading>
+            )}
           </div>
         </div>
       </>

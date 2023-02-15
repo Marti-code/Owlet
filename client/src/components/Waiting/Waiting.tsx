@@ -49,7 +49,7 @@ const Waiting: React.FC<Props> = ({ userData, getData, roomId, setRoomId }) => {
       <>
         <div className="offers-grid">
           <div className="offers-content">
-            {offers &&
+            {offers.length > 0 ? (
               offers.map((el) => {
                 return (
                   <div key={el.title} className="single-offer">
@@ -66,7 +66,10 @@ const Waiting: React.FC<Props> = ({ userData, getData, roomId, setRoomId }) => {
                     </button>
                   </div>
                 );
-              })}
+              })
+            ) : (
+              <Heading>Brak oczekujących lekcji</Heading>
+            )}
           </div>
         </div>
 

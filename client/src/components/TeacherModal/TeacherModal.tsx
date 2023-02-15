@@ -13,7 +13,7 @@ import {
   ModalSubHeaders,
 } from "./TeacherModal.styles";
 
-import { Heading } from "../../GlobalForm.styles";
+import { FormInfo, Heading } from "../../GlobalForm.styles";
 
 interface ModalProps {
   userName: string;
@@ -42,14 +42,17 @@ const TeacherModal: React.FC<ModalProps> = ({
   const [modalInfo, setModalInfo] = useState("");
 
   const handleAccept = async () => {
-    if (date == "") return;
+    if (date == "") {
+      setModalInfo("Wybierz datę");
+      return;
+    }
 
     let data;
 
     if (userMail) data = await API.sendOfferRequest(userMail, date, id);
 
     if (data.ok) {
-      setModalInfo("Wysałno propozycję nauczania. ");
+      setModalInfo("Wysałno propozycję nauczania");
     } else {
       setModalInfo("Wystąpił błąd");
     }
@@ -83,7 +86,7 @@ const TeacherModal: React.FC<ModalProps> = ({
                                 name="chosenTime"
                                 value={el}
                                 id={"tool-" + idx}
-                                defaultChecked={idx == 0 ? true : false}
+                                // defaultChecked={idx == 0 ? true : false}
                                 onChange={(e) => {
                                   if (e.currentTarget.checked)
                                     setDate(e.currentTarget.value);
@@ -101,28 +104,9 @@ const TeacherModal: React.FC<ModalProps> = ({
                     </div>
                   </div>
                 </div>
+                <FormInfo>{modalInfo}</FormInfo>
               </div>
-              {/* <ul>
-                {timeArr &&
-                  timeArr.map((el: any, key: any) => {
-                    return (
-                      <div key={el}>
-                        <input
-                          type="radio"
-                          value={el}
-                          name="chosenTime"
-                          onChange={(e) => {
-                            if (e.currentTarget.checked)
-                              setDate(e.currentTarget.value);
-                          }}
-                        />
-                        {el}
-                      </div>
-                    );
-                  })}
-              </ul> */}
             </div>
-            {modalInfo}
           </ModalMain>
           <ModalFooter>
             <button className="accept-offer" onClick={handleAccept}>

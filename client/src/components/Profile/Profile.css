@@ -250,6 +250,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--bg);
+}
+
+.friends-header {
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--bg);
 }
 
 .teachers-list,
@@ -260,7 +267,7 @@
 /* change later
 for now will have to do */
 .teachers-list {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 350px;
 }
 

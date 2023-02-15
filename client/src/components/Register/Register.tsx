@@ -107,12 +107,12 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
             />
           </p>
 
-          <Label className="sign-label">
+          <p className="sign-label additional-info">
             Masz już konto?&nbsp;
             <Link to="/sign-in" style={{ color: "#000" }}>
               <b>Zaloguj się!</b>
             </Link>
-          </Label>
+          </p>
 
           {loading ? <Loader /> : null}
           <FormInfo>

@@ -5,17 +5,10 @@ refreshing the circles after a change
 
 App:
 Themes (updates after main page reloads)
-Styles (we might not be fucked up)
+Styles (EditProfile, Lessons)
 Points (methods prepared, gotta implement them)
 Forgot your password?
 Adding profile photos (yeah wait what?)
 Achievements (yep, no idea how to do those)
 Adding friends
 Group chat (more like how to get all those people into the same room)
-
-Styles:
-EditProfile
-the info in Register and Login
-Waiting Modals
-Lessons
-Lessons, Waiting, For you - "there's nothing here"

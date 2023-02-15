@@ -17,7 +17,7 @@ export const ModalContainer = styled.div`
 export const ModalContent = styled.div`
   min-width: 45vw;
   position: absolute;
-  top: 30vh;
+  top: 20vh;
   left: 50%;
   transform: translate(-50%);
   z-index: 10;
@@ -27,6 +27,7 @@ export const ModalContent = styled.div`
   flex-direction: column;
   gap: 1rem;
   color: var(--main-font);
+
   /* max-height: 600px;
   overflow: auto; */
 
@@ -35,7 +36,7 @@ export const ModalContent = styled.div`
   }
 
   @media (max-width: 540px) {
-    min-width: 85vw;
+    min-width: 80vw;
   }
 `;
 

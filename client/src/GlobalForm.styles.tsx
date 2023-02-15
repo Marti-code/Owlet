@@ -15,8 +15,24 @@ export const SignForm = styled.form`
   -moz-box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
   box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
 
-  p {
+  p:not(.additional-info) {
     display: flex;
+  }
+
+  p.additional-info {
+    display: none;
+    width: 100%;
+    font-family: Lexend;
+    font-size: 18px;
+    color: var(--secondary-font);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 860px) {
+    p.additional-info {
+      display: flex;
+    }
   }
 
   @media (max-width: 860px) {
