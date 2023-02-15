@@ -407,9 +407,33 @@ app.post(
       email: req.body.mail,
     });
 
+    //  offers.forEach(async(offer, i) => {
+    //   await offer.acceptedBy.forEach(async (el, j) => {
+    //     let teacher = await User.findOne({
+    //       email: el.teacher
+    //     })
+
+    //     console.log(el.teacher)
+    //     console.log(teacher);
+
+    //     offers[i].acceptedBy[j].teacherName = teacher.name;
+    //     console.log(offers[i].acceptedBy[j])
+    //   })
+    // })
+
+
+
     if (!offers) {
       return res.json({ ok: false, error: "Błąd pobierania ofert" });
     }
+
+    // console.log("-------------------")
+
+    // offers.forEach((el) => {
+    //   el.acceptedBy.forEach((el) => {
+    //     console.log(el);
+    //   })
+    // })
 
     return res.json({
       ok: true,
