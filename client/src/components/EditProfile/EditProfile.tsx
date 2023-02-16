@@ -11,7 +11,6 @@ import {
   Heading,
   Input,
   Label,
-  LanguagesWrapper,
   Loader,
   Select,
   Submit,
@@ -123,15 +122,8 @@ const EditProfile: React.FC<Props> = ({
               />
             </div>
 
-            <div
-              onClick={() => {
-                setShow(!show);
-              }}
-            >
-              <Label>Przedmioty</Label>
-            </div>
-
             <div className="section over-hide z-bigger">
+              <Label>Przedmioty</Label>
               <div className="pb-5">
                 <div className="row justify-content-center pb-5">
                   <div className="col-12 pb-5">
@@ -143,8 +135,26 @@ const EditProfile: React.FC<Props> = ({
                               className="checkbox-tools"
                               type="checkbox"
                               name="chosenSubject"
+                              defaultChecked={
+                                userData?.subjects.find((e) => e == el)
+                                  ? true
+                                  : false
+                              }
                               value={el}
                               id={"tool-" + idx}
+                              onClick={(e) => {
+                                if (e.currentTarget.checked)
+                                  setCheckedSubjects([
+                                    ...checkedSubjects,
+                                    e.currentTarget.value,
+                                  ]);
+                                else
+                                  setCheckedSubjects(
+                                    checkedSubjects.filter(
+                                      (el) => el !== e.currentTarget.value
+                                    )
+                                  );
+                              }}
                             />
                             <label
                               className="for-checkbox-tools"
@@ -161,36 +171,6 @@ const EditProfile: React.FC<Props> = ({
               <FormInfo>{info}</FormInfo>
               {loading ? <Loader /> : null}
             </div>
-
-            {userData ? (
-              <LanguagesWrapper show={show}>
-                {subjects.map((el) => (
-                  <label key={el}>
-                    {el}
-                    <input
-                      type="checkbox"
-                      value={el}
-                      defaultChecked={
-                        userData?.subjects.find((e) => e == el) ? true : false
-                      }
-                      onClick={(e) => {
-                        if (e.currentTarget.checked)
-                          setCheckedSubjects([
-                            ...checkedSubjects,
-                            e.currentTarget.value,
-                          ]);
-                        else
-                          setCheckedSubjects(
-                            checkedSubjects.filter(
-                              (el) => el !== e.currentTarget.value
-                            )
-                          );
-                      }}
-                    ></input>
-                  </label>
-                ))}
-              </LanguagesWrapper>
-            ) : null}
 
             <ButtonContainer>
               <a href="/dashboard">

@@ -240,18 +240,18 @@ type Button = {
   show: boolean;
 };
 
-export const LanguagesWrapper = styled.div<Button>`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transform: ${(e) => (e.show ? `scale(1)` : `scale(0)`)};
-  height: ${(e) => (e.show ? `100%` : `0`)};
+// export const LanguagesWrapper = styled.div<Button>`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+//   transform: ${(e) => (e.show ? `scale(1)` : `scale(0)`)};
+//   height: ${(e) => (e.show ? `100%` : `0`)};
 
-  label {
-    display: flex;
-    gap: 10px;
-  }
-`;
+//   label {
+//     display: flex;
+//     gap: 10px;
+//   }
+// `;
 
 export const FormWrapper2 = styled.div`
   display: flex;
