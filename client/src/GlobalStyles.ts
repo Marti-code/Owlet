@@ -105,6 +105,12 @@ export const GlobalStyle = createGlobalStyle`
     margin-top: 7vh;
   }
 
+  .edit-container{
+    background-color: var(--bg);
+    min-height: 100vh;
+
+  }
+
   button {
     /* margin-top: 32px; */
     cursor: pointer;

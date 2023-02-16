@@ -86,10 +86,10 @@ const TeacherModal: React.FC<ModalProps> = ({
                                 name="chosenTime"
                                 value={el}
                                 id={"tool-" + idx}
-                                // defaultChecked={idx == 0 ? true : false}
                                 onChange={(e) => {
-                                  if (e.currentTarget.checked)
+                                  if (e.currentTarget.checked) {
                                     setDate(e.currentTarget.value);
+                                  }
                                 }}
                               />
                               <label

@@ -2,9 +2,11 @@ import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API, { UserInfoType } from "../../API";
 import ProfileHeader from "../Profile/ProfileHeader";
+import "../TeacherModal/RadioBtns.css";
 import {
   ButtonContainer,
   Form,
+  FormInfo,
   FormWrapper,
   Heading,
   Input,
@@ -126,7 +128,38 @@ const EditProfile: React.FC<Props> = ({
                 setShow(!show);
               }}
             >
-              Wybierz przedmioty
+              <Label>Przedmioty</Label>
+            </div>
+
+            <div className="section over-hide z-bigger">
+              <div className="pb-5">
+                <div className="row justify-content-center pb-5">
+                  <div className="col-12 pb-5">
+                    {userData &&
+                      subjects.map((el: any, idx: any) => {
+                        return (
+                          <div className="subject-el" key={idx}>
+                            <input
+                              className="checkbox-tools"
+                              type="checkbox"
+                              name="chosenSubject"
+                              value={el}
+                              id={"tool-" + idx}
+                            />
+                            <label
+                              className="for-checkbox-tools"
+                              htmlFor={"tool-" + idx}
+                            >
+                              {el}
+                            </label>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+              <FormInfo>{info}</FormInfo>
+              {loading ? <Loader /> : null}
             </div>
 
             {userData ? (
@@ -158,9 +191,6 @@ const EditProfile: React.FC<Props> = ({
                 ))}
               </LanguagesWrapper>
             ) : null}
-
-            {info}
-            {loading ? <Loader /> : null}
 
             <ButtonContainer>
               <a href="/dashboard">

@@ -1,11 +1,13 @@
-.TeacherModal .pb-5 {
+.TeacherModal .pb-5,
+.edit-container .pb-5 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
 
-.TeacherModal .section {
+.TeacherModal .section,
+.edit-container .section {
   position: relative;
   width: 100%;
   display: block;
@@ -13,21 +15,27 @@
   margin: 0 auto;
 }
 
-.TeacherModal .over-hide {
+.TeacherModal .over-hide,
+.edit-container .over-hide {
   overflow: hidden;
 }
 
-.TeacherModal .z-bigger {
+.TeacherModal .z-bigger,
+.edit-container .z-bigger {
   z-index: 100 !important;
 }
 
+.edit-container [type="checkbox"]:checked,
+.edit-container [type="checkbox"]:not(:checked),
 .TeacherModal [type="radio"]:checked,
 .TeacherModal [type="radio"]:not(:checked) {
   display: none;
 }
 
 .TeacherModal .checkbox-tools:checked + label,
-.TeacherModal .checkbox-tools:not(:checked) + label {
+.TeacherModal .checkbox-tools:not(:checked) + label,
+.edit-container .checkbox-tools:checked + label,
+.edit-container .checkbox-tools:not(:checked) + label {
   position: relative;
   display: flex;
   align-items: center;
@@ -48,20 +56,25 @@
   transition: all 300ms linear;
 }
 
-.TeacherModal .checkbox-tools:not(:checked) + label {
+.TeacherModal .checkbox-tools:not(:checked) + label,
+.edit-container .checkbox-tools:not(:checked) + label {
   background-color: var(--bg);
 }
 
-.TeacherModal .checkbox-tools:checked + label {
+.TeacherModal .checkbox-tools:checked + label,
+.edit-container .checkbox-tools:checked + label {
   background-color: transparent;
 }
 
-.TeacherModal .checkbox-tools:not(:checked) + label:hover {
+.TeacherModal .checkbox-tools:not(:checked) + label:hover,
+.edit-container .checkbox-tools:not(:checked) + label:hover {
   background-color: var(--accent);
 }
 
 .TeacherModal .checkbox-tools:checked + label::before,
-.TeacherModal .checkbox-tools:not(:checked) + label::before {
+.TeacherModal .checkbox-tools:not(:checked) + label::before,
+.edit-container .checkbox-tools:checked + label::before,
+.edit-container .checkbox-tools:not(:checked) + label::before {
   position: absolute;
   content: "";
   top: 0;
@@ -73,6 +86,7 @@
   z-index: -1;
 }
 
-.TeacherModal .checkbox-tools:not(:checked) + label {
+.TeacherModal .checkbox-tools:not(:checked) + label,
+.edit-container .checkbox-tools:not(:checked) + label {
   color: var(--main-font);
 }
