@@ -69,7 +69,7 @@ const Lessons: React.FC<Props> = ({ userData }) => {
                         </div>
                       </div>
                       <div className="lesson-info">
-                        Matura podstawowa z matematyki, trygonometria
+                        <p>Matura podstawowa z matematyki, trygonometria</p>
                       </div>
                     </div>
 

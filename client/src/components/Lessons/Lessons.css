@@ -1,3 +1,11 @@
+.Lessons h2 {
+  color: var(--main-font);
+}
+
+.Lessons p {
+  color: var(--secondary-font);
+}
+
 .offers-grid {
   min-height: 90vh;
   background-color: var(--bg);
