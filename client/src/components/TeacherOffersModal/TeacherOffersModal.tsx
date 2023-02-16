@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import API from "../../API";
 import "./TeacherOffersModal.css";
 
@@ -16,7 +16,7 @@ import {
 import { FormInfo, Heading } from "../../GlobalForm.styles";
 
 type AcceptedBy = {
-  name: string;
+  teacherName: string;
   teacher: string;
   date: string;
 };
@@ -40,6 +40,10 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
 }) => {
   const [modalInfo, setModalInfo] = useState("");
 
+  useEffect(() => {
+    console.log(acceptedBy);
+  } )
+
   const handleSubmit: any = async (mail: string, date: string) => {
     const inviteCode = uuidv4();
     setRoomId(inviteCode);
@@ -50,8 +54,6 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
       offerId,
       inviteCode
     );
-
-    console.log(data);
 
     if (data.ok) {
       setModalInfo("Zaplanowano lekcje!");
@@ -81,7 +83,10 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
                         }}
                       ></div>
                       <div className="modal-header-info">
-                        <b>{el.teacher}</b>
+                        <b>{el.teacherName}</b>
+                      </div>
+                      <div className="modal-header-info">
+                        {el.teacher}
                       </div>
                       <div className="modal-header-info">
                         {el.date.slice(6)} {el.date.slice(0, 5)}

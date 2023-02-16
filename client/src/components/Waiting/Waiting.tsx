@@ -1,3 +1,5 @@
+import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import API from "../../API";
 import { Heading } from "../../GlobalForm.styles";
@@ -13,7 +15,7 @@ type Props = {
 };
 
 type AcceptedBy = {
-  name: string;
+  teacherName: string;
   teacher: string;
   date: string;
 };
@@ -39,16 +41,27 @@ const Waiting: React.FC<Props> = ({ userData, getData, roomId, setRoomId }) => {
 
   const getUserOffers = async (mail: string) => {
     const data = await API.getUserOffers(mail);
-
+    console.log(data);
     setOffers(data.data);
   };
+
+  useEffect(() => {
+    console.log(curAcceptedBy);
+  }, [curAcceptedBy]);
 
   return (
     <div className={`Waiting ${userData?.theme || "light"}`}>
       <ProfileHeader></ProfileHeader>
       <>
         <div className="offers-grid">
+        <button className="refresh" onClick={() => {
+          getUserOffers(userData.mail)
+        }}
+        >
+            <FontAwesomeIcon icon={faRefresh} />
+          </button>
           <div className="offers-content">
+            
             {offers.length > 0 ? (
               offers.map((el) => {
                 return (

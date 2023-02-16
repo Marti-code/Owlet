@@ -397,6 +397,7 @@ app.put(
   }
 );
 
+
 app.post(
   "/api/getUserOffers",
   [check("mail").isEmail().trim().escape().normalizeEmail()],
@@ -407,16 +408,93 @@ app.post(
       email: req.body.mail,
     });
 
-    if (!offers) {
+    const promises = offers.map(async (offer, i) => {
+      const newAcceptedBy = await Promise.all(offer.acceptedBy.map(async (el, j) => {
+        let teacher = await User.findOne({
+          email: el.teacher,
+        });
+
+        console.log(el.teacher);
+        console.log(teacher);
+
+        const newEl = {
+          ...el,
+          teacherName: teacher.name,
+        };
+        console.log(newEl);
+
+        return newEl;
+      }));
+
+      return {
+        ...offer.toObject(),
+        acceptedBy: newAcceptedBy,
+      };
+    });
+
+    const newOffers = await Promise.all(promises);
+
+    if (!newOffers) {
       return res.json({ ok: false, error: "Błąd pobierania ofert" });
     }
 
+    console.log("-------------------");
+
+    newOffers.forEach((el) => {
+      el.acceptedBy.forEach((el) => {
+        console.log(el);
+      });
+    });
+
     return res.json({
       ok: true,
-      data: offers,
+      data: newOffers,
     });
   }
 );
+
+// app.post(
+//   "/api/getUserOffers",
+//   [check("mail").isEmail().trim().escape().normalizeEmail()],
+//   async (req: express.Request, res: express.Response) => {
+//     console.log(req.body.mail);
+
+//     const offers = await Offer.find({
+//       email: req.body.mail,
+//     });
+
+//     offers.forEach(async (offer, i) => {
+//       await offer.acceptedBy.forEach(async (el, j) => {
+//         let teacher = await User.findOne({
+//           email: el.teacher,
+//         });
+
+//         console.log(el.teacher);
+//         console.log(teacher);
+
+//         offers[i].acceptedBy[j].teacherName = teacher.name;
+//         console.log(offers[i].acceptedBy[j]);
+//       });
+//     });
+
+//     if (!offers) {
+//       return res.json({ ok: false, error: "Błąd pobierania ofert" });
+//     }
+
+//     console.log("-------------------");
+
+//     offers.forEach((el) => {
+//       el.acceptedBy.forEach((el) => {
+//         console.log(el);
+//       });
+//     });
+
+//     return res.json({
+//       ok: true,
+//       data: offers,
+//     });
+//   }
+// );
 
 app.post(
   "/api/sendOfferRequest",

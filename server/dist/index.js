@@ -336,14 +336,68 @@ app.post("/api/getUserOffers", [(0, express_validator_1.check)("mail").isEmail()
     const offers = yield offerModel_1.default.find({
         email: req.body.mail,
     });
-    if (!offers) {
+    const promises = offers.map((offer, i) => __awaiter(void 0, void 0, void 0, function* () {
+        const newAcceptedBy = yield Promise.all(offer.acceptedBy.map((el, j) => __awaiter(void 0, void 0, void 0, function* () {
+            let teacher = yield userModel_1.default.findOne({
+                email: el.teacher,
+            });
+            console.log(el.teacher);
+            console.log(teacher);
+            const newEl = Object.assign(Object.assign({}, el), { teacherName: teacher.name });
+            console.log(newEl);
+            return newEl;
+        })));
+        return Object.assign(Object.assign({}, offer.toObject()), { acceptedBy: newAcceptedBy });
+    }));
+    const newOffers = yield Promise.all(promises);
+    if (!newOffers) {
         return res.json({ ok: false, error: "Błąd pobierania ofert" });
     }
+    console.log("-------------------");
+    newOffers.forEach((el) => {
+        el.acceptedBy.forEach((el) => {
+            console.log(el);
+        });
+    });
     return res.json({
         ok: true,
-        data: offers,
+        data: newOffers,
     });
 }));
+// app.post(
+//   "/api/getUserOffers",
+//   [check("mail").isEmail().trim().escape().normalizeEmail()],
+//   async (req: express.Request, res: express.Response) => {
+//     console.log(req.body.mail);
+//     const offers = await Offer.find({
+//       email: req.body.mail,
+//     });
+//     offers.forEach(async (offer, i) => {
+//       await offer.acceptedBy.forEach(async (el, j) => {
+//         let teacher = await User.findOne({
+//           email: el.teacher,
+//         });
+//         console.log(el.teacher);
+//         console.log(teacher);
+//         offers[i].acceptedBy[j].teacherName = teacher.name;
+//         console.log(offers[i].acceptedBy[j]);
+//       });
+//     });
+//     if (!offers) {
+//       return res.json({ ok: false, error: "Błąd pobierania ofert" });
+//     }
+//     console.log("-------------------");
+//     offers.forEach((el) => {
+//       el.acceptedBy.forEach((el) => {
+//         console.log(el);
+//       });
+//     });
+//     return res.json({
+//       ok: true,
+//       data: offers,
+//     });
+//   }
+// );
 app.post("/api/sendOfferRequest", [
     (0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail(),
     (0, express_validator_1.check)("date").trim().escape(),

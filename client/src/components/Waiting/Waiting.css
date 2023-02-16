@@ -54,3 +54,11 @@
   width: 140px;
   margin: auto;
 }
+
+
+.refresh {
+  background-color: var(--accent);
+    color: #fff;
+    padding: 5px 20px;
+    margin: 0;
+}
