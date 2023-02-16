@@ -59,10 +59,19 @@ const Lessons: React.FC<Props> = ({ userData }) => {
             {lessons.length > 0 && lessons[0].date != "" ? (
               lessons.map((el, key) => {
                 return (
-                  <div key={key} className="single-offer">
-                    <Heading className="offer-subject">{el.date}</Heading>
-                    <span className="offer-title">{el.teacherMail}</span>
-                    <span className="offer-title">{el.lessonUrl}</span>
+                  <div key={key} className="single-lesson">
+                    <div>
+                      <div className="lesson-header">
+                        <div className="lesson-header-img"></div>
+                        <div className="lesson-header-info">
+                          <h2>Daisy</h2>
+                          <p>{el.date}</p>
+                        </div>
+                      </div>
+                      <div className="lesson-info">
+                        Matura podstawowa z matematyki, trygonometria
+                      </div>
+                    </div>
 
                     {/* enable the button with the url from db when it time for the lesson */}
                     {/* ADD if user doesn't answer within 10min the lesson is canceled */}

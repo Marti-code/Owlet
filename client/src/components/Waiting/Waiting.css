@@ -42,8 +42,8 @@
   background: var(--bg);
   border-radius: 1.4rem;
   width: 280px;
-  height: 180px;
-  min-height: fit-content;
+  min-height: 180px;
+  height: fit-content;
   padding: 20px;
   display: flex;
   flex-direction: column;
