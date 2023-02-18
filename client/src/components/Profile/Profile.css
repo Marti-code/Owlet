@@ -43,7 +43,6 @@
 
 .user-pic {
   background-color: var(--secondary-font);
-  background-image: url("./yato.png");
   background-position: center;
   background-size: cover;
   border-radius: 50%;
@@ -165,7 +164,6 @@
 
 .u-pic {
   background-color: var(--secondary-font);
-  background-image: url("./yato.png");
   background-position: center;
   background-size: cover;
   border-radius: 50%;

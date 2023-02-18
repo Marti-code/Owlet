@@ -168,7 +168,7 @@ const Profile: React.FC<Profile> = ({
   return (
     <div className={`Profile ${theme || "light"}`}>
       <div className="Dashboard">
-        <ProfileHeader />
+        <ProfileHeader userData={userData} />
 
         <main id="profile-main">
           <div className="main-content">
@@ -182,7 +182,10 @@ const Profile: React.FC<Profile> = ({
                   </div>
                   <div className="user-info-pic">
                     <div className="u-pic">
-                      <img src={`/assets/${userData?.profileImage}`} alt={userData?.profileImage} />
+                      <img
+                        src={`/assets/${userData?.profileImage}`}
+                        alt={userData?.profileImage}
+                      />
                     </div>
                   </div>
                 </div>
@@ -295,7 +298,7 @@ const Profile: React.FC<Profile> = ({
                             </div>
                             <div className="teacher-info">
                               <div className="teacher-name">
-                                {el.authorName[0] ? el.authorName[0] : ''}
+                                {el.authorName[0] ? el.authorName[0] : ""}
                               </div>
                               <div className="teacher-subject">
                                 {el.subject} - {el.title}
