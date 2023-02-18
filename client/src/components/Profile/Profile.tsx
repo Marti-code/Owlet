@@ -181,7 +181,9 @@ const Profile: React.FC<Profile> = ({
                     <p>ID: 12345</p>
                   </div>
                   <div className="user-info-pic">
-                    <div className="u-pic"></div>
+                    <div className="u-pic">
+                      <img src={`/assets/${userData?.profileImage}`} alt={userData?.profileImage} />
+                    </div>
                   </div>
                 </div>
 
@@ -293,7 +295,7 @@ const Profile: React.FC<Profile> = ({
                             </div>
                             <div className="teacher-info">
                               <div className="teacher-name">
-                                {el.authorName[0].name}
+                                {el.authorName[0] ? el.authorName[0] : ''}
                               </div>
                               <div className="teacher-subject">
                                 {el.subject} - {el.title}

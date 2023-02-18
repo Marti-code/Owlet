@@ -257,6 +257,7 @@ app.post(
   [
     check("mail").isEmail().trim().escape().normalizeEmail(),
     check("username").trim().escape(),
+    check("profileImage").trim().escape(),
   ],
   async (req: express.Request, res: express.Response) => {
     const user = await User.findOne({
@@ -267,12 +268,15 @@ app.post(
       return res.json({ ok: false, error: "Nie znaleziono." });
     }
 
+    console.log(req.body.profileImage)
+
     try {
       await User.updateOne(
         { email: user.email },
         {
           name: req.body.username,
           subjects: req.body.subjects,
+          profileImage: req.body.profileImage
         }
       );
     } catch (err) {

@@ -425,6 +425,10 @@ body {
   }
 }
 
+.u-pic img {
+  margin: 0;
+}
+
 @media (min-width: 920px) {
   .main-content {
     display: grid;

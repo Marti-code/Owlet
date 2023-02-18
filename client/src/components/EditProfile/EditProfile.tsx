@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import API, { UserInfoType } from "../../API";
 import ProfileHeader from "../Profile/ProfileHeader";
 import "../TeacherModal/RadioBtns.css";
+import './EditProfile.css';
 import {
   ButtonContainer,
   Form,
@@ -47,6 +48,8 @@ const EditProfile: React.FC<Props> = ({
 
   const navigate = useNavigate();
 
+  const profileLogos = ['bear.png', 'cat.png', 'cow.png', 'dog.png', 'fox.png', 'ganesha.png', 'koala.png', 'panda-bear.png', 'rabbit-pink.png', 'rabbit.png']
+
   useEffect(() => {
     // console.log("islogged in edit page: " + isLoggedIn)
 
@@ -58,6 +61,11 @@ const EditProfile: React.FC<Props> = ({
   }, [isLoggedIn]);
 
   useEffect(() => {
+    if (img == "")
+      setImage(profileLogos[0]);
+  }, [])
+
+  useEffect(() => {
     if (!userData || !userData.subjects) return;
 
     setCheckedSubjects([]);
@@ -67,19 +75,13 @@ const EditProfile: React.FC<Props> = ({
     });
 
     setName(userData.name);
+    setImage(userData.profileImage);
   }, [userData]);
 
-  // useEffect(() => {
-  //   console.log(checkedSubjects);
-  // }, [checkedSubjects])
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // if (1) {
-    //   console.log(checkedSubjects)
-    //   return;
-    // }
 
     if (!userData || !userData.mail) return;
 
@@ -88,7 +90,7 @@ const EditProfile: React.FC<Props> = ({
       return;
     }
 
-    const data = await API.editProfile(name, checkedSubjects, userData?.mail);
+    const data = await API.editProfile(name, checkedSubjects, userData?.mail, img);
     console.log(data);
 
     if (data.ok) {
@@ -168,14 +170,29 @@ const EditProfile: React.FC<Props> = ({
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="section over-hide z-bigger">
+              <Label>Zdjęcie profilowe</Label>
+              <div className="pb-5">
+                <div className="row justify-content-center pb-5">
+                  <div className="col-12 pb-5">
+                      {profileLogos.map((el, i) => {
+                          return <img onClick={() => {
+                            setImage(el);
+                          }} key={i} className={`profile-image ${img == el ? 'checked' : ''}`} src={`/assets/${el}`} alt={el}></img>
+                      })}
+                  </div>
+                </div>
+              </div>
               <FormInfo>{info}</FormInfo>
               {loading ? <Loader /> : null}
             </div>
 
             <ButtonContainer>
-              <a href="/dashboard">
+              <Link to="/dashboard">
                 <button type="button">Anuluj</button>
-              </a>
+              </Link>
               <Submit
                 onClick={() => {
                   setTimeout(() => {

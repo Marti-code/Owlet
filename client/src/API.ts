@@ -122,7 +122,7 @@ export default {
     return await res.json();
   },
 
-  editProfile: async (username: string, subjects: string[], email: string) => {
+  editProfile: async (username: string, subjects: string[], email: string, img: string) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/editProfile`;
 
     const res = await fetch(endpoint, {
@@ -134,6 +134,7 @@ export default {
         mail: email,
         username: username,
         subjects: subjects,
+        profileImage: img
       }),
     });
 
