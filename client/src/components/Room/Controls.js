@@ -1,11 +1,8 @@
-import { useEffect, useState, useRef } from "react";
-import { useClient, getScreenVideoTrack } from "./settings";
+import { useState } from "react";
+import { useClient } from "./settings";
 import styled from "styled-components";
-import {
-  createScreenVideoTrack,
-  createClient,
-  AgoraVideoPlayer,
-} from "agora-rtc-react";
+
+import API from "../../API";
 
 import ScreenShare from "./ScreenShare";
 
@@ -32,13 +29,23 @@ export default function Controls(props) {
   };
 
   const leaveChannel = async () => {
-    await client.leave();
-    client.removeAllListeners();
-    videoTrack[0].close();
-    videoTrack[1].close();
-    setStart(false);
-    setInCall(false);
-    window.location.href = "/dashboard";
+    let isExecuted = window.confirm("Zakończyć lekcje?");
+    if (isExecuted) {
+      // get points
+      const data = await API.updatePoints(40, "peter@gmail.com");
+      const data2 = await API.updatePoints(-40, "anna@gmail.com");
+      console.log(data);
+      console.log(data2);
+
+      // leave channel
+      await client.leave();
+      client.removeAllListeners();
+      videoTrack[0].close();
+      videoTrack[1].close();
+      setStart(false);
+      setInCall(false);
+      window.location.href = "/dashboard";
+    }
   };
 
   const StreamActions = styled.div`

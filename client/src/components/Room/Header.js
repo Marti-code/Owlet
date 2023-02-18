@@ -44,7 +44,7 @@ export default function Header(props) {
           </svg>
         </button>
 
-        <a className="nav__link" id="create__room__btn" href="lobby.html">
+        {/* <a className="nav__link" id="create__room__btn" href="lobby.html">
           Create Room
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ export default function Header(props) {
           >
             <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z" />
           </svg>
-        </a>
+        </a> */}
       </div>
     </header>
   );

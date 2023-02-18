@@ -67,7 +67,6 @@ app.post(
         password: newPassword,
         theme: "light",
         points: 100,
-        offersPosted: [],
       });
 
       res.json({ ok: true });
@@ -117,12 +116,9 @@ app.post(
           name: user.name,
           mail: user.email,
           subjects: user.subjects,
-          studied: user.studied,
-          taught: user.taught,
           profileImage: user.profileImage,
           theme: user.theme,
           points: user.points,
-          offersPosted: user.offersPosted,
         },
       });
     } else {
@@ -162,12 +158,9 @@ app.post(
         name: user.name,
         mail: user.email,
         subjects: user.subjects,
-        studied: user.studied,
-        taught: user.taught,
         profileImage: user.profileImage,
         theme: user.theme,
         points: user.points,
-        offersPosted: user.offersPosted,
       },
     });
   }
@@ -397,7 +390,6 @@ app.put(
   }
 );
 
-
 app.post(
   "/api/getUserOffers",
   [check("mail").isEmail().trim().escape().normalizeEmail()],
@@ -409,22 +401,24 @@ app.post(
     });
 
     const promises = offers.map(async (offer, i) => {
-      const newAcceptedBy = await Promise.all(offer.acceptedBy.map(async (el, j) => {
-        let teacher = await User.findOne({
-          email: el.teacher,
-        });
+      const newAcceptedBy = await Promise.all(
+        offer.acceptedBy.map(async (el, j) => {
+          let teacher = await User.findOne({
+            email: el.teacher,
+          });
 
-        console.log(el.teacher);
-        console.log(teacher);
+          console.log(el.teacher);
+          console.log(teacher);
 
-        const newEl = {
-          ...el,
-          teacherName: teacher.name,
-        };
-        console.log(newEl);
+          const newEl = {
+            ...el,
+            teacherName: teacher.name,
+          };
+          console.log(newEl);
 
-        return newEl;
-      }));
+          return newEl;
+        })
+      );
 
       return {
         ...offer.toObject(),
