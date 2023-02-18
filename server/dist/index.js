@@ -237,6 +237,7 @@ app.put("/api/updatetheme", [(0, express_validator_1.check)("theme")], (req, res
 app.post("/api/editProfile", [
     (0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail(),
     (0, express_validator_1.check)("username").trim().escape(),
+    (0, express_validator_1.check)("profileImage").trim().escape(),
 ], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield userModel_1.default.findOne({
         email: req.body.mail,
@@ -244,10 +245,12 @@ app.post("/api/editProfile", [
     if (!user) {
         return res.json({ ok: false, error: "Nie znaleziono." });
     }
+    console.log(req.body.profileImage);
     try {
         yield userModel_1.default.updateOne({ email: user.email }, {
             name: req.body.username,
             subjects: req.body.subjects,
+            profileImage: req.body.profileImage
         });
     }
     catch (err) {
