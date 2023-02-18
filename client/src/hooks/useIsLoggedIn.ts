@@ -1,69 +1,76 @@
 import { useEffect, useState } from "react";
-import jwt from 'jwt-decode';
+import jwt from "jwt-decode";
 import API, { UserInfoType } from "../API";
 
 export const useIsLoggedIn = () => {
-
   const [loggedIn, setLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserInfoType>();
   const [loading, setLoading] = useState(false);
+  const [currLesson, setCurrLesson] = useState({
+    teacherEmail: "",
+    studentEmail: "",
+    points: 0,
+  });
 
   useEffect(() => {
     setLoading(true);
-    const rawStoredData = localStorage.getItem('user');
+    const rawStoredData = localStorage.getItem("user");
     const userStoredData = rawStoredData ? JSON.parse(rawStoredData) : null;
 
-		if (userStoredData && userStoredData.token) {
-			const user = jwt(userStoredData.token)
+    if (userStoredData && userStoredData.token) {
+      const user = jwt(userStoredData.token);
 
-			if (!user) {
-				localStorage.removeItem('user');
+      if (!user) {
+        localStorage.removeItem("user");
         setLoggedIn(false);
-			} else {
+      } else {
         setLoggedIn(true);
         setUserData(userStoredData);
         console.log(userStoredData);
       }
-
-		} else {
+    } else {
       setLoggedIn(false);
     }
 
     setLoading(false);
-  }, [])
+  }, []);
 
-  useEffect(() => {
+  useEffect(() => {}, []);
 
-  }, [])
-
-
-
-  const getData = async() => {
+  const getData = async () => {
     if (!userData || !userData.token) {
       setLoggedIn(false);
       return;
-		
-		} 
+    }
 
-    const user = jwt(userData.token)
+    const user = jwt(userData.token);
 
     if (!user) {
-      localStorage.removeItem('user');
+      localStorage.removeItem("user");
       setLoggedIn(false);
       return;
     }
 
     const data = await API.getUserDataFetch(userData.mail);
-    if (!data.ok){
+    if (!data.ok) {
       setLoggedIn(false);
       return;
     }
 
-    localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem("user", JSON.stringify(data.user));
     setUserData(data.user);
 
     console.log(userData);
-  }
+  };
 
-  return {loggedIn, setLoggedIn, userData, setUserData, loading, getData};
-}
+  return {
+    loggedIn,
+    setLoggedIn,
+    userData,
+    setUserData,
+    loading,
+    getData,
+    currLesson,
+    setCurrLesson,
+  };
+};

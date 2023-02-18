@@ -42,7 +42,7 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     console.log(acceptedBy);
-  } )
+  });
 
   const handleSubmit: any = async (mail: string, date: string) => {
     const inviteCode = uuidv4();
@@ -85,9 +85,9 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
                       <div className="modal-header-info">
                         <b>{el.teacherName}</b>
                       </div>
-                      <div className="modal-header-info">
+                      {/* <div className="modal-header-info">
                         {el.teacher}
-                      </div>
+                      </div> */}
                       <div className="modal-header-info">
                         {el.date.slice(6)} {el.date.slice(0, 5)}
                       </div>

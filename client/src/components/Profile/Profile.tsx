@@ -136,15 +136,6 @@ const Profile: React.FC<Profile> = ({
     setUserPoints(data.points);
   };
 
-  const handleUpdatePoints = async () => {
-    const data = await API.updatePoints(userPoints + -40, userData?.mail || "");
-    if (data.ok) {
-      console.log("punkty zaktualizowane");
-    } else {
-      console.log(data);
-    }
-  };
-
   const toggleModal = (
     userName: string,
     title: string,
@@ -206,7 +197,6 @@ const Profile: React.FC<Profile> = ({
                     <p>
                       {userData?.subjects.length
                         ? userData.subjects.map((el: any) => {
-                            console.log(el);
                             return el + " ";
                           })
                         : "brak"}

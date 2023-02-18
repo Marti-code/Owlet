@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-// import bcrypt from 'bcrypt';
 let userSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -25,25 +24,15 @@ let userSchema = new mongoose_1.default.Schema({
     subjects: {
         type: [],
     },
-    //instead of studied and taught give achievements
-    studied: {
-        type: Number,
-    },
-    taught: {
-        type: Number,
-    },
     points: {
         type: Number,
     },
     theme: {
         type: String,
     },
-    offersPosted: {
+    plannedLessons: {
         type: [],
     },
-    plannedLessons: {
-        type: []
-    }
 }, { collection: "users" });
 const User = mongoose_1.default.model("User", userSchema, "user");
 exports.default = User;

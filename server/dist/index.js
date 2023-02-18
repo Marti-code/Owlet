@@ -92,7 +92,6 @@ app.post("/api/register", [
             password: newPassword,
             theme: "light",
             points: 100,
-            offersPosted: [],
         });
         res.json({ ok: true });
     }
@@ -126,12 +125,9 @@ app.post("/api/login", [
                 name: user.name,
                 mail: user.email,
                 subjects: user.subjects,
-                studied: user.studied,
-                taught: user.taught,
                 profileImage: user.profileImage,
                 theme: user.theme,
                 points: user.points,
-                offersPosted: user.offersPosted,
             },
         });
     }
@@ -161,12 +157,9 @@ app.post("/api/getData", [(0, express_validator_1.check)("mail").isEmail().trim(
             name: user.name,
             mail: user.email,
             subjects: user.subjects,
-            studied: user.studied,
-            taught: user.taught,
             profileImage: user.profileImage,
             theme: user.theme,
             points: user.points,
-            offersPosted: user.offersPosted,
         },
     });
 }));
