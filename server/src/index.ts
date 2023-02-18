@@ -67,7 +67,6 @@ app.post(
         password: newPassword,
         theme: "light",
         points: 100,
-        offersPosted: [],
       });
 
       res.json({ ok: true });
@@ -117,12 +116,9 @@ app.post(
           name: user.name,
           mail: user.email,
           subjects: user.subjects,
-          studied: user.studied,
-          taught: user.taught,
           profileImage: user.profileImage,
           theme: user.theme,
           points: user.points,
-          offersPosted: user.offersPosted,
         },
       });
     } else {
@@ -162,12 +158,9 @@ app.post(
         name: user.name,
         mail: user.email,
         subjects: user.subjects,
-        studied: user.studied,
-        taught: user.taught,
         profileImage: user.profileImage,
         theme: user.theme,
         points: user.points,
-        offersPosted: user.offersPosted,
       },
     });
   }
@@ -400,7 +393,6 @@ app.put(
     }
   }
 );
-
 
 app.post(
   "/api/getUserOffers",

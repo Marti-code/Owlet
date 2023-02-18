@@ -4,8 +4,6 @@ export type UserInfoType = {
   token: string;
   profileImage: string;
   subjects: string[];
-  studied: number;
-  taught: number;
   points: number;
   theme: string;
 };

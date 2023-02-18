@@ -1,21 +1,38 @@
-import { useEffect, useState, useRef } from "react";
-import { useClient, getScreenVideoTrack } from "./settings";
+import { useState, useEffect } from "react";
+import { useClient } from "./settings";
 import styled from "styled-components";
-import {
-  createScreenVideoTrack,
-  createClient,
-  AgoraVideoPlayer,
-} from "agora-rtc-react";
+
+import API from "../../API";
 
 import ScreenShare from "./ScreenShare";
 
 export default function Controls(props) {
   const client = useClient();
-  const { tracks: videoTrack, setStart, setInCall, users } = props;
+  const {
+    tracks: videoTrack,
+    setStart,
+    setInCall,
+    users,
+    currLesson,
+    setCurrLesson,
+  } = props;
   const [trackState, setTrackState] = useState({ video: false, audio: false });
 
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [ifScreenShared, setIfScreenShared] = useState(false);
+  const [teacherPoints, setTeacherPoints] = useState(0);
+  const [studentPoints, setStudentPoints] = useState(0);
+
+  useEffect(() => {
+    const getTeacherAndStudentPoints = async () => {
+      const tPoints = await API.getPoints(currLesson.teacherEmail);
+      const sPoints = await API.getPoints(currLesson.studentEmail);
+      setTeacherPoints(tPoints);
+      setStudentPoints(sPoints);
+    };
+
+    getTeacherAndStudentPoints();
+  }, []);
 
   const mute = async (type) => {
     if (type === "audio") {
@@ -32,13 +49,30 @@ export default function Controls(props) {
   };
 
   const leaveChannel = async () => {
-    await client.leave();
-    client.removeAllListeners();
-    videoTrack[0].close();
-    videoTrack[1].close();
-    setStart(false);
-    setInCall(false);
-    window.location.href = "/dashboard";
+    let isExecuted = window.confirm("Zakończyć lekcje?");
+
+    if (isExecuted) {
+      // get points
+      const data = await API.updatePoints(
+        teacherPoints.points + parseInt(currLesson.points),
+        currLesson.teacherEmail
+      );
+      const data2 = await API.updatePoints(
+        studentPoints.points - parseInt(currLesson.points),
+        currLesson.studentEmail
+      );
+
+      if (data.ok && data2.ok) {
+        // leave channel
+        await client.leave();
+        client.removeAllListeners();
+        videoTrack[0].close();
+        videoTrack[1].close();
+        setStart(false);
+        setInCall(false);
+        window.location.href = "/dashboard";
+      }
+    }
   };
 
   const StreamActions = styled.div`

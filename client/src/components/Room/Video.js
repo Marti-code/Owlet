@@ -6,7 +6,7 @@ export default function Video(props) {
   //users - remote users (others)
   //tracks - local tracks (us)
 
-  const { users, tracks } = props;
+  const { users, tracks, currLesson, setCurrLesson } = props;
   const [start, setStart] = useState(false);
   const [inCall, setInCall] = useState(false);
 
@@ -140,6 +140,8 @@ export default function Video(props) {
         setStart={setStart}
         setInCall={setInCall}
         users={users}
+        currLesson={currLesson}
+        setCurrLesson={setCurrLesson}
       />
     </section>
   );

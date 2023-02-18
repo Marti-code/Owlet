@@ -146,15 +146,6 @@ const Profile: React.FC<Profile> = ({
     setUserPoints(data.points);
   };
 
-  const handleUpdatePoints = async () => {
-    const data = await API.updatePoints(userPoints + -40, userData?.mail || "");
-    if (data.ok) {
-      console.log("punkty zaktualizowane");
-    } else {
-      console.log(data);
-    }
-  };
-
   const toggleModal = (
     userName: string,
     title: string,
@@ -187,7 +178,7 @@ const Profile: React.FC<Profile> = ({
   return (
     <div className={`Profile ${theme || "light"}`}>
       <div className="Dashboard">
-        <ProfileHeader />
+        <ProfileHeader userData={userData} />
 
         <main id="profile-main">
           <div className="main-content">
@@ -201,7 +192,10 @@ const Profile: React.FC<Profile> = ({
                   </div>
                   <div className="user-info-pic">
                     <div className="u-pic">
-                      <img src={`/assets/${userData?.profileImage}`} alt={userData?.profileImage} />
+                      <img
+                        src={`/assets/${userData?.profileImage}`}
+                        alt={userData?.profileImage}
+                      />
                     </div>
                   </div>
                 </div>
@@ -212,14 +206,20 @@ const Profile: React.FC<Profile> = ({
                   </div>
 
                   <div className="user-info-subjects">
-                    <p>Przedmioty:</p>
                     <p>
-                      {userData && userData.subjects.map((el: any) => el + " ")}
+                      <b>Przedmioty:</b>
+                    </p>
+                    <p>
+                      {userData?.subjects.length
+                        ? userData.subjects.map((el: any) => {
+                            return el + " ";
+                          })
+                        : "brak"}
                     </p>
                   </div>
 
                   <div className="user-info-teach">
-                    <p>Osiągnięcia:</p>
+                    <b>Osiągnięcia:</b>
                     <br></br>
                     <br></br>
                   </div>
@@ -237,11 +237,11 @@ const Profile: React.FC<Profile> = ({
                     <FontAwesomeIcon icon={faMoon} />
                   )}
                 </button>
-                  <Link to="edit">
-                <button id="user-info-edit-btn">
+                <Link to="edit">
+                  <button id="user-info-edit-btn">
                     <FontAwesomeIcon icon={faUserEdit} />
-                </button>
-                  </Link>
+                  </button>
+                </Link>
                 <button
                   id="user-info-edit-btn"
                   onClick={() => {

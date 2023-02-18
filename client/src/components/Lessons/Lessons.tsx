@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import API, { UserInfoType } from "../../API";
 import { Heading } from "../../GlobalForm.styles";
@@ -9,9 +10,11 @@ const { DateTime } = require("luxon");
 
 type Props = {
   userData: UserInfoType | undefined;
+  currLesson: any;
+  setCurrLesson: any;
 };
 
-const Lessons: React.FC<Props> = ({ userData }) => {
+const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
   const [lessons, setLessons] = useState([
     {
       date: "",
@@ -20,6 +23,8 @@ const Lessons: React.FC<Props> = ({ userData }) => {
       lessonUrl: "",
     },
   ]);
+
+  const navigate = useNavigate();
 
   const getDateDiff = (el: any) => {
     const givenDate = DateTime.fromISO(
@@ -37,6 +42,20 @@ const Lessons: React.FC<Props> = ({ userData }) => {
 
     getUserLessons(userData.mail);
   }, [userData]);
+
+  const startLesson = async (
+    url: any,
+    emailT: any,
+    emailS: any,
+    lessonPoints: any
+  ) => {
+    setCurrLesson({
+      teacherEmail: emailT,
+      studentEmail: emailS,
+      points: lessonPoints,
+    });
+    navigate("/room/" + url);
+  };
 
   const getUserLessons = async (mail: string) => {
     const uData = await API.getLessons(mail);
@@ -65,7 +84,9 @@ const Lessons: React.FC<Props> = ({ userData }) => {
                         <div className="lesson-header-img"></div>
                         <div className="lesson-header-info">
                           <h2>Daisy</h2>
-                          <p>{el.date}</p>
+                          <p>
+                            {el.date.slice(6)}, {el.date.slice(0, 5)}
+                          </p>
                         </div>
                       </div>
                       <div className="lesson-info">
@@ -75,10 +96,23 @@ const Lessons: React.FC<Props> = ({ userData }) => {
 
                     {/* enable the button with the url from db when it time for the lesson */}
                     {/* ADD if user doesn't answer within 10min the lesson is canceled */}
-                    {getDateDiff(el) > 0 && getDateDiff(el) < 600 ? (
-                      <a href={"room/" + el.lessonUrl}>
-                        <button type="button">Dołącz</button>
-                      </a>
+                    {getDateDiff(el) > 0 && getDateDiff(el) < 3200 ? (
+                      // <a href={"room/" + el.lessonUrl}>
+                      //   <button type="button">Dołącz</button>
+                      // </a>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          startLesson(
+                            el.lessonUrl,
+                            el.teacherMail,
+                            el.studentMail,
+                            10
+                          );
+                        }}
+                      >
+                        Dołącz
+                      </button>
                     ) : (
                       <button type="button" disabled>
                         Dołącz

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-// import bcrypt from 'bcrypt';
 
 let userSchema = new mongoose.Schema(
   {
@@ -22,25 +21,15 @@ let userSchema = new mongoose.Schema(
     subjects: {
       type: [],
     },
-    //instead of studied and taught give achievements
-    studied: {
-      type: Number,
-    },
-    taught: {
-      type: Number,
-    },
     points: {
       type: Number,
     },
     theme: {
       type: String,
     },
-    offersPosted: {
+    plannedLessons: {
       type: [],
     },
-    plannedLessons: {
-      type: []
-    }
   },
   { collection: "users" }
 );

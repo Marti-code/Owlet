@@ -3,8 +3,10 @@ import { useState } from "react";
 
 import logo from "../Room/logo1.png";
 
-const ProfileHeader = () => {
+const ProfileHeader = (props: any) => {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const { userData } = props;
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -32,9 +34,6 @@ const ProfileHeader = () => {
               <a href="/lessons">Lekcje</a>
             </div>
             <div className="header-link">
-              <a href="#">Pomóż</a>
-            </div>
-            <div className="header-link">
               <a href="/post-offer">Otrzymaj pomoc</a>
             </div>
             <div className="header-link">
@@ -44,7 +43,13 @@ const ProfileHeader = () => {
         </div>
         <div className="header-user-pic">
           <a href="/dashboard">
-            <div className="user-pic"></div>
+            <div className="user-pic">
+              <img
+                style={{ margin: 0 }}
+                src={`/assets/${userData?.profileImage}`}
+                alt={userData?.profileImage}
+              />
+            </div>
           </a>
         </div>
       </div>

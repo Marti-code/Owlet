@@ -17,6 +17,8 @@ function Room(props) {
     uid,
     client,
     userData,
+    currLesson,
+    setCurrLesson,
   } = props;
 
   //scroll messages into view - doesn't work yet
@@ -51,7 +53,12 @@ function Room(props) {
             memberContainer={memberContainer}
           ></MembersContainer>
 
-          <Video tracks={tracks} users={users} />
+          <Video
+            tracks={tracks}
+            users={users}
+            currLesson={currLesson}
+            setCurrLesson={setCurrLesson}
+          />
 
           <Messages
             tracks={tracks}

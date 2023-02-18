@@ -1,10 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import EditProfile from "./components/EditProfile/EditProfile";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Login from "./components/Login/Login";
 import Profile from "./components/Profile/Profile";
 import Register from "./components/Register/Register";
-import Main from "./components/Room/Main";
 import { GlobalStyle } from "./GlobalStyles";
 import { useIsLoggedIn } from "./hooks/useIsLoggedIn";
 import VideoCall from "./components/Room/VideoCall";
@@ -13,8 +12,16 @@ import Waiting from "./components/Waiting/Waiting";
 import Lessons from "./components/Lessons/Lessons";
 
 function App() {
-  const { loggedIn, setLoggedIn, userData, setUserData, loading, getData } =
-    useIsLoggedIn();
+  const {
+    loggedIn,
+    setLoggedIn,
+    userData,
+    setUserData,
+    loading,
+    getData,
+    currLesson,
+    setCurrLesson,
+  } = useIsLoggedIn();
   const [inCall, setInCall] = useState(true);
   const [roomId, setRoomId] = useState("1");
 
@@ -41,6 +48,8 @@ function App() {
               roomId={roomId}
               setRoomId={setRoomId}
               userData={userData}
+              currLesson={currLesson}
+              setCurrLesson={setCurrLesson}
             />
           }
         />
@@ -81,8 +90,30 @@ function App() {
             />
           }
         />
-        <Route path="/lessons" element={<Lessons userData={userData} />} />
-        <Route path="/" element={<Main />} />
+        <Route
+          path="/lessons"
+          element={
+            <Lessons
+              userData={userData}
+              currLesson={currLesson}
+              setCurrLesson={setCurrLesson}
+            />
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <Profile
+              setRoomId={setRoomId}
+              roomId={roomId}
+              userData={userData}
+              setUserData={setUserData}
+              isLoggedIn={loggedIn}
+              setLoggedIn={setLoggedIn}
+              getData={getData}
+            />
+          }
+        />
       </Routes>
       <GlobalStyle />
     </div>
