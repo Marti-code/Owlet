@@ -346,7 +346,7 @@ app.post("/api/getUserOffers", [(0, express_validator_1.check)("mail").isEmail()
             });
             console.log(el.teacher);
             console.log(teacher);
-            const newEl = Object.assign(Object.assign({}, el), { teacherName: teacher.name });
+            const newEl = Object.assign(Object.assign({}, el), { teacherName: teacher.name, teacherAvatar: teacher.profileImage });
             console.log(newEl);
             return newEl;
         })));

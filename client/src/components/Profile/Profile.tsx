@@ -28,6 +28,10 @@ type Profile = {
   getData: any;
 };
 
+type Offer = {
+
+}
+
 const Profile: React.FC<Profile> = ({
   isLoggedIn,
   userData,
@@ -40,7 +44,7 @@ const Profile: React.FC<Profile> = ({
   const [theme, setTheme] = useState(userData?.theme || "light");
   const [userPoints, setUserPoints] = useState(userData?.points || 0);
 
-  const [userOffersArr, setUserOffersArr] = useState([""]);
+  const [userOffersArr, setUserOffersArr] = useState<any[]>([]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({
@@ -52,8 +56,8 @@ const Profile: React.FC<Profile> = ({
     id: "",
   });
 
-  let userSubjects: string[] = [];
   let userOffers: any[] = [];
+  let userSubjects: string[] = [];
 
   const navigate = useNavigate();
 
@@ -69,6 +73,10 @@ const Profile: React.FC<Profile> = ({
 
     getData();
   }, []);
+
+  useEffect(() => {
+    console.log(userOffersArr)
+  }, [userOffersArr])
 
   useEffect(() => {
     if (!isLoggedIn) navigate("/sign-in");
@@ -125,7 +133,9 @@ const Profile: React.FC<Profile> = ({
         userOffers.push(el);
       });
 
-      setUserOffersArr([...userOffers]);
+      console.log(userOffers);
+
+      setUserOffersArr(userOffers);
     });
 
     console.log("refreshed");
@@ -274,10 +284,9 @@ const Profile: React.FC<Profile> = ({
                   </button>
                 </div>
                 <div className="teachers-list">
-                  {/* insert offers here */}
                   {userOffersArr.length > 0 ? (
                     userOffersArr.map((el: any, key: any) => {
-                      if (el != "") {
+                      
                         return (
                           <div
                             className="teacher-el"
@@ -294,11 +303,13 @@ const Profile: React.FC<Profile> = ({
                             }}
                           >
                             <div className="teacher-pic">
-                              <div className="t-pic"></div>
+                              <div className="t-pic">
+                              <img src={`/assets/${el.authorName[0].profileImage}`} alt={el.authorName[0].profileImage} />
+                              </div>
                             </div>
                             <div className="teacher-info">
                               <div className="teacher-name">
-                                {el.authorName[0] ? el.authorName[0] : ''}
+                                {el.authorName[0].name}
                               </div>
                               <div className="teacher-subject">
                                 {el.subject} - {el.title}
@@ -306,7 +317,7 @@ const Profile: React.FC<Profile> = ({
                             </div>
                           </div>
                         );
-                      }
+
                     })
                   ) : (
                     <Heading>Brak ofert</Heading>

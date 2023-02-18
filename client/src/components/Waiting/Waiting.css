@@ -61,3 +61,7 @@
   padding: 5px 20px;
   margin: 0;
 }
+
+.modal-image img {
+  margin: 0;
+}

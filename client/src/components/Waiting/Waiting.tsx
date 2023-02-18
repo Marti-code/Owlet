@@ -18,6 +18,7 @@ type AcceptedBy = {
   teacherName: string;
   teacher: string;
   date: string;
+  teacherAvatar: string;
 };
 
 type Offer = {

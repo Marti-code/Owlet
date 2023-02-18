@@ -424,6 +424,7 @@ app.post(
         const newEl = {
           ...el,
           teacherName: teacher.name,
+          teacherAvatar: teacher.profileImage
         };
         console.log(newEl);
 

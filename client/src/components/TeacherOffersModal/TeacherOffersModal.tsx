@@ -19,6 +19,7 @@ type AcceptedBy = {
   teacherName: string;
   teacher: string;
   date: string;
+  teacherAvatar: string;
 };
 
 interface ModalProps {
@@ -81,7 +82,9 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
                           console.log(userData.mail);
                           console.log(offerId);
                         }}
-                      ></div>
+                      >
+                        <img src={`/assets/${el.teacherAvatar}`} alt={el.teacherAvatar} />
+                      </div>
                       <div className="modal-header-info">
                         <b>{el.teacherName}</b>
                       </div>
@@ -96,7 +99,7 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
                           handleSubmit(el.teacher, el.date);
                         }}
                       >
-                        Akceptuj oferte
+                        Akceptuj ofertę
                       </button>
                     </div>
                   );
