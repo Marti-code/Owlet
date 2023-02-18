@@ -200,14 +200,21 @@ const Profile: React.FC<Profile> = ({
                   </div>
 
                   <div className="user-info-subjects">
-                    <p>Przedmioty:</p>
                     <p>
-                      {userData && userData.subjects.map((el: any) => el + " ")}
+                      <b>Przedmioty:</b>
+                    </p>
+                    <p>
+                      {userData?.subjects.length
+                        ? userData.subjects.map((el: any) => {
+                            console.log(el);
+                            return el + " ";
+                          })
+                        : "brak"}
                     </p>
                   </div>
 
                   <div className="user-info-teach">
-                    <p>Osiągnięcia:</p>
+                    <b>Osiągnięcia:</b>
                     <br></br>
                     <br></br>
                   </div>
@@ -225,11 +232,11 @@ const Profile: React.FC<Profile> = ({
                     <FontAwesomeIcon icon={faMoon} />
                   )}
                 </button>
-                  <Link to="edit">
-                <button id="user-info-edit-btn">
+                <Link to="edit">
+                  <button id="user-info-edit-btn">
                     <FontAwesomeIcon icon={faUserEdit} />
-                </button>
-                  </Link>
+                  </button>
+                </Link>
                 <button
                   id="user-info-edit-btn"
                   onClick={() => {

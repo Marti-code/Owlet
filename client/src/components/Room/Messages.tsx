@@ -81,13 +81,20 @@ function Messages(props: any) {
         <div id="messages">
           {texts.map((text: messageStore, i) => (
             <div key={i} className="message__wrapper">
-              <div className="message__body">
-                <strong
+              <div
+                className="message__body"
+                style={{
+                  marginLeft: text.uid === uid ? "auto" : "0",
+                  backgroundColor: text.uid === uid ? "var(--accent)" : "0",
+                }}
+              >
+                {/* <strong
                   className="message__author"
                   style={{ color: text.uid === uid ? "#ae00ff" : "#2aca3e" }}
                 >
                   {text.uid}
-                </strong>
+                </strong> */}
+
                 <p className="message__text">{text.msg["text"]}</p>
               </div>
             </div>

@@ -82,7 +82,20 @@ function App() {
           }
         />
         <Route path="/lessons" element={<Lessons userData={userData} />} />
-        <Route path="/" element={<Main />} />
+        <Route
+          path="/"
+          element={
+            <Profile
+              setRoomId={setRoomId}
+              roomId={roomId}
+              userData={userData}
+              setUserData={setUserData}
+              isLoggedIn={loggedIn}
+              setLoggedIn={setLoggedIn}
+              getData={getData}
+            />
+          }
+        />
       </Routes>
       <GlobalStyle />
     </div>

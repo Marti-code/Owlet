@@ -32,9 +32,6 @@ const ProfileHeader = () => {
               <a href="/lessons">Lekcje</a>
             </div>
             <div className="header-link">
-              <a href="#">Pomóż</a>
-            </div>
-            <div className="header-link">
               <a href="/post-offer">Otrzymaj pomoc</a>
             </div>
             <div className="header-link">
