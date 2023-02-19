@@ -92,6 +92,7 @@ app.post("/api/register", [
             password: newPassword,
             theme: "light",
             points: 100,
+            profileImage: 'bear.png'
         });
         res.json({ ok: true });
     }
@@ -337,8 +338,6 @@ app.post("/api/getUserOffers", [(0, express_validator_1.check)("mail").isEmail()
             let teacher = yield userModel_1.default.findOne({
                 email: el.teacher,
             });
-            console.log(el.teacher);
-            console.log(teacher);
             const newEl = Object.assign(Object.assign({}, el), { teacherName: teacher.name, teacherAvatar: teacher.profileImage });
             console.log(newEl);
             return newEl;
@@ -349,12 +348,6 @@ app.post("/api/getUserOffers", [(0, express_validator_1.check)("mail").isEmail()
     if (!newOffers) {
         return res.json({ ok: false, error: "Błąd pobierania ofert" });
     }
-    console.log("-------------------");
-    newOffers.forEach((el) => {
-        el.acceptedBy.forEach((el) => {
-            console.log(el);
-        });
-    });
     return res.json({
         ok: true,
         data: newOffers,

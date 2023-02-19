@@ -71,7 +71,7 @@ const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
 
   return (
     <div className={`Lessons ${userData?.theme || "light"}`}>
-      <ProfileHeader></ProfileHeader>
+      <ProfileHeader userData={userData}></ProfileHeader>
       <>
         <div className="offers-grid">
           <div className="offers-content">

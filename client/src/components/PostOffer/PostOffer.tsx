@@ -119,7 +119,7 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
 
   return (
     <div className={`PostOffer ${userData?.theme || "light"}`}>
-      <ProfileHeader />
+      <ProfileHeader userData={userData} />
       <FormWrapper>
         <Form method="POST" onSubmit={handleSubmit}>
           <div>

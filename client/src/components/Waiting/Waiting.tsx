@@ -52,7 +52,7 @@ const Waiting: React.FC<Props> = ({ userData, getData, roomId, setRoomId }) => {
 
   return (
     <div className={`Waiting ${userData?.theme || "light"}`}>
-      <ProfileHeader></ProfileHeader>
+      <ProfileHeader userData={userData}></ProfileHeader>
       <>
         <div className="offers-grid">
         <button className="refresh" onClick={() => {

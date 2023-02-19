@@ -2,11 +2,17 @@ import "./Profile.css";
 import { useState } from "react";
 
 import logo from "../Room/logo1.png";
+import { Link } from "react-router-dom";
+import { UserInfoType } from "../../API";
 
-const ProfileHeader = (props: any) => {
+type Props = {
+  userData: UserInfoType | undefined;
+}
+
+const ProfileHeader: React.FC<Props> = ({userData}) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const { userData } = props;
+  
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -28,21 +34,21 @@ const ProfileHeader = (props: any) => {
           </div>
           <div className={`header-links-a ${menuOpen ? "open" : "closed"}`}>
             <div className="header-link">
-              <a href="/waiting">Oczekujące</a>
+              <Link to="/waiting">Oczekujące</Link>
             </div>
             <div className="header-link">
-              <a href="/lessons">Lekcje</a>
+              <Link to="/lessons">Lekcje</Link>
             </div>
             <div className="header-link">
-              <a href="/post-offer">Otrzymaj pomoc</a>
+              <Link to="/post-offer">Otrzymaj pomoc</Link>
             </div>
             <div className="header-link">
-              <a href="#">Chat grupowy</a>
+              <Link to="#">Chat grupowy</Link>
             </div>
           </div>
         </div>
         <div className="header-user-pic">
-          <a href="/dashboard">
+          <Link to="/">
             <div className="user-pic">
               <img
                 style={{ margin: 0 }}
@@ -50,7 +56,7 @@ const ProfileHeader = (props: any) => {
                 alt={userData?.profileImage}
               />
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     </header>

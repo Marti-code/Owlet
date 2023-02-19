@@ -54,21 +54,7 @@ function App() {
           }
         />
         <Route
-          path="/dashboard"
-          element={
-            <Profile
-              setRoomId={setRoomId}
-              roomId={roomId}
-              userData={userData}
-              setUserData={setUserData}
-              isLoggedIn={loggedIn}
-              setLoggedIn={setLoggedIn}
-              getData={getData}
-            />
-          }
-        />
-        <Route
-          path="/dashboard/edit"
+          path="/edit"
           element={
             <EditProfile
               isLoggedIn={loggedIn}
@@ -101,7 +87,7 @@ function App() {
           }
         />
         <Route
-          path="/"
+          path=""
           element={
             <Profile
               setRoomId={setRoomId}

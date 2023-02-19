@@ -105,7 +105,7 @@ const EditProfile: React.FC<Props> = ({
 
   return (
     <div className={`edit-container ${userData?.theme || "light"}`}>
-      <ProfileHeader />
+      <ProfileHeader userData={userData} />
       <FormWrapper>
         <>
           <Form method="post" onSubmit={handleSubmit} autoComplete="off">
@@ -190,13 +190,13 @@ const EditProfile: React.FC<Props> = ({
             </div>
 
             <ButtonContainer>
-              <Link to="/dashboard">
+              <Link to="/">
                 <button type="button">Anuluj</button>
               </Link>
               <Submit
                 onClick={() => {
                   setTimeout(() => {
-                    navigate("/dashboard");
+                    navigate("/");
                   }, 1000);
                 }}
               >

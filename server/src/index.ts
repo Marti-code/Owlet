@@ -67,6 +67,7 @@ app.post(
         password: newPassword,
         theme: "light",
         points: 100,
+        profileImage: 'bear.png'
       });
 
       res.json({ ok: true });
@@ -405,13 +406,10 @@ app.post(
     });
 
     const promises = offers.map(async (offer, i) => {
-      const newAcceptedBy = await Promise.all(offer.acceptedBy.map(async (el, j) => {
+      const newAcceptedBy: any = await Promise.all(offer.acceptedBy.map(async (el, j) => {
         let teacher = await User.findOne({
           email: el.teacher,
         });
-
-        console.log(el.teacher);
-        console.log(teacher);
 
         const newEl = {
           ...el,
@@ -434,14 +432,6 @@ app.post(
     if (!newOffers) {
       return res.json({ ok: false, error: "Błąd pobierania ofert" });
     }
-
-    console.log("-------------------");
-
-    newOffers.forEach((el) => {
-      el.acceptedBy.forEach((el) => {
-        console.log(el);
-      });
-    });
 
     return res.json({
       ok: true,

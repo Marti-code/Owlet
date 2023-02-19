@@ -1,5 +1,5 @@
 import "./Profile.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import API from "../../API";
 
@@ -28,10 +28,6 @@ type Profile = {
   getData: any;
 };
 
-type Offer = {
-
-}
-
 const Profile: React.FC<Profile> = ({
   isLoggedIn,
   userData,
@@ -43,6 +39,8 @@ const Profile: React.FC<Profile> = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(userData?.theme || "light");
   const [userPoints, setUserPoints] = useState(userData?.points || 0);
+
+  const ref = useRef(0)
 
   const [userOffersArr, setUserOffersArr] = useState<any[]>([]);
 
@@ -62,7 +60,6 @@ const Profile: React.FC<Profile> = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoggedIn) navigate("/sign-in");
 
     console.log(userData);
     getCurrentTheme();
@@ -79,6 +76,12 @@ const Profile: React.FC<Profile> = ({
   }, [userOffersArr])
 
   useEffect(() => {
+
+    if (ref.current === 0) {
+      ref.current = ref.current + 1;
+      return;
+    }
+    
     if (!isLoggedIn) navigate("/sign-in");
   }, [isLoggedIn]);
 
@@ -180,7 +183,7 @@ const Profile: React.FC<Profile> = ({
       <div className="Dashboard">
         <ProfileHeader userData={userData} />
 
-        <main id="profile-main">
+        <main id="profile-main"> 
           <div className="main-content">
             {/* COLUMN 1 */}
             {/* user info */}
