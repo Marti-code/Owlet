@@ -45,9 +45,9 @@ const EditProfile: React.FC<Props> = ({
   ]);
   const [checkedSubjects, setCheckedSubjects] = useState<string[]>([]);
   const nameInput: any = useRef();
+  const initial = useRef(0);
 
   const navigate = useNavigate();
-
   const profileLogos = ['bear.png', 'cat.png', 'cow.png', 'dog.png', 'fox.png', 'ganesha.png', 'koala.png', 'panda-bear.png', 'rabbit-pink.png', 'rabbit.png']
 
   useEffect(() => {
@@ -66,18 +66,20 @@ const EditProfile: React.FC<Props> = ({
   }, [])
 
   useEffect(() => {
+
     if (!userData || !userData.subjects) return;
 
-    setCheckedSubjects([]);
     console.log(userData.subjects);
-    userData.subjects.forEach((el) => {
-      setCheckedSubjects([...checkedSubjects, el]);
-    });
+    setCheckedSubjects(userData.subjects);
 
     setName(userData.name);
     setImage(userData.profileImage);
   }, [userData]);
 
+
+  useEffect(() => {
+    console.log(checkedSubjects)
+  }, [checkedSubjects])
 
 
   const handleSubmit = async (e: React.FormEvent) => {
