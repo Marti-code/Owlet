@@ -64,10 +64,7 @@ const Profile: React.FC<Profile> = ({
     console.log(userData);
     getCurrentTheme();
     handleGetPoints();
-    handleGetSubjects().then(() => {
-      handleGetOffers();
-    });
-
+    handleGetOffers();
     getData();
   }, []);
 
@@ -76,13 +73,13 @@ const Profile: React.FC<Profile> = ({
   }, [userOffersArr])
 
   useEffect(() => {
-
+    if (!isLoggedIn) navigate("/sign-in");
+    
     if (ref.current === 0) {
       ref.current = ref.current + 1;
       return;
     }
     
-    if (!isLoggedIn) navigate("/sign-in");
   }, [isLoggedIn]);
 
   async function getCurrentTheme() {
@@ -119,29 +116,23 @@ const Profile: React.FC<Profile> = ({
     }
   };
 
-  const handleGetSubjects = async () => {
-    const data = await API.getSubjects(userData?.mail || "");
-
-    userSubjects = data.subjects;
-  };
-
   const handleGetOffers = async () => {
-    handleGetSubjects();
+    let offersArray: any = []
 
-    userSubjects.forEach(async (subject: any) => {
+    if (!userData || !userData.subjects)
+      return;
+
+    const promises: any = userData?.subjects.map(async (subject: any) => {
       const data = await API.getChosenOffers(subject, userData?.mail);
-      console.log(data);
 
-      data.offers.forEach((el: any) => {
-        userOffers.push(el);
+      data.offers?.forEach((el: any) => {
+        offersArray.push(el);
       });
 
-      console.log(userOffers);
-
-      setUserOffersArr(userOffers);
     });
 
-    console.log("refreshed");
+    await Promise.all(promises);
+    setUserOffersArr(offersArray);
   };
 
   const handleGetPoints = async () => {

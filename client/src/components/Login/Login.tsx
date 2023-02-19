@@ -59,7 +59,7 @@ const Login: React.FC<Props> = ({ isLoggedIn, setLoggedIn, setUserData }) => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) navigate("/dashboard");
+    if (isLoggedIn) navigate("/");
     // console.log("isloggedin login page: " + isLoggedIn)
   }, []);
 

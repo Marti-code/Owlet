@@ -64,7 +64,7 @@ const Register: React.FC<Props> = ({ isLoggedIn }) => {
 
   useEffect(() => {
     //add a page to choose subjects
-    if (isLoggedIn) navigate("/dashboard");
+    if (isLoggedIn) navigate("/");
   }, []);
 
   return (

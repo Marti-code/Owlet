@@ -19,7 +19,7 @@ import "./PostOffer.css";
 
 import API from "../../API";
 import { UserInfoType } from "../../API";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProfileHeader from "../Profile/ProfileHeader";
 
 type Profile = {
@@ -82,7 +82,7 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
       setBtnState("success");
 
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/");
       }, 5000);
     } else {
       setBtnState("error");
@@ -338,9 +338,9 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
           <p style={{ margin: "auto", color: "red" }}>{errNote}</p>
 
           <ButtonContainer>
-            <a href="/dashboard">
+            <Link to="/">
               <button type="button">Anuluj</button>
-            </a>
+            </Link>
             <button
               className={
                 btnState == "success"
