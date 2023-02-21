@@ -24,6 +24,7 @@ type AcceptedBy = {
 type Offer = {
   subject: string;
   title: string;
+  points: number;
   acceptedBy: AcceptedBy[];
   _id: string;
 };
@@ -55,14 +56,15 @@ const Waiting: React.FC<Props> = ({ userData, getData, roomId, setRoomId }) => {
       <ProfileHeader userData={userData}></ProfileHeader>
       <>
         <div className="offers-grid">
-        <button className="refresh" onClick={() => {
-          getUserOffers(userData.mail)
-        }}
-        >
+          <button
+            className="refresh"
+            onClick={() => {
+              getUserOffers(userData.mail);
+            }}
+          >
             <FontAwesomeIcon icon={faRefresh} />
           </button>
           <div className="offers-content">
-            
             {offers.length > 0 ? (
               offers.map((el) => {
                 return (

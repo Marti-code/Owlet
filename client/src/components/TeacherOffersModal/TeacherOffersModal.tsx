@@ -45,7 +45,11 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
     console.log(acceptedBy);
   });
 
-  const handleSubmit: any = async (mail: string, date: string) => {
+  const handleSubmit: any = async (
+    mail: string,
+    date: string,
+    points: number
+  ) => {
     const inviteCode = uuidv4();
     setRoomId(inviteCode);
     const data = await API.planLesson(
@@ -53,7 +57,8 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
       date,
       userData.mail,
       offerId,
-      inviteCode
+      inviteCode,
+      points
     );
 
     if (data.ok) {
@@ -96,7 +101,7 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
                       </div>
                       <button
                         onClick={() => {
-                          handleSubmit(el.teacher, el.date);
+                          handleSubmit(el.teacher, el.date, 12);
                         }}
                       >
                         Akceptuj ofertę

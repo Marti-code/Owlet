@@ -232,7 +232,12 @@ export default {
     return await res.json();
   },
 
-  sendOfferRequest: async (mail: string, date: string, id: string) => {
+  sendOfferRequest: async (
+    mail: string,
+    date: string,
+    id: string,
+    points: number
+  ) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/sendOfferRequest`;
 
     const res = await fetch(endpoint, {
@@ -244,6 +249,7 @@ export default {
         mail: mail,
         date: date,
         id: id,
+        points: points,
       }),
     });
 
@@ -255,14 +261,10 @@ export default {
     date: string,
     studentMail: string,
     offerId: string,
-    lessonUrl: string
+    lessonUrl: string,
+    points: number
   ) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/planLesson`;
-
-    console.log(teacherMail);
-    console.log(date);
-    console.log(studentMail);
-    console.log(offerId);
 
     const res = await fetch(endpoint, {
       method: "POST",
@@ -275,6 +277,7 @@ export default {
         studentMail: studentMail,
         offerId: offerId,
         lessonUrl: lessonUrl,
+        points: points,
         completed: false,
       }),
     });

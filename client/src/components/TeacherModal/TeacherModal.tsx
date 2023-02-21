@@ -22,6 +22,7 @@ interface ModalProps {
   info: string;
   hideModal: any;
   timeArr: string[];
+  points: number;
   id: string;
   userMail: string | undefined;
   userData: UserInfoType | undefined;
@@ -34,6 +35,7 @@ const TeacherModal: React.FC<ModalProps> = ({
   info,
   hideModal,
   timeArr,
+  points,
   id,
   userMail,
   userData,
@@ -49,7 +51,7 @@ const TeacherModal: React.FC<ModalProps> = ({
 
     let data;
 
-    if (userMail) data = await API.sendOfferRequest(userMail, date, id);
+    if (userMail) data = await API.sendOfferRequest(userMail, date, id, points);
 
     if (data.ok) {
       setModalInfo("Wysałno propozycję nauczania");
@@ -69,6 +71,7 @@ const TeacherModal: React.FC<ModalProps> = ({
             <div>
               <ModalSubHeaders>Opis</ModalSubHeaders>
               <p>{info}</p>
+              <p>{points}</p>
             </div>
             <div>
               <ModalSubHeaders>Dostępne godziny:</ModalSubHeaders>

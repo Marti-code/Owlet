@@ -500,6 +500,7 @@ app.post(
           acceptedBy: {
             teacher: req.body.mail,
             date: req.body.date,
+            points: req.body.points,
           },
         },
       }
@@ -537,6 +538,7 @@ app.post(
             teacherMail: req.body.teacherMail,
             studentMail: req.body.studentMail,
             lessonUrl: req.body.lessonUrl,
+            points: req.body.points,
             completed: false,
           },
         },
@@ -554,6 +556,7 @@ app.post(
             teacherMail: req.body.teacherMail,
             studentMail: req.body.studentMail,
             lessonUrl: req.body.lessonUrl,
+            points: req.body.points,
             completed: false,
           },
         },

@@ -40,7 +40,7 @@ const Profile: React.FC<Profile> = ({
   const [theme, setTheme] = useState(userData?.theme || "light");
   const [userPoints, setUserPoints] = useState(userData?.points || 0);
 
-  const ref = useRef(0)
+  const ref = useRef(0);
 
   const [userOffersArr, setUserOffersArr] = useState<any[]>([]);
 
@@ -51,6 +51,7 @@ const Profile: React.FC<Profile> = ({
     title: "",
     info: "",
     hours: [""],
+    points: 0,
     id: "",
   });
 
@@ -60,7 +61,6 @@ const Profile: React.FC<Profile> = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-
     console.log(userData);
     getCurrentTheme();
     handleGetPoints();
@@ -69,17 +69,16 @@ const Profile: React.FC<Profile> = ({
   }, []);
 
   useEffect(() => {
-    console.log(userOffersArr)
-  }, [userOffersArr])
+    console.log(userOffersArr);
+  }, [userOffersArr]);
 
   useEffect(() => {
     if (!isLoggedIn) navigate("/sign-in");
-    
+
     if (ref.current === 0) {
       ref.current = ref.current + 1;
       return;
     }
-    
   }, [isLoggedIn]);
 
   async function getCurrentTheme() {
@@ -117,10 +116,9 @@ const Profile: React.FC<Profile> = ({
   };
 
   const handleGetOffers = async () => {
-    let offersArray: any = []
+    let offersArray: any = [];
 
-    if (!userData || !userData.subjects)
-      return;
+    if (!userData || !userData.subjects) return;
 
     const promises: any = userData?.subjects.map(async (subject: any) => {
       const data = await API.getChosenOffers(subject, userData?.mail);
@@ -128,7 +126,6 @@ const Profile: React.FC<Profile> = ({
       data.offers?.forEach((el: any) => {
         offersArray.push(el);
       });
-
     });
 
     await Promise.all(promises);
@@ -146,6 +143,7 @@ const Profile: React.FC<Profile> = ({
     subject: string,
     info: string,
     hours: [],
+    points: number,
     id: string
   ) => {
     setIsOpen(!isOpen);
@@ -154,6 +152,7 @@ const Profile: React.FC<Profile> = ({
     modalInfo.subject = subject;
     modalInfo.info = info;
     modalInfo.hours = hours;
+    modalInfo.points = points;
     modalInfo.id = id;
   };
 
@@ -174,7 +173,7 @@ const Profile: React.FC<Profile> = ({
       <div className="Dashboard">
         <ProfileHeader userData={userData} />
 
-        <main id="profile-main"> 
+        <main id="profile-main">
           <div className="main-content">
             {/* COLUMN 1 */}
             {/* user info */}
@@ -280,38 +279,40 @@ const Profile: React.FC<Profile> = ({
                 <div className="teachers-list">
                   {userOffersArr.length > 0 ? (
                     userOffersArr.map((el: any, key: any) => {
-                      
-                        return (
-                          <div
-                            className="teacher-el"
-                            key={key}
-                            onClick={() => {
-                              toggleModal(
-                                el.authorName[0].name,
-                                el.subject,
-                                el.title,
-                                el.info,
-                                el.dates,
-                                el._id
-                              );
-                            }}
-                          >
-                            <div className="teacher-pic">
-                              <div className="t-pic">
-                              <img src={`/assets/${el.authorName[0].profileImage}`} alt={el.authorName[0].profileImage} />
-                              </div>
-                            </div>
-                            <div className="teacher-info">
-                              <div className="teacher-name">
-                                {el.authorName[0].name}
-                              </div>
-                              <div className="teacher-subject">
-                                {el.subject} - {el.title}
-                              </div>
+                      return (
+                        <div
+                          className="teacher-el"
+                          key={key}
+                          onClick={() => {
+                            toggleModal(
+                              el.authorName[0].name,
+                              el.subject,
+                              el.title,
+                              el.info,
+                              el.dates,
+                              el.price,
+                              el._id
+                            );
+                          }}
+                        >
+                          <div className="teacher-pic">
+                            <div className="t-pic">
+                              <img
+                                src={`/assets/${el.authorName[0].profileImage}`}
+                                alt={el.authorName[0].profileImage}
+                              />
                             </div>
                           </div>
-                        );
-
+                          <div className="teacher-info">
+                            <div className="teacher-name">
+                              {el.authorName[0].name}
+                            </div>
+                            <div className="teacher-subject">
+                              {el.subject} - {el.title}
+                            </div>
+                          </div>
+                        </div>
+                      );
                     })
                   ) : (
                     <Heading>Brak ofert</Heading>
@@ -358,6 +359,7 @@ const Profile: React.FC<Profile> = ({
           info={modalInfo.info}
           hideModal={hideModal}
           timeArr={modalInfo.hours}
+          points={modalInfo.points}
           id={modalInfo.id}
           userMail={userData?.mail}
           userData={userData}

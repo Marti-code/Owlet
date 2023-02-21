@@ -397,6 +397,7 @@ app.post("/api/sendOfferRequest", [
             acceptedBy: {
                 teacher: req.body.mail,
                 date: req.body.date,
+                points: req.body.points,
             },
         },
     });
@@ -424,6 +425,7 @@ app.post("/api/planLesson", [
                 teacherMail: req.body.teacherMail,
                 studentMail: req.body.studentMail,
                 lessonUrl: req.body.lessonUrl,
+                points: req.body.points,
                 completed: false,
             },
         },
@@ -437,6 +439,7 @@ app.post("/api/planLesson", [
                 teacherMail: req.body.teacherMail,
                 studentMail: req.body.studentMail,
                 lessonUrl: req.body.lessonUrl,
+                points: req.body.points,
                 completed: false,
             },
         },
