@@ -21,6 +21,7 @@ const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
       teacherMail: "",
       studentMail: "",
       lessonUrl: "",
+      points: 0,
       completed: false,
     },
   ]);
@@ -127,7 +128,7 @@ const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
                             el.lessonUrl,
                             el.teacherMail,
                             el.studentMail,
-                            10
+                            el.points
                           );
                         }}
                       >

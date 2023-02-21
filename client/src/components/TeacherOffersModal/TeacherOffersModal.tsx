@@ -20,6 +20,7 @@ type AcceptedBy = {
   teacher: string;
   date: string;
   teacherAvatar: string;
+  points: number;
 };
 
 interface ModalProps {
@@ -86,6 +87,7 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
                           console.log(el.teacher);
                           console.log(userData.mail);
                           console.log(offerId);
+                          console.log(el.points);
                         }}
                       >
                         <img
@@ -101,7 +103,7 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
                       </div>
                       <button
                         onClick={() => {
-                          handleSubmit(el.teacher, el.date, 12);
+                          handleSubmit(el.teacher, el.date, el.points);
                         }}
                       >
                         Akceptuj ofertę
