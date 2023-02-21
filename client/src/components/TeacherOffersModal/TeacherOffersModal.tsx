@@ -83,14 +83,14 @@ const TeacherOffersModal: React.FC<ModalProps> = ({
                           console.log(offerId);
                         }}
                       >
-                        <img src={`/assets/${el.teacherAvatar}`} alt={el.teacherAvatar} />
+                        <img
+                          src={`/assets/${el.teacherAvatar}`}
+                          alt={el.teacherAvatar}
+                        />
                       </div>
                       <div className="modal-header-info">
                         <b>{el.teacherName}</b>
                       </div>
-                      {/* <div className="modal-header-info">
-                        {el.teacher}
-                      </div> */}
                       <div className="modal-header-info">
                         {el.date.slice(6)} {el.date.slice(0, 5)}
                       </div>

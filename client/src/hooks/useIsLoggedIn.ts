@@ -10,6 +10,7 @@ export const useIsLoggedIn = () => {
     teacherEmail: "",
     studentEmail: "",
     points: 0,
+    url: "",
   });
 
   useEffect(() => {

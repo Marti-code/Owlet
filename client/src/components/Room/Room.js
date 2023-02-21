@@ -21,10 +21,6 @@ function Room(props) {
     setCurrLesson,
   } = props;
 
-  //scroll messages into view - doesn't work yet
-  //let messagesContainer = document.getElementById("messages");
-  // messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
   //show and hide members container (left container)
   const [memberContainer, setMemberContainer] = useState(true);
   function handleMemberContainer() {
@@ -56,6 +52,7 @@ function Room(props) {
           <Video
             tracks={tracks}
             users={users}
+            userData={userData}
             currLesson={currLesson}
             setCurrLesson={setCurrLesson}
           />

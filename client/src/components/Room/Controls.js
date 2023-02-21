@@ -15,6 +15,7 @@ export default function Controls(props) {
     users,
     currLesson,
     setCurrLesson,
+    userData,
   } = props;
   const [trackState, setTrackState] = useState({ video: false, audio: false });
 
@@ -52,26 +53,36 @@ export default function Controls(props) {
     let isExecuted = window.confirm("Zakończyć lekcje?");
 
     if (isExecuted) {
-      // get points
-      const data = await API.updatePoints(
-        teacherPoints.points + parseInt(currLesson.points),
-        currLesson.teacherEmail
-      );
-      const data2 = await API.updatePoints(
-        studentPoints.points - parseInt(currLesson.points),
-        currLesson.studentEmail
-      );
+      if (userData.mail == currLesson.teacherEmail) {
+        // get points
+        await API.updatePoints(
+          teacherPoints.points + parseInt(currLesson.points),
+          currLesson.teacherEmail
+        );
+        await API.updatePoints(
+          studentPoints.points - parseInt(currLesson.points),
+          currLesson.studentEmail
+        );
 
-      if (data.ok && data2.ok) {
-        // leave channel
-        await client.leave();
-        client.removeAllListeners();
-        videoTrack[0].close();
-        videoTrack[1].close();
-        setStart(false);
-        setInCall(false);
-        window.location.href = "/dashboard";
+        //send info to db that the lesson was completed
+        await API.updateCompletedLesson(
+          currLesson.teacherEmail,
+          currLesson.url
+        );
+        await API.updateCompletedLesson(
+          currLesson.studentEmail,
+          currLesson.url
+        );
       }
+
+      // leave channel
+      await client.leave();
+      client.removeAllListeners();
+      videoTrack[0].close();
+      videoTrack[1].close();
+      setStart(false);
+      setInCall(false);
+      window.location.href = "/";
     }
   };
 
@@ -119,6 +130,7 @@ export default function Controls(props) {
     transition: all 0.2s ease-in-out;
     transition: ease background-color 250ms;
     &:hover {
+      color: white;
       border: 2px solid #f83a3a;
       background-color: #f83a3a;
     }
@@ -199,15 +211,19 @@ export default function Controls(props) {
         </div>
         <div>
           <LeaveBtn onClick={() => leaveChannel()}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="#ede0e0"
-            >
-              <path d="M16 10v-5l8 7-8 7v-5h-8v-4h8zm-16-8v20h14v-2h-12v-16h12v-2h-14z" />
-            </svg>
+            {userData.mail == currLesson.teacherEmail ? (
+              "Zakończ lekcję"
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="#ede0e0"
+              >
+                <path d="M16 10v-5l8 7-8 7v-5h-8v-4h8zm-16-8v20h14v-2h-12v-16h12v-2h-14z" />
+              </svg>
+            )}
           </LeaveBtn>
         </div>
       </StreamActions>

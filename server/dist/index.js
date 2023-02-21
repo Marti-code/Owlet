@@ -92,7 +92,7 @@ app.post("/api/register", [
             password: newPassword,
             theme: "light",
             points: 100,
-            profileImage: 'bear.png'
+            profileImage: "bear.png",
         });
         res.json({ ok: true });
     }
@@ -244,7 +244,7 @@ app.post("/api/editProfile", [
         yield userModel_1.default.updateOne({ email: user.email }, {
             name: req.body.username,
             subjects: req.body.subjects,
-            profileImage: req.body.profileImage
+            profileImage: req.body.profileImage,
         });
     }
     catch (err) {
@@ -424,6 +424,7 @@ app.post("/api/planLesson", [
                 teacherMail: req.body.teacherMail,
                 studentMail: req.body.studentMail,
                 lessonUrl: req.body.lessonUrl,
+                completed: false,
             },
         },
     });
@@ -436,6 +437,7 @@ app.post("/api/planLesson", [
                 teacherMail: req.body.teacherMail,
                 studentMail: req.body.studentMail,
                 lessonUrl: req.body.lessonUrl,
+                completed: false,
             },
         },
     });
@@ -461,6 +463,23 @@ app.post("/api/getLessons", [(0, express_validator_1.check)("mail").isEmail().tr
         ok: true,
         data: user,
     });
+}));
+app.put("/api/updateCompletedLesson", [(0, express_validator_1.check)("email").isEmail().trim().escape().normalizeEmail()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const errors = (0, express_validator_1.validationResult)(req);
+    if (!errors.isEmpty()) {
+        return res.json({ ok: false, errors: errors.array() });
+    }
+    try {
+        yield userModel_1.default.updateOne({ email: req.body.email, "plannedLessons.lessonUrl": req.body.url }, { $set: { "plannedLessons.$.completed": true } });
+        res.json({ ok: true });
+    }
+    catch (err) {
+        console.log(err);
+        res.json({
+            ok: false,
+            errors: [{ msg: "Aktualizacja lekcji się nie powiodła" }],
+        });
+    }
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
 //# sourceMappingURL=index.js.map

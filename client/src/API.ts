@@ -122,7 +122,12 @@ export default {
     return await res.json();
   },
 
-  editProfile: async (username: string, subjects: string[], email: string, img: string) => {
+  editProfile: async (
+    username: string,
+    subjects: string[],
+    email: string,
+    img: string
+  ) => {
     const endpoint = `${process.env.REACT_APP_API_URL}/api/editProfile`;
 
     const res = await fetch(endpoint, {
@@ -134,7 +139,7 @@ export default {
         mail: email,
         username: username,
         subjects: subjects,
-        profileImage: img
+        profileImage: img,
       }),
     });
 
@@ -270,6 +275,7 @@ export default {
         studentMail: studentMail,
         offerId: offerId,
         lessonUrl: lessonUrl,
+        completed: false,
       }),
     });
 
@@ -286,6 +292,23 @@ export default {
       },
       body: JSON.stringify({
         mail: email,
+      }),
+    });
+
+    return await res.json();
+  },
+
+  updateCompletedLesson: async (email: string, url: string) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/updateCompletedLesson`;
+
+    const res = await fetch(endpoint, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        url: url,
       }),
     });
 

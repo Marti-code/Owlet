@@ -67,7 +67,7 @@ app.post(
         password: newPassword,
         theme: "light",
         points: 100,
-        profileImage: 'bear.png'
+        profileImage: "bear.png",
       });
 
       res.json({ ok: true });
@@ -269,7 +269,7 @@ app.post(
       return res.json({ ok: false, error: "Nie znaleziono." });
     }
 
-    console.log(req.body.profileImage)
+    console.log(req.body.profileImage);
 
     try {
       await User.updateOne(
@@ -277,7 +277,7 @@ app.post(
         {
           name: req.body.username,
           subjects: req.body.subjects,
-          profileImage: req.body.profileImage
+          profileImage: req.body.profileImage,
         }
       );
     } catch (err) {
@@ -406,20 +406,22 @@ app.post(
     });
 
     const promises = offers.map(async (offer, i) => {
-      const newAcceptedBy: any = await Promise.all(offer.acceptedBy.map(async (el, j) => {
-        let teacher = await User.findOne({
-          email: el.teacher,
-        });
+      const newAcceptedBy: any = await Promise.all(
+        offer.acceptedBy.map(async (el, j) => {
+          let teacher = await User.findOne({
+            email: el.teacher,
+          });
 
-        const newEl = {
-          ...el,
-          teacherName: teacher.name,
-          teacherAvatar: teacher.profileImage
-        };
-        console.log(newEl);
+          const newEl = {
+            ...el,
+            teacherName: teacher.name,
+            teacherAvatar: teacher.profileImage,
+          };
+          console.log(newEl);
 
-        return newEl;
-      }));
+          return newEl;
+        })
+      );
 
       return {
         ...offer.toObject(),
@@ -535,6 +537,7 @@ app.post(
             teacherMail: req.body.teacherMail,
             studentMail: req.body.studentMail,
             lessonUrl: req.body.lessonUrl,
+            completed: false,
           },
         },
       }
@@ -551,6 +554,7 @@ app.post(
             teacherMail: req.body.teacherMail,
             studentMail: req.body.studentMail,
             lessonUrl: req.body.lessonUrl,
+            completed: false,
           },
         },
       }
@@ -588,6 +592,33 @@ app.post(
       ok: true,
       data: user,
     });
+  }
+);
+
+app.put(
+  "/api/updateCompletedLesson",
+  [check("email").isEmail().trim().escape().normalizeEmail()],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.json({ ok: false, errors: errors.array() });
+    }
+
+    try {
+      await User.updateOne(
+        { email: req.body.email, "plannedLessons.lessonUrl": req.body.url },
+        { $set: { "plannedLessons.$.completed": true } }
+      );
+
+      res.json({ ok: true });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        ok: false,
+        errors: [{ msg: "Aktualizacja lekcji się nie powiodła" }],
+      });
+    }
   }
 );
 

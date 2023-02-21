@@ -21,6 +21,7 @@ const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
       teacherMail: "",
       studentMail: "",
       lessonUrl: "",
+      completed: false,
     },
   ]);
 
@@ -53,6 +54,7 @@ const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
       teacherEmail: emailT,
       studentEmail: emailS,
       points: lessonPoints,
+      url: url,
     });
     navigate("/room/" + url);
   };
@@ -77,7 +79,28 @@ const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
           <div className="offers-content">
             {lessons.length > 0 && lessons[0].date != "" ? (
               lessons.map((el, key) => {
-                return (
+                return el.completed ? (
+                  <div key={key} className="single-lesson">
+                    <div>
+                      <div className="lesson-header">
+                        <div className="lesson-header-img"></div>
+                        <div className="lesson-header-info">
+                          <h2>Daisy</h2>
+                          <p>
+                            {el.date.slice(6)}, {el.date.slice(0, 5)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="lesson-info">
+                        <p>Matura podstawowa z matematyki, trygonometria</p>
+                      </div>
+                    </div>
+
+                    <button type="button" disabled>
+                      Zakończona
+                    </button>
+                  </div>
+                ) : (
                   <div key={key} className="single-lesson">
                     <div>
                       <div className="lesson-header">
@@ -95,11 +118,8 @@ const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
                     </div>
 
                     {/* enable the button with the url from db when it time for the lesson */}
-                    {/* ADD if user doesn't answer within 10min the lesson is canceled */}
-                    {getDateDiff(el) > 0 && getDateDiff(el) < 3200 ? (
-                      // <a href={"room/" + el.lessonUrl}>
-                      //   <button type="button">Dołącz</button>
-                      // </a>
+                    {/* and if user doesn't answer within 10min the lesson is canceled */}
+                    {getDateDiff(el) > 0 && getDateDiff(el) < 600 ? (
                       <button
                         type="button"
                         onClick={() => {
@@ -112,6 +132,10 @@ const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
                         }}
                       >
                         Dołącz
+                      </button>
+                    ) : getDateDiff(el) > 600 ? (
+                      <button type="button" disabled>
+                        Odwołana
                       </button>
                     ) : (
                       <button type="button" disabled>
