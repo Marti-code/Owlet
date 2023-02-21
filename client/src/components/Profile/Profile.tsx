@@ -61,12 +61,23 @@ const Profile: React.FC<Profile> = ({
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.documentElement.classList.add(userData?.theme || "light");
     console.log(userData);
     getCurrentTheme();
     handleGetPoints();
     handleGetOffers();
     getData();
   }, []);
+
+  useEffect(() => {
+    if (theme == "light") {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add(theme);
+    } else {
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add(theme);
+    }
+  }, [theme]);
 
   useEffect(() => {
     console.log(userOffersArr);
@@ -92,6 +103,8 @@ const Profile: React.FC<Profile> = ({
     } else {
       setTheme("light");
     }
+
+    // document.documentElement.classList.add(theme);
   }
 
   const handleTheme = async (e: React.FormEvent) => {
