@@ -1,3 +1,7 @@
+html {
+  background-color: var(--bg);
+}
+
 body {
   background-color: var(--bg);
 }

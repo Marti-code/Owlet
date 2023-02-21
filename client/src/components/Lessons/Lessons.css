@@ -1,3 +1,7 @@
+html {
+  background-color: var(--bg);
+}
+
 .Lessons h2 {
   color: var(--main-font);
 }

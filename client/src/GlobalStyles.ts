@@ -16,7 +16,6 @@ export const GlobalStyle = createGlobalStyle`
 
 .light {
   --bg: #F4F4F7;
-  /* --bg: #dce7ea; */
   --light-bg: #fff;
   --main-font: #000;
   --secondary-font: #606060;
@@ -81,7 +80,6 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: black;
-    /* background-color: var(--bg); */
     color: var(--main-font);
 
     font-size: 14px;

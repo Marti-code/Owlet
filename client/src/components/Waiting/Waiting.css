@@ -1,3 +1,7 @@
+html {
+  background-color: var(--bg);
+}
+
 .offers-grid {
   min-height: 90vh;
   background-color: var(--bg);

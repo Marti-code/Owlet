@@ -1,5 +1,9 @@
+html {
+  background-color: var(--bg);
+}
+
 .profile-image {
-  transition: all ease .3s;
+  transition: all ease 0.3s;
 }
 
 .profile-image:hover {
