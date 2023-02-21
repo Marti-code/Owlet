@@ -160,6 +160,32 @@ html {
   height: fit-content;
   border-radius: 5px;
   padding: 5px 10px;
+  width: 100px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  opacity: .7;
+  transition: all ease .3s;
+  cursor: pointer;
+  position: relative;
+}
+
+.user-info-id::after {
+  content: 'Kopiuj';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+}
+
+.friends-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-info-id:hover {
+  opacity: 1;
+  /* transform: scale(1.1); */
 }
 
 .user-info-pic {

@@ -207,6 +207,14 @@ export const SignHeading = styled.h1`
   margin-bottom: 20px;
 `;
 
+export const FormHeading = styled.div`
+  text-align: center;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 34px;
+  margin-bottom: 20px;
+`;
+
 export const SuccessAlert = styled.div`
   color: #ffffff;
   background-color: #7ddf7c;

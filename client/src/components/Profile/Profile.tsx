@@ -16,6 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import TeacherModal from "../TeacherModal/TeacherModal";
 import ProfileHeader from "./ProfileHeader";
+import AddFriendModal from "../AddFriendsModal/AddFriendModal";
 import { Heading } from "../../GlobalForm.styles";
 
 type Profile = {
@@ -45,6 +46,7 @@ const Profile: React.FC<Profile> = ({
   const [userOffersArr, setUserOffersArr] = useState<any[]>([]);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [friendModal, setFriendModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({
     userName: "",
     subject: "",
@@ -180,8 +182,13 @@ const Profile: React.FC<Profile> = ({
             <section className="user-info-container">
               <div className="user-info-content">
                 <div className="user-info-header">
-                  <div className="user-info-id">
-                    <p>ID: 12345</p>
+                  <div className="user-info-id" onClick={() => {
+                    if (userData === undefined || userData.id === undefined)
+                      return;
+
+                    navigator.clipboard.writeText(userData?.id)
+                  }}>
+                    ID: {userData?.id}
                   </div>
                   <div className="user-info-pic">
                     <div className="u-pic">
@@ -326,6 +333,9 @@ const Profile: React.FC<Profile> = ({
               <div className="friends-content">
                 <div className="friends-header">
                   <p>Znajomi</p>
+                  <button onClick={() => {
+                    setFriendModal(true);
+                  }}>Dodaj</button>
                 </div>
                 <div className="friends-list">
                   <div className="friend-el">
@@ -364,6 +374,9 @@ const Profile: React.FC<Profile> = ({
           userMail={userData?.mail}
           userData={userData}
         />
+      )}
+      {friendModal && (
+        <AddFriendModal setFriendModal={setFriendModal} userData={userData} />
       )}
     </div>
   );

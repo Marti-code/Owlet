@@ -155,6 +155,7 @@ app.post(
     return res.json({
       ok: true,
       user: {
+        id: user._id,
         token: token,
         name: user.name,
         mail: user.email,

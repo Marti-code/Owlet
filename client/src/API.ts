@@ -1,4 +1,5 @@
 export type UserInfoType = {
+  id: string;
   name: string;
   mail: string;
   token: string;
