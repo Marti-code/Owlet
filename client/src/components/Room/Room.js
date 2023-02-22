@@ -34,7 +34,7 @@ function Room(props) {
   }
 
   return (
-    <div className={`Room ${userData?.theme || "light"}`}>
+    <div className={`Room`}>
       <Header
         handleMemberContainer={handleMemberContainer}
         handleChatPanel={handleChatPanel}

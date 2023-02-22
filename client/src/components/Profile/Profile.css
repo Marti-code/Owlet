@@ -121,7 +121,7 @@ html {
   padding: 3rem 12vw;
 }
 
-.Profile.light .main-content > section {
+html.light .Profile .main-content > section {
   border-radius: 1rem;
   padding: 1rem;
   background-color: var(--light-bg);
@@ -131,7 +131,7 @@ html {
   box-shadow: 8px 8px 28px -15px rgba(66, 87, 90, 0.85);
 }
 
-.Profile.dark .main-content > section {
+html.dark .Profile .main-content > section {
   border-radius: 1rem;
   padding: 1rem;
   background-color: var(--light-bg);

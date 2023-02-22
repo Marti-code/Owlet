@@ -53,7 +53,7 @@ const Waiting: React.FC<Props> = ({ userData, getData, roomId, setRoomId }) => {
   }, [curAcceptedBy]);
 
   return (
-    <div className={`Waiting ${userData?.theme || "light"}`}>
+    <div className={`Waiting`}>
       <ProfileHeader userData={userData}></ProfileHeader>
       <>
         <div className="offers-grid">

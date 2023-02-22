@@ -37,7 +37,7 @@ const Profile: React.FC<Profile> = ({
   getData,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState(userData?.theme || "light");
+  // const [theme, setTheme] = useState(userData?.theme || "light");
   const [userPoints, setUserPoints] = useState(userData?.points || 0);
 
   const ref = useRef(0);
@@ -55,33 +55,29 @@ const Profile: React.FC<Profile> = ({
     id: "",
   });
 
-  let userOffers: any[] = [];
-  let userSubjects: string[] = [];
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.documentElement.classList.add(userData?.theme || "light");
-    console.log(userData);
     getCurrentTheme();
     handleGetPoints();
     handleGetOffers();
     getData();
+    document.documentElement.classList.add(userData?.theme || "light");
   }, []);
 
   useEffect(() => {
-    if (theme == "light") {
+    if (userData?.theme == "light") {
       document.documentElement.classList.remove("dark");
-      document.documentElement.classList.add(theme);
+      document.documentElement.classList.add("light");
     } else {
       document.documentElement.classList.remove("light");
-      document.documentElement.classList.add(theme);
+      document.documentElement.classList.add("dark");
     }
-  }, [theme]);
 
-  useEffect(() => {
-    console.log(userOffersArr);
-  }, [userOffersArr]);
+    // setUserData({ ...userData, theme: theme });
+    // console.log(theme);
+    // console.log(userData?.theme);
+  }, [userData?.theme]);
 
   useEffect(() => {
     if (!isLoggedIn) navigate("/sign-in");
@@ -93,39 +89,47 @@ const Profile: React.FC<Profile> = ({
   }, [isLoggedIn]);
 
   async function getCurrentTheme() {
-    const d = await API.getUserThemeFetch(userData?.mail || "");
-    setTheme(d.theme);
+    const data = await API.getUserThemeFetch(userData?.mail || "");
+    // setTheme(data.theme);
+    setUserData({ ...userData, theme: data.theme });
   }
 
-  function toggleTheme() {
-    if (theme == "light") {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-
-    // document.documentElement.classList.add(theme);
-  }
+  // function toggleTheme() {
+  //   if (theme == "light") {
+  //     setTheme("dark");
+  //   } else if (theme == "dark") {
+  //     setTheme("light");
+  //   }
+  // }
 
   const handleTheme = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    toggleTheme();
+    setUserData({
+      ...userData,
+      theme: userData?.theme == "light" ? "dark" : "light",
+    });
+
+    // toggleTheme();
 
     const data = await API.putTheme(
-      theme == "light" ? "dark" : "light",
+      userData?.theme == "light" ? "dark" : "light",
       userData?.mail || ""
     );
 
-    setUserData({ ...userData, theme: theme });
-    console.log(theme);
-    console.log(userData);
+    // console.log(theme);
+    console.log(userData?.theme);
+
+    // setUserData({ ...userData, theme: theme });
 
     if (data.ok) {
       console.log("zmiana");
     } else {
       console.log("coś nie tak");
     }
+
+    // console.log(theme);
+    // console.log(userData?.theme);
   };
 
   const handleGetOffers = async () => {
@@ -182,7 +186,7 @@ const Profile: React.FC<Profile> = ({
   };
 
   return (
-    <div className={`Profile ${theme || "light"}`}>
+    <div className={`Profile`}>
       <div className="Dashboard">
         <ProfileHeader userData={userData} />
 
@@ -216,7 +220,7 @@ const Profile: React.FC<Profile> = ({
                       <b>Przedmioty:</b>
                     </p>
                     <p>
-                      {userData?.subjects.length
+                      {userData?.subjects && userData?.subjects.length
                         ? userData.subjects.map((el: any) => {
                             return el + " ";
                           })
@@ -237,7 +241,7 @@ const Profile: React.FC<Profile> = ({
               </div>
               <div className="user-info-edit">
                 <button id="user-info-edit-btn" onClick={handleTheme}>
-                  {theme == "light" ? (
+                  {userData?.theme == "light" ? (
                     <FontAwesomeIcon icon={faSun} />
                   ) : (
                     <FontAwesomeIcon icon={faMoon} />

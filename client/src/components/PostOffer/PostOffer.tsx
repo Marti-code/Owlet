@@ -40,6 +40,16 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (userData?.theme == "light") {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -118,7 +128,7 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
   };
 
   return (
-    <div className={`PostOffer ${userData?.theme || "light"}`}>
+    <div className={`PostOffer`}>
       <ProfileHeader userData={userData} />
       <FormWrapper>
         <Form method="POST" onSubmit={handleSubmit}>

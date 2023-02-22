@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import API, { UserInfoType } from "../../API";
 import ProfileHeader from "../Profile/ProfileHeader";
 import "../TeacherModal/RadioBtns.css";
-import './EditProfile.css';
+import "./EditProfile.css";
 import {
   ButtonContainer,
   Form,
@@ -48,7 +48,18 @@ const EditProfile: React.FC<Props> = ({
   const initial = useRef(0);
 
   const navigate = useNavigate();
-  const profileLogos = ['bear.png', 'cat.png', 'cow.png', 'dog.png', 'fox.png', 'ganesha.png', 'koala.png', 'panda-bear.png', 'rabbit-pink.png', 'rabbit.png']
+  const profileLogos = [
+    "bear.png",
+    "cat.png",
+    "cow.png",
+    "dog.png",
+    "fox.png",
+    "ganesha.png",
+    "koala.png",
+    "panda-bear.png",
+    "rabbit-pink.png",
+    "rabbit.png",
+  ];
 
   useEffect(() => {
     // console.log("islogged in edit page: " + isLoggedIn)
@@ -61,12 +72,10 @@ const EditProfile: React.FC<Props> = ({
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (img == "")
-      setImage(profileLogos[0]);
-  }, [])
+    if (img == "") setImage(profileLogos[0]);
+  }, []);
 
   useEffect(() => {
-
     if (!userData || !userData.subjects) return;
 
     console.log(userData.subjects);
@@ -76,11 +85,9 @@ const EditProfile: React.FC<Props> = ({
     setImage(userData.profileImage);
   }, [userData]);
 
-
   useEffect(() => {
-    console.log(checkedSubjects)
-  }, [checkedSubjects])
-
+    console.log(checkedSubjects);
+  }, [checkedSubjects]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,7 +99,12 @@ const EditProfile: React.FC<Props> = ({
       return;
     }
 
-    const data = await API.editProfile(name, checkedSubjects, userData?.mail, img);
+    const data = await API.editProfile(
+      name,
+      checkedSubjects,
+      userData?.mail,
+      img
+    );
     console.log(data);
 
     if (data.ok) {
@@ -106,7 +118,7 @@ const EditProfile: React.FC<Props> = ({
   if (loading) return <>Loading...</>;
 
   return (
-    <div className={`edit-container ${userData?.theme || "light"}`}>
+    <div className={`edit-container`}>
       <ProfileHeader userData={userData} />
       <FormWrapper>
         <>
@@ -179,11 +191,21 @@ const EditProfile: React.FC<Props> = ({
               <div className="pb-5">
                 <div className="row justify-content-center pb-5">
                   <div className="col-12 pb-5">
-                      {profileLogos.map((el, i) => {
-                          return <img onClick={() => {
+                    {profileLogos.map((el, i) => {
+                      return (
+                        <img
+                          onClick={() => {
                             setImage(el);
-                          }} key={i} className={`profile-image ${img == el ? 'checked' : ''}`} src={`/assets/${el}`} alt={el}></img>
-                      })}
+                          }}
+                          key={i}
+                          className={`profile-image ${
+                            img == el ? "checked" : ""
+                          }`}
+                          src={`/assets/${el}`}
+                          alt={el}
+                        ></img>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
