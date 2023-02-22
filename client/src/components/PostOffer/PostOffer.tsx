@@ -47,8 +47,6 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
   }, []);
 
   useEffect(() => {
-    console.log(userData?.theme);
-
     document.documentElement.classList.add(userData?.theme || "light");
 
     if (userData?.theme == "light") {
@@ -60,19 +58,7 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
     }
 
     console.log(userData?.theme);
-  }, [userData?.theme]);
-
-  // useEffect(() => {
-  //   if (userData?.theme == "light") {
-  //     document.documentElement.classList.remove("dark");
-  //     document.documentElement.classList.add("light");
-  //   } else {
-  //     document.documentElement.classList.remove("light");
-  //     document.documentElement.classList.add("dark");
-  //   }
-
-  //   console.log(userData?.theme);
-  // }, [userData?.theme]);
+  }, [userData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

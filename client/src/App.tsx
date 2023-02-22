@@ -28,7 +28,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/sign-up" element={<Register isLoggedIn={loggedIn} />} />
+        <Route path="/sign-up" element={<Register isLoggedIn={loggedIn} />} />4
         <Route
           path="/sign-in"
           element={

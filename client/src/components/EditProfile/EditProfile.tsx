@@ -62,6 +62,26 @@ const EditProfile: React.FC<Props> = ({
   ];
 
   useEffect(() => {
+    document.documentElement.classList.add(userData?.theme || "light");
+
+    console.log(userData?.theme);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.add(userData?.theme || "light");
+
+    if (userData?.theme == "light") {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+    } else if (userData?.theme == "dark") {
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
+    }
+
+    console.log(userData?.theme);
+  }, [userData]);
+
+  useEffect(() => {
     // console.log("islogged in edit page: " + isLoggedIn)
 
     if (!isLoggedIn) {
