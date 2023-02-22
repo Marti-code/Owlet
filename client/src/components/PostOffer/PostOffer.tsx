@@ -41,14 +41,38 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.documentElement.classList.add(userData?.theme || "light");
+
+    console.log(userData?.theme);
+  }, []);
+
+  useEffect(() => {
+    console.log(userData?.theme);
+
+    document.documentElement.classList.add(userData?.theme || "light");
+
     if (userData?.theme == "light") {
       document.documentElement.classList.remove("dark");
       document.documentElement.classList.add("light");
-    } else {
+    } else if (userData?.theme == "dark") {
       document.documentElement.classList.remove("light");
       document.documentElement.classList.add("dark");
     }
-  }, []);
+
+    console.log(userData?.theme);
+  }, [userData?.theme]);
+
+  // useEffect(() => {
+  //   if (userData?.theme == "light") {
+  //     document.documentElement.classList.remove("dark");
+  //     document.documentElement.classList.add("light");
+  //   } else {
+  //     document.documentElement.classList.remove("light");
+  //     document.documentElement.classList.add("dark");
+  //   }
+
+  //   console.log(userData?.theme);
+  // }, [userData?.theme]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

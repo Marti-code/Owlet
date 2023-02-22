@@ -105,17 +105,17 @@ const Profile: React.FC<Profile> = ({
   const handleTheme = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setUserData({
-      ...userData,
-      theme: userData?.theme == "light" ? "dark" : "light",
-    });
-
     // toggleTheme();
 
     const data = await API.putTheme(
       userData?.theme == "light" ? "dark" : "light",
       userData?.mail || ""
     );
+
+    setUserData({
+      ...userData,
+      theme: userData?.theme == "light" ? "dark" : "light",
+    });
 
     // console.log(theme);
     console.log(userData?.theme);
