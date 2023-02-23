@@ -82,7 +82,7 @@ const Lessons: React.FC<Props> = ({ userData, currLesson, setCurrLesson }) => {
 
   const getUserLessons = async (mail: string) => {
     const uData = await API.getLessons(mail);
-    console.log(uData);
+
     uData.data.map((el: any, idx: any) => {
       if (idx == 0) {
         setLessons([...el.plannedLessons]);

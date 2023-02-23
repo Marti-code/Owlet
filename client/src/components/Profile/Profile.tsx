@@ -18,6 +18,9 @@ import TeacherModal from "../TeacherModal/TeacherModal";
 import ProfileHeader from "./ProfileHeader";
 import { Heading } from "../../GlobalForm.styles";
 
+import badge from "./icons/badge.png";
+import AchievementModal from "../AchievementModal/AchievementModal";
+
 type Profile = {
   isLoggedIn: boolean;
   setLoggedIn: any;
@@ -37,14 +40,14 @@ const Profile: React.FC<Profile> = ({
   getData,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  // const [theme, setTheme] = useState(userData?.theme || "light");
   const [userPoints, setUserPoints] = useState(userData?.points || 0);
 
   const ref = useRef(0);
 
   const [userOffersArr, setUserOffersArr] = useState<any[]>([]);
+  const [achievements, setAchievements] = useState<any[]>([]);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({
     userName: "",
     subject: "",
@@ -55,7 +58,20 @@ const Profile: React.FC<Profile> = ({
     id: "",
   });
 
+  const [isAchievementOpen, setIsAchievementOpen] = useState(false);
+  const [achievementInfo, setAchievementInfo] = useState({
+    src: "",
+    title: "",
+    info: "",
+  });
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userData) return;
+
+    getUserLessons(userData.mail);
+  }, [userData?.mail]);
 
   useEffect(() => {
     getCurrentTheme();
@@ -73,10 +89,6 @@ const Profile: React.FC<Profile> = ({
       document.documentElement.classList.remove("light");
       document.documentElement.classList.add("dark");
     }
-
-    // setUserData({ ...userData, theme: theme });
-    // console.log(theme);
-    // console.log(userData?.theme);
   }, [userData?.theme]);
 
   useEffect(() => {
@@ -90,22 +102,11 @@ const Profile: React.FC<Profile> = ({
 
   async function getCurrentTheme() {
     const data = await API.getUserThemeFetch(userData?.mail || "");
-    // setTheme(data.theme);
     setUserData({ ...userData, theme: data.theme });
   }
 
-  // function toggleTheme() {
-  //   if (theme == "light") {
-  //     setTheme("dark");
-  //   } else if (theme == "dark") {
-  //     setTheme("light");
-  //   }
-  // }
-
   const handleTheme = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // toggleTheme();
 
     const data = await API.putTheme(
       userData?.theme == "light" ? "dark" : "light",
@@ -117,19 +118,11 @@ const Profile: React.FC<Profile> = ({
       theme: userData?.theme == "light" ? "dark" : "light",
     });
 
-    // console.log(theme);
-    console.log(userData?.theme);
-
-    // setUserData({ ...userData, theme: theme });
-
     if (data.ok) {
-      console.log("zmiana");
+      console.log("zmiana motywu");
     } else {
-      console.log("coś nie tak");
+      console.log("problem z motywem");
     }
-
-    // console.log(theme);
-    // console.log(userData?.theme);
   };
 
   const handleGetOffers = async () => {
@@ -163,7 +156,7 @@ const Profile: React.FC<Profile> = ({
     points: number,
     id: string
   ) => {
-    setIsOpen(!isOpen);
+    setIsModalOpen(!isModalOpen);
     modalInfo.userName = userName;
     modalInfo.title = title;
     modalInfo.subject = subject;
@@ -174,16 +167,46 @@ const Profile: React.FC<Profile> = ({
   };
 
   const hideModal = () => {
-    setIsOpen(false);
+    if (isModalOpen) {
+      setIsModalOpen(false);
+    }
+    if (isAchievementOpen) {
+      setIsAchievementOpen(false);
+    }
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const getUserLessons = async (mail: string) => {
+    const uData = await API.getLessons(mail);
+
+    uData.data.map((el: any) => {
+      el.plannedLessons.map((lesson: any) => {
+        setAchievements([
+          ...achievements,
+          {
+            studentMail: lesson.studentMail,
+            teacherMail: lesson.teacherMail,
+            completed: lesson.completed,
+          },
+        ]);
+      });
+    });
+  };
+
+  const openAchievement = (imgData: any, title: string, info: string) => {
+    console.log(imgData.src);
+    setIsAchievementOpen(!isAchievementOpen);
+    achievementInfo.src = imgData.src;
+    achievementInfo.title = title;
+    achievementInfo.info = info;
   };
 
   if (!isLoggedIn) {
     return <div>Musisz najpierw się zalogować!</div>;
   }
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   return (
     <div className={`Profile`}>
@@ -231,12 +254,31 @@ const Profile: React.FC<Profile> = ({
                   <div className="user-info-teach">
                     <b>Osiągnięcia:</b>
                     <br></br>
-                    <br></br>
+                    {achievements &&
+                      achievements.some((el: any) => {
+                        if (
+                          el.completed == true &&
+                          el.teacherMail == userData?.mail
+                        ) {
+                          return true;
+                        }
+                        return false;
+                      }) && (
+                        <img
+                          style={{ cursor: "pointer" }}
+                          onClick={(e) => {
+                            openAchievement(
+                              e.target,
+                              "Pierwsza lekcja",
+                              "Zostałeś nauczycielem pierwszy raz!"
+                            );
+                          }}
+                          className="achievement-icon"
+                          src={badge}
+                          alt="badge"
+                        />
+                      )}
                   </div>
-
-                  {/* <div className="user-info-learn">
-                    <p>Uczył się: 10h</p>
-                  </div> */}
                 </div>
               </div>
               <div className="user-info-edit">
@@ -368,7 +410,7 @@ const Profile: React.FC<Profile> = ({
           <button id="feedback-btn">Feedback</button>
         </div>
       </div>
-      {isOpen && (
+      {isModalOpen && (
         <TeacherModal
           userName={modalInfo.userName}
           title={modalInfo.title}
@@ -380,6 +422,15 @@ const Profile: React.FC<Profile> = ({
           id={modalInfo.id}
           userMail={userData?.mail}
           userData={userData}
+        />
+      )}
+
+      {isAchievementOpen && (
+        <AchievementModal
+          src={achievementInfo.src}
+          title={achievementInfo.title}
+          info={achievementInfo.info}
+          hideModal={hideModal}
         />
       )}
     </div>
