@@ -79,7 +79,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: black;
+    background-color: var(--bg);
     color: var(--main-font);
 
     font-size: 14px;
