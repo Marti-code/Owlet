@@ -152,6 +152,20 @@ app.post("/api/getData", [(0, express_validator_1.check)("mail").isEmail().trim(
         name: user.name,
         email: user.email,
     }, process.env.JWT_SECRET);
+    let friends = [];
+    if (user.friends && user.friends.length) {
+        yield Promise.all(user.friends.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                let friendUser = yield userModel_1.default.findById(el.id);
+                if (friendUser) {
+                    friends.push({ name: friendUser.name, avatar: friendUser.profileImage, id: friendUser._id });
+                }
+            }
+            catch (err) {
+                console.error(err);
+            }
+        })));
+    }
     return res.json({
         ok: true,
         user: {
@@ -163,6 +177,7 @@ app.post("/api/getData", [(0, express_validator_1.check)("mail").isEmail().trim(
             profileImage: user.profileImage,
             theme: user.theme,
             points: user.points,
+            friends: friends
         },
     });
 }));

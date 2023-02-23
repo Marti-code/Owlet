@@ -223,12 +223,15 @@ const Profile: React.FC<Profile> = ({
             <section className="user-info-container">
               <div className="user-info-content">
                 <div className="user-info-header">
-                  <div className="user-info-id" onClick={() => {
-                    if (userData === undefined || userData.id === undefined)
-                      return;
+                  <div
+                    className="user-info-id"
+                    onClick={() => {
+                      if (userData === undefined || userData.id === undefined)
+                        return;
 
-                    navigator.clipboard.writeText(userData?.id)
-                  }}>
+                      navigator.clipboard.writeText(userData?.id);
+                    }}
+                  >
                     ID: {userData?.id}
                   </div>
                   <div className="user-info-pic">
@@ -393,24 +396,43 @@ const Profile: React.FC<Profile> = ({
               <div className="friends-content">
                 <div className="friends-header">
                   <p>Znajomi</p>
-                  <button onClick={() => {
-                    setFriendModal(true);
-                  }}>Dodaj</button>
+                  <button
+                    onClick={() => {
+                      setFriendModal(true);
+                    }}
+                  >
+                    Dodaj
+                  </button>
                 </div>
                 <div className="friends-list">
-                  <div className="friend-el">
+                  <>
+                    {userData && userData.friends ? (
+                      userData?.friends.map((el) => {
+                        return (
+                          <div className="friend-el" key={el.id}>
+                            <div className="friend-pic">
+                              <div className="f-pic">
+                                <img
+                                  src={`/assets/${el?.avatar}`}
+                                  alt={el.avatar}
+                                />
+                              </div>
+                            </div>
+                            <div className="friend-name">{el.name}</div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <>Brak</>
+                    )}
+                  </>
+
+                  {/* <div className="friend-el">
                     <div className="friend-pic">
                       <div className="f-pic"></div>
                     </div>
                     <div className="friend-name">Piotr</div>
-                  </div>
-
-                  <div className="friend-el">
-                    <div className="friend-pic">
-                      <div className="f-pic"></div>
-                    </div>
-                    <div className="friend-name">Iga</div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </section>

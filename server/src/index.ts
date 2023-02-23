@@ -153,6 +153,22 @@ app.post(
       process.env.JWT_SECRET
     );
 
+   let friends: any = [];
+if (user.friends && user.friends.length) {
+  await Promise.all(
+    user.friends.map(async (el) => {
+      try {
+        let friendUser = await User.findById(el.id);
+        if (friendUser) {
+          friends.push({ name: friendUser.name, avatar: friendUser.profileImage, id: friendUser._id });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    })
+  );
+}
+
     return res.json({
       ok: true,
       user: {
@@ -164,6 +180,7 @@ app.post(
         profileImage: user.profileImage,
         theme: user.theme,
         points: user.points,
+        friends: friends
       },
     });
   }

@@ -208,6 +208,10 @@ html.dark .Profile .main-content > section {
   border-radius: 50%;
 }
 
+.f-pic img {
+  margin: 0;
+}
+
 .user-info-main {
   display: flex;
   flex-direction: column;

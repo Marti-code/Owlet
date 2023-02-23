@@ -1,3 +1,9 @@
+type friendType = {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
 export type UserInfoType = {
   id: string;
   name: string;
@@ -7,6 +13,7 @@ export type UserInfoType = {
   subjects: string[];
   points: number;
   theme: string;
+  friends: friendType[]
 };
 
 export default {
