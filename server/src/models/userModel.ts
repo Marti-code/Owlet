@@ -30,6 +30,9 @@ let userSchema = new mongoose.Schema(
     plannedLessons: {
       type: [],
     },
+    friends: {
+      type: []
+    }
   },
   { collection: "users" }
 );

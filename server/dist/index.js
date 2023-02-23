@@ -46,6 +46,7 @@ const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const offerModel_1 = __importDefault(require("./models/offerModel"));
+const mongoose_1 = __importDefault(require("mongoose"));
 console.log("test!");
 const app = (0, express_1.default)();
 const port = 5000;
@@ -354,40 +355,6 @@ app.post("/api/getUserOffers", [(0, express_validator_1.check)("mail").isEmail()
         data: newOffers,
     });
 }));
-// app.post(
-//   "/api/getUserOffers",
-//   [check("mail").isEmail().trim().escape().normalizeEmail()],
-//   async (req: express.Request, res: express.Response) => {
-//     console.log(req.body.mail);
-//     const offers = await Offer.find({
-//       email: req.body.mail,
-//     });
-//     offers.forEach(async (offer, i) => {
-//       await offer.acceptedBy.forEach(async (el, j) => {
-//         let teacher = await User.findOne({
-//           email: el.teacher,
-//         });
-//         console.log(el.teacher);
-//         console.log(teacher);
-//         offers[i].acceptedBy[j].teacherName = teacher.name;
-//         console.log(offers[i].acceptedBy[j]);
-//       });
-//     });
-//     if (!offers) {
-//       return res.json({ ok: false, error: "Błąd pobierania ofert" });
-//     }
-//     console.log("-------------------");
-//     offers.forEach((el) => {
-//       el.acceptedBy.forEach((el) => {
-//         console.log(el);
-//       });
-//     });
-//     return res.json({
-//       ok: true,
-//       data: offers,
-//     });
-//   }
-// );
 app.post("/api/sendOfferRequest", [
     (0, express_validator_1.check)("mail").isEmail().trim().escape().normalizeEmail(),
     (0, express_validator_1.check)("date").trim().escape(),
@@ -484,6 +451,30 @@ app.put("/api/updateCompletedLesson", [(0, express_validator_1.check)("email").i
             errors: [{ msg: "Aktualizacja lekcji się nie powiodła" }],
         });
     }
+}));
+app.post("/api/addFriend", [
+    (0, express_validator_1.check)("inviterId").trim().escape(),
+    (0, express_validator_1.check)("friendId").trim().escape()
+], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const session = yield mongoose_1.default.startSession();
+    session.startTransaction();
+    try {
+        if (req.body.inviterId == req.body.friendId) {
+            throw new Error("Dodajesz sam siebie");
+        }
+        const inviter = yield userModel_1.default.updateOne({ _id: req.body.inviterId }, { $addToSet: { friends: { id: req.body.friendId } } }, { session });
+        const friend = yield userModel_1.default.updateOne({ _id: req.body.friendId }, { $addToSet: { friends: { id: req.body.inviterId } } }, { session });
+        yield session.commitTransaction();
+        session.endSession();
+    }
+    catch (err) {
+        yield session.abortTransaction();
+        session.endSession();
+        return res.json({ ok: false, error: "Nie znaleziono." });
+    }
+    return res.json({
+        ok: true,
+    });
 }));
 app.listen(port, () => console.log(`Running on port http://localhost:${port}`));
 //# sourceMappingURL=index.js.map

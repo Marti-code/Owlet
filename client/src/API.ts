@@ -318,4 +318,21 @@ export default {
 
     return await res.json();
   },
+
+  addFriend: async (inviterId: string, friendId: string ) => {
+    const endpoint = `${process.env.REACT_APP_API_URL}/api/addFriend`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        inviterId: inviterId,
+        friendId: friendId,
+      }),
+    });
+
+    return await res.json();
+  },
 };

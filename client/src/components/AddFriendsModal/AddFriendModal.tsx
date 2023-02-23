@@ -32,10 +32,19 @@ const AddFriendModal: React.FC<ModalProps> = ({ userData, setFriendModal }) => {
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit: any = async () => {
+  const handleSubmit: any = async (e: any) => {
+    e.preventDefault();
+
     if (id == "" || !userData || !userData.id)
       return;
 
+    const data = await API.addFriend(userData.id, id);
+
+    if (data.ok) {
+      setModalInfo("Dodano znajomego!");
+    } else {
+      setModalInfo("Nie znaleziono");
+    }
     
   };
 

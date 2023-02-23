@@ -33,6 +33,9 @@ let userSchema = new mongoose_1.default.Schema({
     plannedLessons: {
         type: [],
     },
+    friends: {
+        type: []
+    }
 }, { collection: "users" });
 const User = mongoose_1.default.model("User", userSchema, "user");
 exports.default = User;

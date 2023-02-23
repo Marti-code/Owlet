@@ -9,6 +9,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 import Offer from "./models/offerModel";
+import mongoose from "mongoose";
 
 console.log("test!");
 
@@ -443,49 +444,6 @@ app.post(
   }
 );
 
-// app.post(
-//   "/api/getUserOffers",
-//   [check("mail").isEmail().trim().escape().normalizeEmail()],
-//   async (req: express.Request, res: express.Response) => {
-//     console.log(req.body.mail);
-
-//     const offers = await Offer.find({
-//       email: req.body.mail,
-//     });
-
-//     offers.forEach(async (offer, i) => {
-//       await offer.acceptedBy.forEach(async (el, j) => {
-//         let teacher = await User.findOne({
-//           email: el.teacher,
-//         });
-
-//         console.log(el.teacher);
-//         console.log(teacher);
-
-//         offers[i].acceptedBy[j].teacherName = teacher.name;
-//         console.log(offers[i].acceptedBy[j]);
-//       });
-//     });
-
-//     if (!offers) {
-//       return res.json({ ok: false, error: "Błąd pobierania ofert" });
-//     }
-
-//     console.log("-------------------");
-
-//     offers.forEach((el) => {
-//       el.acceptedBy.forEach((el) => {
-//         console.log(el);
-//       });
-//     });
-
-//     return res.json({
-//       ok: true,
-//       data: offers,
-//     });
-//   }
-// );
-
 app.post(
   "/api/sendOfferRequest",
   [
@@ -623,6 +581,47 @@ app.put(
         errors: [{ msg: "Aktualizacja lekcji się nie powiodła" }],
       });
     }
+  }
+);
+
+app.post(
+  "/api/addFriend",
+  [
+    check("inviterId").trim().escape(),
+    check("friendId").trim().escape()
+  ],
+  async (req: express.Request, res: express.Response) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    
+    try {
+      if (req.body.inviterId == req.body.friendId) {
+        throw new Error("Dodajesz sam siebie")
+      }
+
+      const inviter = await User.updateOne(
+        { _id: req.body.inviterId },
+        { $addToSet: { friends: { id: req.body.friendId } } },
+        { session }
+      );
+  
+      const friend = await User.updateOne(
+        { _id: req.body.friendId },
+        { $addToSet: { friends: { id: req.body.inviterId } } },
+        { session }
+      );
+
+      await session.commitTransaction();
+      session.endSession();
+    } catch (err) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.json({ ok: false, error: "Nie znaleziono." });
+    }
+
+    return res.json({
+      ok: true,
+    });
   }
 );
 
