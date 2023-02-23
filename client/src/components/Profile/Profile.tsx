@@ -19,6 +19,9 @@ import ProfileHeader from "./ProfileHeader";
 import AddFriendModal from "../AddFriendsModal/AddFriendModal";
 import { Heading } from "../../GlobalForm.styles";
 
+import badge from "./icons/badge.png";
+import AchievementModal from "../AchievementModal/AchievementModal";
+
 type Profile = {
   isLoggedIn: boolean;
   setLoggedIn: any;
@@ -38,15 +41,16 @@ const Profile: React.FC<Profile> = ({
   getData,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState(userData?.theme || "light");
   const [userPoints, setUserPoints] = useState(userData?.points || 0);
 
   const ref = useRef(0);
 
   const [userOffersArr, setUserOffersArr] = useState<any[]>([]);
+  const [achievements, setAchievements] = useState<any[]>([]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [friendModal, setFriendModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({
     userName: "",
     subject: "",
@@ -57,33 +61,38 @@ const Profile: React.FC<Profile> = ({
     id: "",
   });
 
-  let userOffers: any[] = [];
-  let userSubjects: string[] = [];
+  const [isAchievementOpen, setIsAchievementOpen] = useState(false);
+  const [achievementInfo, setAchievementInfo] = useState({
+    src: "",
+    title: "",
+    info: "",
+  });
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.documentElement.classList.add(userData?.theme || "light");
-    console.log(userData);
+    if (!userData) return;
+
+    getUserLessons(userData.mail);
+  }, [userData?.mail]);
+
+  useEffect(() => {
     getCurrentTheme();
     handleGetPoints();
     handleGetOffers();
     getData();
+    document.documentElement.classList.add(userData?.theme || "light");
   }, []);
 
   useEffect(() => {
-    if (theme == "light") {
+    if (userData?.theme == "light") {
       document.documentElement.classList.remove("dark");
-      document.documentElement.classList.add(theme);
+      document.documentElement.classList.add("light");
     } else {
       document.documentElement.classList.remove("light");
-      document.documentElement.classList.add(theme);
+      document.documentElement.classList.add("dark");
     }
-  }, [theme]);
-
-  useEffect(() => {
-    console.log(userOffersArr);
-  }, [userOffersArr]);
+  }, [userData?.theme]);
 
   useEffect(() => {
     if (!isLoggedIn) navigate("/sign-in");
@@ -95,38 +104,27 @@ const Profile: React.FC<Profile> = ({
   }, [isLoggedIn]);
 
   async function getCurrentTheme() {
-    const d = await API.getUserThemeFetch(userData?.mail || "");
-    setTheme(d.theme);
-  }
-
-  function toggleTheme() {
-    if (theme == "light") {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-
-    // document.documentElement.classList.add(theme);
+    const data = await API.getUserThemeFetch(userData?.mail || "");
+    setUserData({ ...userData, theme: data.theme });
   }
 
   const handleTheme = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    toggleTheme();
-
     const data = await API.putTheme(
-      theme == "light" ? "dark" : "light",
+      userData?.theme == "light" ? "dark" : "light",
       userData?.mail || ""
     );
 
-    setUserData({ ...userData, theme: theme });
-    console.log(theme);
-    console.log(userData);
+    setUserData({
+      ...userData,
+      theme: userData?.theme == "light" ? "dark" : "light",
+    });
 
     if (data.ok) {
-      console.log("zmiana");
+      console.log("zmiana motywu");
     } else {
-      console.log("coś nie tak");
+      console.log("problem z motywem");
     }
   };
 
@@ -161,7 +159,7 @@ const Profile: React.FC<Profile> = ({
     points: number,
     id: string
   ) => {
-    setIsOpen(!isOpen);
+    setIsModalOpen(!isModalOpen);
     modalInfo.userName = userName;
     modalInfo.title = title;
     modalInfo.subject = subject;
@@ -172,19 +170,49 @@ const Profile: React.FC<Profile> = ({
   };
 
   const hideModal = () => {
-    setIsOpen(false);
+    if (isModalOpen) {
+      setIsModalOpen(false);
+    }
+    if (isAchievementOpen) {
+      setIsAchievementOpen(false);
+    }
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const getUserLessons = async (mail: string) => {
+    const uData = await API.getLessons(mail);
+
+    uData.data.map((el: any) => {
+      el.plannedLessons.map((lesson: any) => {
+        setAchievements([
+          ...achievements,
+          {
+            studentMail: lesson.studentMail,
+            teacherMail: lesson.teacherMail,
+            completed: lesson.completed,
+          },
+        ]);
+      });
+    });
+  };
+
+  const openAchievement = (imgData: any, title: string, info: string) => {
+    console.log(imgData.src);
+    setIsAchievementOpen(!isAchievementOpen);
+    achievementInfo.src = imgData.src;
+    achievementInfo.title = title;
+    achievementInfo.info = info;
   };
 
   if (!isLoggedIn) {
     return <div>Musisz najpierw się zalogować!</div>;
   }
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   return (
-    <div className={`Profile ${theme || "light"}`}>
+    <div className={`Profile`}>
       <div className="Dashboard">
         <ProfileHeader userData={userData} />
 
@@ -223,7 +251,7 @@ const Profile: React.FC<Profile> = ({
                       <b>Przedmioty:</b>
                     </p>
                     <p>
-                      {userData?.subjects.length
+                      {userData?.subjects && userData?.subjects.length
                         ? userData.subjects.map((el: any) => {
                             return el + " ";
                           })
@@ -234,17 +262,36 @@ const Profile: React.FC<Profile> = ({
                   <div className="user-info-teach">
                     <b>Osiągnięcia:</b>
                     <br></br>
-                    <br></br>
+                    {achievements &&
+                      achievements.some((el: any) => {
+                        if (
+                          el.completed == true &&
+                          el.teacherMail == userData?.mail
+                        ) {
+                          return true;
+                        }
+                        return false;
+                      }) && (
+                        <img
+                          style={{ cursor: "pointer" }}
+                          onClick={(e) => {
+                            openAchievement(
+                              e.target,
+                              "Pierwsza lekcja",
+                              "Zostałeś nauczycielem pierwszy raz!"
+                            );
+                          }}
+                          className="achievement-icon"
+                          src={badge}
+                          alt="badge"
+                        />
+                      )}
                   </div>
-
-                  {/* <div className="user-info-learn">
-                    <p>Uczył się: 10h</p>
-                  </div> */}
                 </div>
               </div>
               <div className="user-info-edit">
                 <button id="user-info-edit-btn" onClick={handleTheme}>
-                  {theme == "light" ? (
+                  {userData?.theme == "light" ? (
                     <FontAwesomeIcon icon={faSun} />
                   ) : (
                     <FontAwesomeIcon icon={faMoon} />
@@ -374,7 +421,7 @@ const Profile: React.FC<Profile> = ({
           <button id="feedback-btn">Feedback</button>
         </div>
       </div>
-      {isOpen && (
+      {isModalOpen && (
         <TeacherModal
           userName={modalInfo.userName}
           title={modalInfo.title}
@@ -390,6 +437,15 @@ const Profile: React.FC<Profile> = ({
       )}
       {friendModal && (
         <AddFriendModal setFriendModal={setFriendModal} userData={userData} />
+      )}
+
+      {isAchievementOpen && (
+        <AchievementModal
+          src={achievementInfo.src}
+          title={achievementInfo.title}
+          info={achievementInfo.info}
+          hideModal={hideModal}
+        />
       )}
     </div>
   );

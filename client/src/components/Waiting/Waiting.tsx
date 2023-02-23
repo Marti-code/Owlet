@@ -52,8 +52,28 @@ const Waiting: React.FC<Props> = ({ userData, getData, roomId, setRoomId }) => {
     console.log(curAcceptedBy);
   }, [curAcceptedBy]);
 
+  useEffect(() => {
+    document.documentElement.classList.add(userData?.theme || "light");
+
+    console.log(userData?.theme);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.add(userData?.theme || "light");
+
+    if (userData?.theme == "light") {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+    } else if (userData?.theme == "dark") {
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
+    }
+
+    console.log(userData?.theme);
+  }, [userData]);
+
   return (
-    <div className={`Waiting ${userData?.theme || "light"}`}>
+    <div className={`Waiting`}>
       <ProfileHeader userData={userData}></ProfileHeader>
       <>
         <div className="offers-grid">

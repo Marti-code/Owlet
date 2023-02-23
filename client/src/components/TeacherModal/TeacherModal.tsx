@@ -61,7 +61,7 @@ const TeacherModal: React.FC<ModalProps> = ({
   };
 
   return (
-    <Modal className={`TeacherModal ${userData?.theme || "light"}`}>
+    <Modal className={`TeacherModal`}>
       <ModalContainer>
         <ModalContent>
           <ModalHeader>
