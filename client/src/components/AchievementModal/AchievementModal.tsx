@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import API, { UserInfoType } from "../../API";
 
 import { AchievementMain } from "./AchievementModal.styles";
 
@@ -20,15 +19,12 @@ interface ModalProps {
   hideModal: any;
 }
 
-const TeacherModal: React.FC<ModalProps> = ({
+const AchievementModal: React.FC<ModalProps> = ({
   src,
   title,
   info,
   hideModal,
 }) => {
-  const [date, setDate] = useState("");
-  const [modalInfo, setModalInfo] = useState("");
-
   return (
     <Modal className={`AchievementModal`}>
       <ModalContainer>
@@ -49,4 +45,4 @@ const TeacherModal: React.FC<ModalProps> = ({
   );
 };
 
-export default TeacherModal;
+export default AchievementModal;
