@@ -10,6 +10,7 @@ import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 import Offer from "./models/offerModel";
 import mongoose from "mongoose";
+import path from "path";
 
 console.log("test!");
 
@@ -25,6 +26,16 @@ app.get("/", (_, res) => {
 });
 
 app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "./client/build")));
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "./client/build/index.html"),
+    function (err) {
+      res.status(500).send(err);
+    }
+  );
+});
 
 // Handle register
 app.post(
@@ -153,21 +164,25 @@ app.post(
       process.env.JWT_SECRET
     );
 
-   let friends: any = [];
-if (user.friends && user.friends.length) {
-  await Promise.all(
-    user.friends.map(async (el) => {
-      try {
-        let friendUser = await User.findById(el.id);
-        if (friendUser) {
-          friends.push({ name: friendUser.name, avatar: friendUser.profileImage, id: friendUser._id });
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    })
-  );
-}
+    let friends: any = [];
+    if (user.friends && user.friends.length) {
+      await Promise.all(
+        user.friends.map(async (el) => {
+          try {
+            let friendUser = await User.findById(el.id);
+            if (friendUser) {
+              friends.push({
+                name: friendUser.name,
+                avatar: friendUser.profileImage,
+                id: friendUser._id,
+              });
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        })
+      );
+    }
 
     return res.json({
       ok: true,
@@ -180,7 +195,7 @@ if (user.friends && user.friends.length) {
         profileImage: user.profileImage,
         theme: user.theme,
         points: user.points,
-        friends: friends
+        friends: friends,
       },
     });
   }
@@ -603,17 +618,14 @@ app.put(
 
 app.post(
   "/api/addFriend",
-  [
-    check("inviterId").trim().escape(),
-    check("friendId").trim().escape()
-  ],
+  [check("inviterId").trim().escape(), check("friendId").trim().escape()],
   async (req: express.Request, res: express.Response) => {
     const session = await mongoose.startSession();
     session.startTransaction();
-    
+
     try {
       if (req.body.inviterId == req.body.friendId) {
-        throw new Error("Dodajesz sam siebie")
+        throw new Error("Dodajesz sam siebie");
       }
 
       const inviter = await User.updateOne(
@@ -621,7 +633,7 @@ app.post(
         { $addToSet: { friends: { id: req.body.friendId } } },
         { session }
       );
-  
+
       const friend = await User.updateOne(
         { _id: req.body.friendId },
         { $addToSet: { friends: { id: req.body.inviterId } } },
