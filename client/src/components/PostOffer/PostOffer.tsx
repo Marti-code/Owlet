@@ -8,12 +8,27 @@ import {
   ButtonContainer,
 } from "../../GlobalForm.styles";
 
-import math from "./icons/cone.png";
-import english from "./icons/english-language (1).png";
-import geography from "./icons/globe.png";
-import history from "./icons/ancient-scroll.png";
-import physics from "./icons/atom.png";
-import polish from "./icons/book.png";
+import math from "./icons/math-light.png";
+import english from "./icons/english-light.png";
+import geography from "./icons/geography-light.png";
+import history from "./icons/history-light.png";
+import physics from "./icons/physics-light.png";
+import polish from "./icons/polish-light.png";
+import german from "./icons/german-light.png";
+import chemistry from "./icons/chemistry-light.png";
+import biology from "./icons/biology-light.png";
+import IT from "./icons/it-light.png";
+
+import mathDark from "./icons/math-dark.png";
+import englishDark from "./icons/english-dark.png";
+import geographyDark from "./icons/geography-dark.png";
+import historyDark from "./icons/history-dark.png";
+import physicsDark from "./icons/physics-dark.png";
+import polishDark from "./icons/polish-dark.png";
+import germanDark from "./icons/german-dark.png";
+import chemistryDark from "./icons/chemistry-dark.png";
+import biologyDark from "./icons/biology-dark.png";
+import ITDark from "./icons/it-dark.png";
 
 import "./PostOffer.css";
 
@@ -172,7 +187,10 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
                         }}
                       />
                       <label className="for-checkbox-tools" htmlFor="tool-1">
-                        <img src={math} alt="" />
+                        <img
+                          src={userData?.theme == "light" ? math : mathDark}
+                          alt=""
+                        />
                       </label>
                       <p>Matematyka</p>
                     </div>
@@ -188,7 +206,12 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
                         }}
                       />
                       <label className="for-checkbox-tools" htmlFor="tool-2">
-                        <img src={physics} alt="" />
+                        <img
+                          src={
+                            userData?.theme == "light" ? physics : physicsDark
+                          }
+                          alt=""
+                        />
                       </label>
                       <p>Fizyka</p>
                     </div>
@@ -204,7 +227,12 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
                         }}
                       />
                       <label className="for-checkbox-tools" htmlFor="tool-3">
-                        <img src={english} alt="" />
+                        <img
+                          src={
+                            userData?.theme == "light" ? english : englishDark
+                          }
+                          alt=""
+                        />
                       </label>
                       <p>Angielski</p>
                     </div>
@@ -220,7 +248,10 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
                         }}
                       />
                       <label className="for-checkbox-tools" htmlFor="tool-4">
-                        <img src={polish} alt="" />
+                        <img
+                          src={userData?.theme == "light" ? polish : polishDark}
+                          alt=""
+                        />
                       </label>
                       <p>Polski</p>
                     </div>
@@ -236,7 +267,12 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
                         }}
                       />
                       <label className="for-checkbox-tools" htmlFor="tool-5">
-                        <img src={history} alt="" />
+                        <img
+                          src={
+                            userData?.theme == "light" ? history : historyDark
+                          }
+                          alt=""
+                        />
                       </label>
                       <p>Historia</p>
                     </div>
@@ -252,9 +288,98 @@ const PostOffer: React.FC<Profile> = ({ userData }) => {
                         }}
                       />
                       <label className="for-checkbox-tools" htmlFor="tool-6">
-                        <img src={geography} alt="" />
+                        <img
+                          src={
+                            userData?.theme == "light"
+                              ? geography
+                              : geographyDark
+                          }
+                          alt=""
+                        />
                       </label>
                       <p>Geografia</p>
+                    </div>
+
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-7"
+                        onClick={(e) => {
+                          setSubject("Informatyka");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-7">
+                        <img
+                          src={userData?.theme == "light" ? IT : ITDark}
+                          alt=""
+                        />
+                      </label>
+                      <p>Informatyka</p>
+                    </div>
+
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-8"
+                        onClick={(e) => {
+                          setSubject("Biologia");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-8">
+                        <img
+                          src={
+                            userData?.theme == "light" ? biology : biologyDark
+                          }
+                          alt=""
+                        />
+                      </label>
+                      <p>Biologia</p>
+                    </div>
+
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-9"
+                        onClick={(e) => {
+                          setSubject("Chemia");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-9">
+                        <img
+                          src={
+                            userData?.theme == "light"
+                              ? chemistry
+                              : chemistryDark
+                          }
+                          alt=""
+                        />
+                      </label>
+                      <p>Chemia</p>
+                    </div>
+
+                    <div className="subject-el">
+                      <input
+                        className="checkbox-tools"
+                        type="radio"
+                        name="subjects"
+                        id="tool-10"
+                        onClick={(e) => {
+                          setSubject("Niemiecki");
+                        }}
+                      />
+                      <label className="for-checkbox-tools" htmlFor="tool-10">
+                        <img
+                          src={userData?.theme == "light" ? german : germanDark}
+                          alt=""
+                        />
+                      </label>
+                      <p>Niemiecki</p>
                     </div>
                   </div>
                 </div>

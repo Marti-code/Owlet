@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { AchievementMain } from "./AchievementModal.styles";
 
@@ -7,7 +7,6 @@ import {
   ModalContent,
   Modal,
   ModalContainer,
-  ModalMain,
 } from "../TeacherModal/TeacherModal.styles";
 
 import { FormInfo, Heading } from "../../GlobalForm.styles";

@@ -35,13 +35,16 @@ const EditProfile: React.FC<Props> = ({
   const [img, setImage] = useState("");
   const [info, setInfo] = useState("");
   const [subjects, setSubjects] = useState([
-    "matematyka",
-    "fizyka",
     "polski",
     "angielski",
+    "niemiecki",
+    "matematyka",
     "biologia",
     "chemia",
-    "niemiecki",
+    "fizyka",
+    "geografia",
+    "historia",
+    "informatyka",
   ]);
   const [checkedSubjects, setCheckedSubjects] = useState<string[]>([]);
   const nameInput: any = useRef();
