@@ -47,6 +47,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const offerModel_1 = __importDefault(require("./models/offerModel"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const path_1 = __importDefault(require("path"));
 console.log("test!");
 const app = (0, express_1.default)();
 const port = 5000;
@@ -56,6 +57,12 @@ app.get("/", (_, res) => {
     res.status(200).send();
 });
 app.use(body_parser_1.default.json()).use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.static(path_1.default.join(__dirname, "./client/build")));
+app.get("*", function (_, res) {
+    res.sendFile(path_1.default.join(__dirname, "./client/build/index.html"), function (err) {
+        res.status(500).send(err);
+    });
+});
 // Handle register
 app.post("/api/register", [
     (0, express_validator_1.check)("password")
@@ -158,7 +165,11 @@ app.post("/api/getData", [(0, express_validator_1.check)("mail").isEmail().trim(
             try {
                 let friendUser = yield userModel_1.default.findById(el.id);
                 if (friendUser) {
-                    friends.push({ name: friendUser.name, avatar: friendUser.profileImage, id: friendUser._id });
+                    friends.push({
+                        name: friendUser.name,
+                        avatar: friendUser.profileImage,
+                        id: friendUser._id,
+                    });
                 }
             }
             catch (err) {
@@ -177,7 +188,7 @@ app.post("/api/getData", [(0, express_validator_1.check)("mail").isEmail().trim(
             profileImage: user.profileImage,
             theme: user.theme,
             points: user.points,
-            friends: friends
+            friends: friends,
         },
     });
 }));
@@ -467,10 +478,7 @@ app.put("/api/updateCompletedLesson", [(0, express_validator_1.check)("email").i
         });
     }
 }));
-app.post("/api/addFriend", [
-    (0, express_validator_1.check)("inviterId").trim().escape(),
-    (0, express_validator_1.check)("friendId").trim().escape()
-], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/addFriend", [(0, express_validator_1.check)("inviterId").trim().escape(), (0, express_validator_1.check)("friendId").trim().escape()], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield mongoose_1.default.startSession();
     session.startTransaction();
     try {
