@@ -162,7 +162,7 @@ app.post(
     let friends: any = [];
     if (user.friends && user.friends.length) {
       await Promise.all(
-        user.friends.map(async (el) => {
+        user.friends.map(async (el: any) => {
           try {
             let friendUser = await User.findById(el.id);
             if (friendUser) {
@@ -354,10 +354,10 @@ app.post(
         },
       },
     ])
-      .then(async (data) => {
+      .then(async (data: any) => {
         let offers: any[] = [];
 
-        data.forEach((el) => {
+        data.forEach((el: any) => {
           if (
             el.subject.toLowerCase() == req.body.subject.toLowerCase() &&
             el.email !== req.body.mail
@@ -371,7 +371,7 @@ app.post(
           offers: offers,
         });
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.log(error);
       });
   }
@@ -434,9 +434,9 @@ app.post(
       email: req.body.mail,
     });
 
-    const promises = offers.map(async (offer, i) => {
+    const promises = offers.map(async (offer: any, i: any) => {
       const newAcceptedBy: any = await Promise.all(
-        offer.acceptedBy.map(async (el, j) => {
+        offer.acceptedBy.map(async (el: any, j: any) => {
           let teacher = await User.findOne({
             email: el.teacher,
           });
