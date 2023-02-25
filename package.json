@@ -7,6 +7,7 @@
     "test": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
     "start": "cd server && npm start"
   },
+  "homepage": "http://owlet.com",
   "keywords": [],
   "author": "",
   "license": "ISC",
