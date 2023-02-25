@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc & node .",
-    "dev": "tsc -w & nodemon ."
+    "dev": "tsc -w & nodemon .",
+    "test": "concurrently \"cd backend_server && npm run dev\" \"cd frontend_client && npm start\""
   },
   "keywords": [],
   "author": "",
